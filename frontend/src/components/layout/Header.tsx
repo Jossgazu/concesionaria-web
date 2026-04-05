@@ -85,7 +85,7 @@ export function Header() {
                         Dashboard
                       </Link>
                       <Link
-                        to="/dashboard/mis-vehiculos"
+                        to="/dashboard/vehicles"
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
@@ -93,7 +93,7 @@ export function Header() {
                         Mis Vehículos
                       </Link>
                       <Link
-                        to="/dashboard/perfil"
+                        to="/dashboard/profile"
                         className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-50"
                         onClick={() => setIsUserMenuOpen(false)}
                       >

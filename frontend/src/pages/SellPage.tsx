@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Car, FileText, CheckCircle, User } from 'lucide-react';
-import { valuationService } from '../services/api';
+import { Car, DollarSign, FileText, CheckCircle, User, Image as ImageIcon } from 'lucide-react';
+import { vehicleService } from '../services/api';
 import { useAuthStore } from '../store/authStore';
 
 const STEPS = [
   { id: 1, title: 'Vehículo', icon: Car },
-  { id: 2, title: 'Condición', icon: FileText },
-  { id: 3, title: 'Contacto', icon: User },
-  { id: 4, title: 'Resultado', icon: CheckCircle },
+  { id: 2, title: 'Precio', icon: DollarSign },
+  { id: 3, title: 'Detalles', icon: FileText },
+  { id: 4, title: 'Publicado', icon: CheckCircle },
 ];
 
 const BODY_TYPES = [
@@ -21,16 +21,22 @@ const BODY_TYPES = [
   { value: 'convertible', label: 'Convertible' },
 ];
 
-const CONDITIONS = [
-  { value: 'excellent', label: 'Excelente', description: 'Sin daños visibles, mantenimientos al día' },
-  { value: 'good', label: 'Bueno', description: 'Pequeños daños menores, funcionando bien' },
-  { value: 'fair', label: 'Regular', description: 'Daños visibles pero funcional' },
-  { value: 'poor', label: 'Malo', description: 'Necesita reparaciones significativas' },
+const FUEL_TYPES = [
+  { value: 'gasoline', label: 'Gasolina' },
+  { value: 'diesel', label: 'Diésel' },
+  { value: 'electric', label: 'Eléctrico' },
+  { value: 'hybrid', label: 'Híbrido' },
+];
+
+const TRANSMISSIONS = [
+  { value: 'automatic', label: 'Automático' },
+  { value: 'manual', label: 'Manual' },
+  { value: 'cvt', label: 'CVT' },
 ];
 
 export default function SellPage() {
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuthStore();
+  const { user } = useAuthStore();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -39,28 +45,20 @@ export default function SellPage() {
     model: '',
     year: new Date().getFullYear(),
     mileage: 0,
+    price: 0,
+    negotiable: false,
     body_type: '',
-    condition: '',
-    name: '',
-    email: '',
-    phone: '',
-    notes: '',
+    fuel_type: '',
+    transmission: '',
+    color: '',
+    description: '',
   });
 
   useEffect(() => {
-    if (isAuthenticated && user) {
-      setFormData(prev => ({
-        ...prev,
-        name: user.name || prev.name,
-        email: user.email || prev.email,
-        phone: user.phone || prev.phone,
-      }));
+    if (!user) {
+      navigate('/login');
     }
-  }, [isAuthenticated, user]);
-
-  const totalSteps = isAuthenticated ? 3 : 4;
-
-  const displaySteps = STEPS.slice(0, totalSteps);
+  }, [user, navigate]);
 
   const updateForm = (key: string, value: any) => {
     setFormData(prev => ({ ...prev, [key]: value }));
@@ -71,10 +69,9 @@ export default function SellPage() {
       case 1:
         return formData.brand && formData.model && formData.year && formData.mileage && formData.body_type;
       case 2:
-        return formData.condition;
+        return formData.price > 0;
       case 3:
-        if (isAuthenticated) return true;
-        return formData.name && formData.email && formData.phone;
+        return formData.fuel_type && formData.transmission;
       default:
         return true;
     }
@@ -83,11 +80,11 @@ export default function SellPage() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const response = await valuationService.create(formData);
+      const response = await vehicleService.create(formData);
       setResult(response.data.data || response.data);
       setStep(4);
     } catch (error) {
-      console.error('Failed to create valuation', error);
+      console.error('Failed to create vehicle', error);
     } finally {
       setLoading(false);
     }
@@ -98,16 +95,16 @@ export default function SellPage() {
       <div className="max-w-3xl mx-auto px-4">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Conoce el valor de tu vehículo
+            Publica tu vehículo
           </h1>
           <p className="text-gray-600">
-            Completa el formulario y te daremos una estimación gratuita
+            Completa los datos y tu anuncio estará visible para miles de compradores
           </p>
         </div>
 
         <div className="mb-12">
           <div className="flex justify-between items-center">
-            {displaySteps.map((s, index) => (
+            {STEPS.map((s, index) => (
               <div key={s.id} className="flex items-center">
                 <div className={`
                   w-12 h-12 rounded-full flex items-center justify-center
@@ -116,11 +113,11 @@ export default function SellPage() {
                 `}>
                   <s.icon className="w-6 h-6" />
                 </div>
-                <span className={`ml-3 font-medium ${step >= s.id ? 'text-gray-900' : 'text-gray-400'}`}>
+                <span className={`ml-3 font-medium hidden sm:inline ${step >= s.id ? 'text-gray-900' : 'text-gray-400'}`}>
                   {s.title}
                 </span>
-                {index < displaySteps.length - 1 && (
-                  <div className={`w-16 h-1 mx-4 ${step > s.id ? 'bg-primary' : 'bg-gray-200'}`} />
+                {index < STEPS.length - 1 && (
+                  <div className={`w-12 sm:w-16 h-1 mx-2 sm:mx-4 ${step > s.id ? 'bg-primary' : 'bg-gray-200'}`} />
                 )}
               </div>
             ))}
@@ -163,7 +160,7 @@ export default function SellPage() {
                     value={formData.year}
                     onChange={(e) => updateForm('year', parseInt(e.target.value))}
                     min={1990}
-                    max={new Date().getFullYear()}
+                    max={new Date().getFullYear() + 1}
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   />
                 </div>
@@ -188,7 +185,7 @@ export default function SellPage() {
                       onClick={() => updateForm('body_type', type.value)}
                       className={`p-3 border rounded-lg text-center transition-colors ${
                         formData.body_type === type.value
-                          ? 'border-primary bg-primary/5 text-primary'
+                          ? 'border-primary bg-primary/5 text-primary font-medium'
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
@@ -197,113 +194,119 @@ export default function SellPage() {
                   ))}
                 </div>
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                <input
+                  type="text"
+                  value={formData.color}
+                  onChange={(e) => updateForm('color', e.target.value)}
+                  placeholder="Ej: Blanco"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                />
+              </div>
             </div>
           )}
 
           {step === 2 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-semibold">Estado del vehículo</h2>
+              <h2 className="text-xl font-semibold">Precio de venta</h2>
               
-              <div className="space-y-3">
-                {CONDITIONS.map((condition) => (
-                  <button
-                    key={condition.value}
-                    onClick={() => updateForm('condition', condition.value)}
-                    className={`w-full p-4 border rounded-lg text-left transition-colors ${
-                      formData.condition === condition.value
-                        ? 'border-primary bg-primary/5'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-medium text-gray-900">{condition.label}</p>
-                        <p className="text-sm text-gray-500">{condition.description}</p>
-                      </div>
-                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                        formData.condition === condition.value
-                          ? 'border-primary bg-primary'
-                          : 'border-gray-300'
-                      }`}>
-                        {formData.condition === condition.value && (
-                          <CheckCircle className="w-4 h-4 text-white" />
-                        )}
-                      </div>
-                    </div>
-                  </button>
-                ))}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Tu precio (USD) *</label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg font-semibold">$</span>
+                  <input
+                    type="number"
+                    value={formData.price || ''}
+                    onChange={(e) => updateForm('price', parseInt(e.target.value) || 0)}
+                    placeholder="25,000"
+                    min={0}
+                    className="w-full pl-10 pr-4 py-4 text-2xl font-bold border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  />
+                </div>
+                <p className="text-sm text-gray-500 mt-2">
+                  Establece el precio al que deseas vender tu vehículo
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                <input
+                  type="checkbox"
+                  id="negotiable"
+                  checked={formData.negotiable}
+                  onChange={(e) => updateForm('negotiable', e.target.checked)}
+                  className="w-5 h-5 text-primary rounded focus:ring-primary"
+                />
+                <label htmlFor="negotiable" className="text-gray-700">
+                  <span className="font-medium">Precio negociable</span>
+                  <p className="text-sm text-gray-500">Los compradores sabrán que estás abierto a ofertas</p>
+                </label>
+              </div>
+            </div>
+          )}
+
+          {step === 3 && (
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold">Detalles adicionales</h2>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Combustible *</label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {FUEL_TYPES.map((type) => (
+                    <button
+                      key={type.value}
+                      onClick={() => updateForm('fuel_type', type.value)}
+                      className={`p-3 border rounded-lg text-center transition-colors ${
+                        formData.fuel_type === type.value
+                          ? 'border-primary bg-primary/5 text-primary font-medium'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      {type.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Notas adicionales</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Transmisión *</label>
+                <div className="grid grid-cols-3 gap-3">
+                  {TRANSMISSIONS.map((type) => (
+                    <button
+                      key={type.value}
+                      onClick={() => updateForm('transmission', type.value)}
+                      className={`p-3 border rounded-lg text-center transition-colors ${
+                        formData.transmission === type.value
+                          ? 'border-primary bg-primary/5 text-primary font-medium'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      {type.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Descripción</label>
                 <textarea
-                  value={formData.notes}
-                  onChange={(e) => updateForm('notes', e.target.value)}
-                  rows={3}
-                  placeholder="¿Algo más que debamos saber sobre tu vehículo?"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                />
-              </div>
-            </div>
-          )}
-
-          {step === 3 && !isAuthenticated && (
-            <div className="space-y-6">
-              <h2 className="text-xl font-semibold">Datos de contacto</h2>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Nombre completo *</label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => updateForm('name', e.target.value)}
+                  value={formData.description}
+                  onChange={(e) => updateForm('description', e.target.value)}
+                  rows={4}
+                  placeholder="Describe tu vehículo: estado general, extras, mantenimiento reciente..."
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Correo electrónico *</label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => updateForm('email', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono *</label>
-                <input
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => updateForm('phone', e.target.value)}
-                  placeholder="+51 999 999 999"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                />
-              </div>
-            </div>
-          )}
-
-          {step === 3 && isAuthenticated && (
-            <div className="space-y-6">
-              <h2 className="text-xl font-semibold">Datos de contacto</h2>
-              <div className="bg-primary/5 border border-primary/20 rounded-xl p-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                    <User className="w-6 h-6 text-primary" />
-                  </div>
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
+                <div className="flex items-center gap-3">
+                  <User className="w-5 h-5 text-primary" />
                   <div>
-                    <p className="font-semibold text-gray-900">{user?.name}</p>
+                    <p className="font-medium text-gray-900">{user?.name}</p>
                     <p className="text-sm text-gray-600">{user?.email}</p>
-                    {user?.phone && <p className="text-sm text-gray-600">{user.phone}</p>}
                   </div>
                 </div>
-                <p className="text-sm text-gray-500 mt-4">
-                  Se usarán los datos de tu cuenta para esta valuación. 
-                  <button onClick={() => navigate('/dashboard/profile')} className="text-primary hover:underline ml-1">
-                    ¿Quieres cambiarlos?
-                  </button>
-                </p>
               </div>
             </div>
           )}
@@ -315,49 +318,34 @@ export default function SellPage() {
               </div>
               
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                ¡Valuación completada!
+                ¡Vehículo publicado!
               </h2>
               <p className="text-gray-600 mb-8">
-                Basado en la información proporcionada, estimamos que tu vehículo vale:
+                Tu anuncio ya está visible para miles de compradores potenciales.
               </p>
 
               <div className="bg-gray-50 rounded-xl p-6 mb-8">
                 <p className="text-sm text-gray-500 mb-1">{result.brand} {result.model}</p>
                 <p className="text-4xl font-bold text-primary">
-                  USD {result.estimated_price?.toLocaleString()}
+                  USD {result.price?.toLocaleString()}
                 </p>
+                {result.negotiable && (
+                  <p className="text-sm text-green-600 mt-1">Precio negociable</p>
+                )}
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {isAuthenticated ? (
-                  <button
-                    onClick={() => navigate('/dashboard/valuations')}
-                    className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium"
-                  >
-                    Ver mis valuaciones
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => navigate('/register')}
-                    className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium"
-                  >
-                    Crear cuenta para guardar
-                  </button>
-                )}
                 <button
-                  onClick={() => {
-                    setStep(1);
-                    setResult(null);
-                    setFormData({
-                      brand: '', model: '', year: new Date().getFullYear(),
-                      mileage: 0, body_type: '', condition: '',
-                      name: user?.name || '', email: user?.email || '',
-                      phone: user?.phone || '', notes: '',
-                    });
-                  }}
+                  onClick={() => navigate(`/vehiculos/${result.id}`)}
+                  className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium"
+                >
+                  Ver mi anuncio
+                </button>
+                <button
+                  onClick={() => navigate('/dashboard/vehicles')}
                   className="border border-gray-300 px-6 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-50"
                 >
-                  Nueva valuación
+                  Mis vehículos
                 </button>
               </div>
             </div>
@@ -376,7 +364,7 @@ export default function SellPage() {
                 <div />
               )}
               
-              {step < totalSteps ? (
+              {step < 3 ? (
                 <button
                   onClick={() => setStep(s => s + 1)}
                   disabled={!canProceed()}
@@ -390,7 +378,7 @@ export default function SellPage() {
                   disabled={!canProceed() || loading}
                   className="px-6 py-3 bg-primary text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/90"
                 >
-                  {loading ? 'Calculando...' : 'Obtener valuación'}
+                  {loading ? 'Publicando...' : 'Publicar vehículo'}
                 </button>
               )}
             </div>
