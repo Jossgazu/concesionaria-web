@@ -66,11 +66,11 @@ export function VehicleCard({ vehicle, onFavorite, isFavorite, showFavoriteButto
         </h3>
         
         <p className="text-gray-500 text-sm mb-3">
-          {vehicle.year} • {vehicle.mileage.toLocaleString()} km
+          {vehicle.year ?? 'N/A'} • {vehicle.mileage?.toLocaleString() ?? '0'} km
         </p>
 
         <p className="text-xl font-bold text-primary mb-3">
-          {vehicle.currency || 'USD'} {vehicle.price.toLocaleString()}
+          {vehicle.currency || 'USD'} {vehicle.price?.toLocaleString() ?? '0'}
         </p>
 
         <div className="flex flex-wrap gap-2">

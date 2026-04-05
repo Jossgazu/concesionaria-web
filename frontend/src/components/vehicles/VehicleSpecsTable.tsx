@@ -7,14 +7,14 @@ interface VehicleSpecsTableProps {
 
 export function VehicleSpecsTable({ vehicle }: VehicleSpecsTableProps) {
   const specs = [
-    { label: 'Marca', value: vehicle.brand },
-    { label: 'Modelo', value: vehicle.model },
-    { label: 'Año', value: vehicle.year.toString() },
-    { label: 'Kilometraje', value: `${vehicle.mileage.toLocaleString()} km` },
-    { label: 'Tipo de Carrocería', value: vehicle.bodyType },
-    { label: 'Combustible', value: vehicle.fuelType },
-    { label: 'Transmisión', value: vehicle.transmission },
-    { label: 'Color', value: vehicle.color },
+    { label: 'Marca', value: vehicle.brand || 'N/A' },
+    { label: 'Modelo', value: vehicle.model || 'N/A' },
+    { label: 'Año', value: vehicle.year?.toString() || 'N/A' },
+    { label: 'Kilometraje', value: `${vehicle.mileage?.toLocaleString() || '0'} km` },
+    { label: 'Tipo de Carrocería', value: vehicle.bodyType || 'N/A' },
+    { label: 'Combustible', value: vehicle.fuelType || 'N/A' },
+    { label: 'Transmisión', value: vehicle.transmission || 'N/A' },
+    { label: 'Color', value: vehicle.color || 'N/A' },
   ];
 
   return (

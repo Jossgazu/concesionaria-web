@@ -89,12 +89,12 @@ export function DashboardVehiclesPage() {
                       />
                       <div>
                         <p className="font-medium">{vehicle.brand} {vehicle.model}</p>
-                        <p className="text-sm text-gray-500">{vehicle.year} • {vehicle.mileage.toLocaleString()} km</p>
+                        <p className="text-sm text-gray-500">{vehicle.year ?? 'N/A'} • {vehicle.mileage?.toLocaleString() ?? '0'} km</p>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 py-3 font-medium text-primary">
-                    {vehicle.currency} {vehicle.price.toLocaleString()}
+                    {vehicle.currency ?? 'USD'} {vehicle.price?.toLocaleString() ?? '0'}
                   </td>
                   <td className="px-4 py-3">
                     <Badge variant={vehicle.verified ? 'success' : 'warning'}>

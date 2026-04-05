@@ -73,8 +73,8 @@ export default function VehicleDetailPage() {
   }
 
   const specs = [
-    { icon: Calendar, label: 'Año', value: vehicle.year },
-    { icon: Gauge, label: 'Kilometraje', value: `${vehicle.mileage?.toLocaleString()} km` },
+    { icon: Calendar, label: 'Año', value: vehicle.year ?? 'N/A' },
+    { icon: Gauge, label: 'Kilometraje', value: `${vehicle.mileage?.toLocaleString() ?? '0'} km` },
     { icon: Settings2, label: 'Transmisión', value: vehicle.transmission || 'No especificado' },
     { icon: Fuel, label: 'Combustible', value: vehicle.fuel_type || 'No especificado' },
     { icon: MapPin, label: 'Ubicación', value: 'Lima, Perú' },
@@ -170,12 +170,12 @@ export default function VehicleDetailPage() {
                     {vehicle.brand} {vehicle.model}
                   </h1>
                   <p className="text-gray-500">
-                    {vehicle.year} • {vehicle.mileage?.toLocaleString()} km • {vehicle.body_type}
+                    {vehicle.year ?? 'N/A'} • {vehicle.mileage?.toLocaleString() ?? '0'} km • {vehicle.body_type ?? 'N/A'}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="text-3xl font-bold text-primary">
-                    {vehicle.currency || 'USD'} {vehicle.price?.toLocaleString()}
+                    {vehicle.currency || 'USD'} {vehicle.price?.toLocaleString() ?? '0'}
                   </p>
                   <p className="text-gray-500 text-sm">Precio de venta</p>
                 </div>

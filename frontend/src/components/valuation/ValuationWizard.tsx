@@ -154,10 +154,10 @@ export function ValuationWizard() {
             </div>
             <h3 className="text-xl font-semibold mb-2">Valor Estimado</h3>
             <p className="text-4xl font-bold text-primary mb-2">
-              {valuationResult.currency} {valuationResult.estimatedValue.toLocaleString()}
+              {valuationResult.currency ?? 'USD'} {valuationResult.estimatedValue?.toLocaleString() ?? '0'}
             </p>
             <p className="text-gray-500 mb-6">
-              Basado en {getValues('year')} • {getValues('mileage').toLocaleString()} km • {getValues('condition')}
+              Basado en {getValues('year') ?? 'N/A'} • {getValues('mileage')?.toLocaleString() ?? '0'} km • {getValues('condition') ?? 'N/A'}
             </p>
             <div className="flex justify-center gap-4">
               <Button type="button" variant="outline" onClick={() => setCurrentStep(1)}>
