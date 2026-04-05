@@ -30,7 +30,7 @@ export default function DashboardPage() {
   const loadStats = async () => {
     try {
       const response = await vehicleService.getDashboardStats();
-      setStats(response.data);
+      setStats(response.data.data || response.data);
     } catch (error) {
       console.error('Failed to load dashboard stats', error);
     }

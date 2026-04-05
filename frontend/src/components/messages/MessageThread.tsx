@@ -25,7 +25,7 @@ export function MessageThread({ conversation, onBack }: MessageThreadProps) {
     setIsLoading(true);
     try {
       const response = await messageService.getMessages(conversation.id);
-      setMessages(response.data);
+      setMessages(response.data.data || response.data);
     } catch (err) {
       console.error('Error loading messages');
     } finally {

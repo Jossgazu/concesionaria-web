@@ -148,7 +148,7 @@ export default function VehicleDetailPage() {
 
               {vehicle.images?.length > 1 && (
                 <div className="p-4 flex gap-2 overflow-x-auto">
-                  {vehicle.images.map((img: string, index: number) => (
+                  {vehicle.images.map((img: any, index: number) => (
                     <button
                       key={index}
                       onClick={() => setCurrentImage(index)}
@@ -156,7 +156,7 @@ export default function VehicleDetailPage() {
                         currentImage === index ? 'ring-2 ring-primary' : ''
                       }`}
                     >
-                      <img src={img} alt="" className="w-full h-full object-cover" />
+                      <img src={typeof img === 'string' ? img : img.image_url} alt="" className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>

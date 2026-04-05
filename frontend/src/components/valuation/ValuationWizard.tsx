@@ -31,7 +31,7 @@ export function ValuationWizard() {
     setIsLoading(true);
     try {
       const response = await valuationService.create(data);
-      setValuationResult(response.data);
+      setValuationResult(response.data.data || response.data);
       setCurrentStep(3);
       success('Tasación completada exitosamente');
     } catch (err) {

@@ -66,7 +66,7 @@ export default function SellPage() {
     setLoading(true);
     try {
       const response = await valuationService.create(formData);
-      setResult(response.data);
+      setResult(response.data.data || response.data);
       setStep(4);
     } catch (error) {
       console.error('Failed to create valuation', error);
