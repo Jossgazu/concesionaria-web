@@ -112,7 +112,7 @@ export default function DashboardOverview() {
               {stats.recent_vehicles.slice(0, 4).map((vehicle: any) => (
                 <Link
                   key={vehicle.id}
-                  to={`/vehicles/${vehicle.id}`}
+                  to={`/vehiculos/${vehicle.id}`}
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <img
