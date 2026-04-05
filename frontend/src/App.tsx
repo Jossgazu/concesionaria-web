@@ -15,6 +15,7 @@ import DashboardFavoritesPage from './pages/DashboardFavoritesPage';
 import DashboardMessagesPage from './pages/DashboardMessagesPage';
 import DashboardValuationsPage from './pages/DashboardValuationsPage';
 import DashboardRatingsPage from './pages/DashboardRatingsPage';
+import ValuationPage from './pages/ValuationPage';
 import SellPage from './pages/SellPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { Header } from './components/layout/Header';
@@ -59,7 +60,7 @@ function App() {
         
         <Route path="/favoritos" element={<ProtectedRoute><DashboardPage><DashboardFavoritesPage /></DashboardPage></ProtectedRoute>} />
         <Route path="/mensajes" element={<ProtectedRoute><DashboardPage><DashboardMessagesPage /></DashboardPage></ProtectedRoute>} />
-        <Route path="/valuacion" element={<DashboardValuationsPage />} />
+        <Route path="/valuacion" element={<ValuationPage />} />
         <Route path="/vender" element={<ProtectedRoute><SellPage /></ProtectedRoute>} />
         <Route path="/vehicles" element={<Navigate to="/vehiculos" />} />
         <Route path="*" element={<NotFoundPage />} />

@@ -39,6 +39,7 @@ type Vehicle struct {
 	Year         int             `gorm:"not null;index" json:"year"`
 	Mileage      int             `gorm:"not null;index" json:"mileage"`
 	Price        decimal.Decimal `gorm:"type:decimal(12,2);not null;index" json:"price"`
+	Negotiable   bool            `gorm:"default:false" json:"negotiable"`
 	Currency     string          `gorm:"type:varchar(10);default:'USD'" json:"currency"`
 	BodyType     string          `gorm:"type:varchar(50);index" json:"body_type"`
 	FuelType     string          `gorm:"type:varchar(50)" json:"fuel_type"`

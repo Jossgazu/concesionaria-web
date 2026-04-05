@@ -27,6 +27,7 @@ type CreateVehicleRequest struct {
 	Model        string  `json:"model"`
 	Year         int     `json:"year"`
 	Price        float64 `json:"price"`
+	Negotiable   bool    `json:"negotiable"`
 	Currency     string  `json:"currency"`
 	Mileage      int     `json:"mileage"`
 	BodyType     string  `json:"body_type"`
@@ -41,6 +42,7 @@ type UpdateVehicleRequest struct {
 	Model        string  `json:"model"`
 	Year         int     `json:"year"`
 	Price        float64 `json:"price"`
+	Negotiable   bool    `json:"negotiable"`
 	Currency     string  `json:"currency"`
 	Mileage      int     `json:"mileage"`
 	BodyType     string  `json:"body_type"`
@@ -58,6 +60,7 @@ func (s *VehicleService) Create(sellerID uuid.UUID, req *CreateVehicleRequest) (
 		Model:        req.Model,
 		Year:         req.Year,
 		Price:        decimal.NewFromFloat(req.Price),
+		Negotiable:   req.Negotiable,
 		Currency:     req.Currency,
 		Mileage:      req.Mileage,
 		BodyType:     req.BodyType,
@@ -112,6 +115,9 @@ func (s *VehicleService) Update(id uuid.UUID, sellerID uuid.UUID, req *UpdateVeh
 	}
 	if req.Price != 0 {
 		vehicle.Price = decimal.NewFromFloat(req.Price)
+	}
+	if req.Negotiable {
+		vehicle.Negotiable = req.Negotiable
 	}
 	if req.Currency != "" {
 		vehicle.Currency = req.Currency
