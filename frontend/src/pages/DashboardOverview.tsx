@@ -116,7 +116,7 @@ export default function DashboardOverview() {
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <img
-                    src={vehicle.images?.[0] || '/placeholder-car.jpg'}
+                    src={vehicle.images?.[0]?.image_url || vehicle.images?.[0] || '/placeholder-car.jpg'}
                     alt=""
                     className="w-12 h-12 rounded-lg object-cover"
                   />

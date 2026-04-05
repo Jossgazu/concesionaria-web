@@ -27,7 +27,7 @@ export default function VehicleDetailPage() {
   const loadVehicle = async () => {
     try {
       const response = await vehicleService.getById(id!);
-      setVehicle(response.data);
+      setVehicle(response.data.data || response.data);
     } catch (error) {
       console.error('Failed to load vehicle', error);
     } finally {
