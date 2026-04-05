@@ -16,7 +16,7 @@ func NewFavoriteHandler(service *service.FavoriteService) *FavoriteHandler {
 }
 
 func (h *FavoriteHandler) AddFavorite(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 	vehicleID, err := uuid.Parse(c.Params("vehicleId"))
 	if err != nil {
 		return response.BadRequest(c, "Invalid vehicle ID")
@@ -36,7 +36,7 @@ func (h *FavoriteHandler) AddFavorite(c *fiber.Ctx) error {
 }
 
 func (h *FavoriteHandler) RemoveFavorite(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 	vehicleID, err := uuid.Parse(c.Params("vehicleId"))
 	if err != nil {
 		return response.BadRequest(c, "Invalid vehicle ID")
@@ -50,7 +50,7 @@ func (h *FavoriteHandler) RemoveFavorite(c *fiber.Ctx) error {
 }
 
 func (h *FavoriteHandler) GetFavorites(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 
 	favorites, err := h.service.GetUserFavorites(userID)
 	if err != nil {

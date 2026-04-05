@@ -36,7 +36,7 @@ export function MessageThread({ conversation, onBack }: MessageThreadProps) {
   const handleSend = async () => {
     if (!newMessage.trim()) return;
     try {
-      await messageService.sendMessage(otherParticipant?.id || '', newMessage, conversation.vehicle?.id);
+      await messageService.send(otherParticipant?.id || '', newMessage, conversation.vehicle?.id);
       setNewMessage('');
       loadMessages();
     } catch (err) {

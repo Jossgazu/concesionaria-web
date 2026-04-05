@@ -79,6 +79,7 @@ func main() {
 	vehicles := api.Group("/vehicles")
 	vehicles.Get("/", vehicleHandler.GetAll)
 	vehicles.Get("/featured", vehicleHandler.GetFeatured)
+	vehicles.Get("/my", middleware.Protected(cfg.JWTSecret), vehicleHandler.GetSellerVehicles)
 	vehicles.Get("/:id", vehicleHandler.GetByID)
 	vehicles.Post("/", middleware.Protected(cfg.JWTSecret), vehicleHandler.Create)
 	vehicles.Put("/:id", middleware.Protected(cfg.JWTSecret), vehicleHandler.Update)

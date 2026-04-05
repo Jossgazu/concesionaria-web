@@ -16,7 +16,7 @@ func NewMessageHandler(service *service.MessageService) *MessageHandler {
 }
 
 func (h *MessageHandler) SendMessage(c *fiber.Ctx) error {
-	senderID := c.Locals("user_id").(uuid.UUID)
+	senderID, _ := uuid.Parse(c.Locals("user_id").(string))
 
 	var req service.SendMessageRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -39,7 +39,7 @@ func (h *MessageHandler) SendMessage(c *fiber.Ctx) error {
 }
 
 func (h *MessageHandler) GetConversations(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 
 	conversations, err := h.service.GetConversations(userID)
 	if err != nil {
@@ -50,7 +50,7 @@ func (h *MessageHandler) GetConversations(c *fiber.Ctx) error {
 }
 
 func (h *MessageHandler) GetConversation(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 	otherUserID, err := uuid.Parse(c.Params("userId"))
 	if err != nil {
 		return response.BadRequest(c, "Invalid user ID")
@@ -73,7 +73,7 @@ func (h *MessageHandler) GetConversation(c *fiber.Ctx) error {
 }
 
 func (h *MessageHandler) MarkAsRead(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 	messageID, err := uuid.Parse(c.Params("id"))
 	if err != nil {
 		return response.BadRequest(c, "Invalid message ID")

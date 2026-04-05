@@ -373,7 +373,7 @@ func (h *VehicleHandler) vehicleToResponse(v *domain.Vehicle) fiber.Map {
 }
 
 func (h *VehicleHandler) GetDashboardStats(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 
 	stats, err := h.vehicleService.GetSellerStats(userID)
 	if err != nil {
@@ -394,7 +394,7 @@ func (h *VehicleHandler) GetDashboardStats(c *fiber.Ctx) error {
 }
 
 func (h *VehicleHandler) GetSellerVehicles(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 
 	page := c.QueryInt("page", 1)
 	limit := c.QueryInt("limit", 20)

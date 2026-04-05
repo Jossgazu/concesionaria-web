@@ -45,8 +45,7 @@ func (r *MessageRepository) GetConversationList(userID uuid.UUID) ([]map[string]
 		SELECT
 			CASE WHEN sender_id = ? THEN receiver_id ELSE sender_id END as user_id,
 			MAX(created_at) as last_message_at,
-			COUNT(CASE WHEN read = false AND receiver_id = ? THEN 1 END) as unread_count,
-			MAX(id) as last_message_id
+			COUNT(CASE WHEN "read" = false AND receiver_id = ? THEN 1 END) as unread_count
 		FROM messages
 		WHERE sender_id = ? OR receiver_id = ?
 		GROUP BY user_id
@@ -59,18 +58,22 @@ func (r *MessageRepository) GetConversationList(userID uuid.UUID) ([]map[string]
 	defer rows.Close()
 
 	for rows.Next() {
-		var userID2 uuid.UUID
-		var lastMessageAt time.Time
+		var otherUserID uuid.UUID
+		var lastMessageAt *time.Time
 		var unreadCount int64
-		var lastMessageID uuid.UUID
 
-		rows.Scan(&userID2, &lastMessageAt, &unreadCount, &lastMessageID)
+		if err := rows.Scan(&otherUserID, &lastMessageAt, &unreadCount); err != nil {
+			continue
+		}
 
 		var user domain.User
-		r.db.First(&user, "id = ?", userID2)
+		r.db.First(&user, "id = ?", otherUserID)
 
 		var lastMessage domain.Message
-		r.db.First(&lastMessage, "id = ?", lastMessageID)
+		r.db.Where("(sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)",
+			userID, otherUserID, otherUserID, userID).
+			Order("created_at DESC").
+			First(&lastMessage)
 
 		results = append(results, map[string]interface{}{
 			"user":         user,
@@ -85,7 +88,7 @@ func (r *MessageRepository) GetConversationList(userID uuid.UUID) ([]map[string]
 func (r *MessageRepository) MarkAsRead(messageID, userID uuid.UUID) error {
 	return r.db.Model(&domain.Message{}).
 		Where("id = ? AND receiver_id = ?", messageID, userID).
-		Update("read", true).Error
+		Update("\"read\"", true).Error
 }
 
 func (r *MessageRepository) GetUser(id uuid.UUID) (*domain.User, error) {

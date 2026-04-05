@@ -68,8 +68,6 @@ export const messageService = {
   getMessages: (conversationId: string) => api.get(`/messages/conversations/${conversationId}`),
   send: (receiverId: string, content: string, vehicleId?: string) =>
     api.post('/messages', { receiver_id: receiverId, content, vehicle_id: vehicleId }),
-  sendMessage: (receiverId: string, content: string, vehicleId?: string) =>
-    api.post('/messages', { receiverId, content, vehicleId }),
   markAsRead: (id: string) => api.put(`/messages/${id}/read`),
 };
 

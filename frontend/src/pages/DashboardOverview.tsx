@@ -8,14 +8,14 @@ export default function DashboardOverview() {
   const statCards = [
     { 
       label: 'Vehículos activos', 
-      value: stats?.stats?.ActiveVehicles || 0, 
+      value: stats?.stats?.activevehicles || 0, 
       icon: Car, 
       color: 'bg-blue-500',
       href: '/dashboard/vehicles'
     },
     { 
       label: 'Total vistas', 
-      value: stats?.stats?.TotalViews || 0, 
+      value: stats?.stats?.totalviews || 0, 
       icon: Eye, 
       color: 'bg-purple-500',
       href: '/dashboard/vehicles'
