@@ -25,7 +25,7 @@ export function VehicleCard({ vehicle, onFavorite, isFavorite, showFavoriteButto
 
   return (
     <Link
-      to={`/vehicles/${vehicle.id}`}
+      to={`/vehiculos/${vehicle.id}`}
       className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group"
     >
       <div className="relative aspect-[4/3] overflow-hidden">

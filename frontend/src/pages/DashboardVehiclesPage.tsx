@@ -20,7 +20,7 @@ export function DashboardVehiclesPage() {
     setIsLoading(true);
     try {
       const response = await vehicleService.getMyVehicles();
-      setVehicles(response.data);
+      setVehicles(response.data.data || []);
     } catch (err) {
       toast.error('Error al cargar tus vehículos');
     } finally {

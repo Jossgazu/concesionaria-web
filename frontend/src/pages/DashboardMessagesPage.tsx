@@ -26,7 +26,7 @@ export default function DashboardMessagesPage() {
   const loadConversations = async () => {
     try {
       const response = await messageService.getConversations();
-      setConversations(response.data.data);
+      setConversations(response.data.data || []);
     } catch (error) {
       console.error('Failed to load conversations', error);
     } finally {
@@ -37,7 +37,7 @@ export default function DashboardMessagesPage() {
   const loadMessages = async (otherUserId: string) => {
     try {
       const response = await messageService.getWithUser(otherUserId);
-      setMessages(response.data.data);
+      setMessages(response.data.data || []);
       const conv = conversations.find(c => c.user?.id === otherUserId);
       if (conv) setSelectedUser(conv.user);
     } catch (error) {

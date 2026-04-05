@@ -27,7 +27,7 @@ export function useVehicles() {
     try {
       const mergedParams = { ...filters, ...params };
       const res = await vehicleService.getAll(mergedParams);
-      setVehicles(res.data.vehicles || res.data);
+      setVehicles(res.data.data || res.data.vehicles || []);
       if (res.data.pagination) {
         setPagination(res.data.pagination);
       }
@@ -41,7 +41,7 @@ export function useVehicles() {
   const fetchFeaturedVehicles = async () => {
     try {
       const res = await vehicleService.getFeatured();
-      setFeaturedVehicles(res.data);
+      setFeaturedVehicles(res.data.data || []);
     } catch (err: unknown) {
       console.error('Error al cargar vehículos destacados');
     }
@@ -52,7 +52,7 @@ export function useVehicles() {
     setError(null);
     try {
       const res = await vehicleService.getById(id);
-      setCurrentVehicle(res.data);
+      setCurrentVehicle(res.data.data);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Error al cargar vehículo');
     } finally {

@@ -66,6 +66,7 @@ func main() {
 	auth.Post("/register", authHandler.Register)
 	auth.Post("/login", authHandler.Login)
 	auth.Get("/me", middleware.Protected(cfg.JWTSecret), authHandler.Me)
+	auth.Put("/profile", middleware.Protected(cfg.JWTSecret), userHandler.UpdateProfile)
 
 	users := api.Group("/users")
 	users.Get("/:id", userHandler.GetPublicProfile)

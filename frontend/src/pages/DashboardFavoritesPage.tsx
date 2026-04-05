@@ -15,7 +15,7 @@ export default function DashboardFavoritesPage() {
   const loadFavorites = async () => {
     try {
       const response = await favoriteService.getAll();
-      setFavorites(response.data.data);
+      setFavorites(response.data.data || []);
     } catch (error) {
       console.error('Failed to load favorites', error);
     } finally {

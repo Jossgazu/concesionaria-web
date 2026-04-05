@@ -9,7 +9,7 @@ export function useAuth() {
     if (token && !user) {
       authService
         .me()
-        .then((res) => login(res.data, token))
+        .then((res) => login(res.data.user || res.data, token))
         .catch(() => logout());
     }
   }, [token, user, login, logout]);

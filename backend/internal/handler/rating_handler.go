@@ -21,7 +21,7 @@ func NewRatingHandler(ratingRepo *repository.RatingRepository, userRepo *reposit
 }
 
 func (h *RatingHandler) Create(c *fiber.Ctx) error {
-	raterID := c.Locals("user_id").(uuid.UUID)
+	raterID, _ := uuid.Parse(c.Locals("user_id").(string))
 
 	var req CreateRatingRequest
 	if err := c.BodyParser(&req); err != nil {

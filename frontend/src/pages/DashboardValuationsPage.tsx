@@ -14,7 +14,7 @@ export default function DashboardValuationsPage() {
   const loadValuations = async () => {
     try {
       const response = await valuationService.getAll();
-      setValuations(response.data.data);
+      setValuations(response.data.data || []);
     } catch (error) {
       console.error('Failed to load valuations', error);
     } finally {
