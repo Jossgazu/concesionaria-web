@@ -47,7 +47,7 @@ export default function HomePage() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/vehicles?search=${encodeURIComponent(searchQuery)}`;
+      window.location.href = `/vehiculos?search=${encodeURIComponent(searchQuery)}`;
     }
   };
 
@@ -94,7 +94,7 @@ export default function HomePage() {
             {BODY_TYPES.map((type) => (
               <Link
                 key={type.id}
-                to={`/vehicles?body_type=${type.id}`}
+                to={`/vehiculos?body_type=${type.id}`}
                 className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-gray-100"
               >
                 <span className="text-4xl mb-3 block">{type.icon}</span>
@@ -112,7 +112,7 @@ export default function HomePage() {
               Vehículos destacados
             </h2>
             <Link
-              to="/vehicles"
+              to="/vehiculos"
               className="text-primary hover:text-primary/80 font-medium flex items-center gap-1"
             >
               Ver todos <ChevronRight className="w-4 h-4" />
@@ -144,7 +144,7 @@ export default function HomePage() {
             {BRANDS.map((brand) => (
               <Link
                 key={brand.id}
-                to={`/vehicles?brand=${brand.id}`}
+                to={`/vehiculos?brand=${brand.id}`}
                 className="bg-white rounded-xl p-4 flex items-center justify-center shadow-sm hover:shadow-md transition-shadow border border-gray-100"
               >
                 <span className="font-semibold text-gray-700">{brand.name}</span>
