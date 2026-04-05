@@ -122,7 +122,7 @@ func (r *VehicleRepository) FindAll(filter VehicleFilter) ([]domain.Vehicle, int
 
 func (r *VehicleRepository) FindByID(id uuid.UUID) (*domain.Vehicle, error) {
 	var vehicle domain.Vehicle
-	err := r.db.Preload("Images").Preload("Specs").Preload("Seller").Preload("Valuation").
+	err := r.db.Preload("Images").Preload("Specs").Preload("Seller").
 		First(&vehicle, "id = ? AND deleted_at IS NULL", id).Error
 	if err != nil {
 		return nil, err

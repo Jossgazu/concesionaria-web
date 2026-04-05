@@ -24,7 +24,7 @@ INSERT INTO vehicle_images (vehicle_id, image_url, is_primary, sort_order) VALUE
 INSERT INTO vehicle_specs (vehicle_id, engine, horsepower, torque, displacement, transmission_type, drivetrain, seats, doors, fuel_tank_capacity, safety_features, comfort_features) VALUES
 ('d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44', '2.5L 4-Cylinder', 203, '182 lb-ft', 2.50, 'Automatic', 'FWD', 5, 4, 60.0, '["ABS", "EBD", "Traction Control", "Lane Departure Warning"]', '["Apple CarPlay", "Android Auto", "Backup Camera", "Keyless Entry"]'),
 ('e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55', '2.0L Hybrid', 212, '232 lb-ft', 2.00, 'CVT', 'AWD', 5, 4, 53.0, '["Honda Sensing", "Collision Mitigation", "Road Departure Mitigation"]', '["Leather Seats", "Sunroof", "Power Liftgate", "Wireless Charging"]'),
-('f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a66', 'Electric Motor', 346, '389 lb-ft', 0.0, 'Single-Speed', 'AWD', 5, 4, 0.0, '["Autopilot", "Collision Avoidance", "8 Cameras"]', '["15" Touchscreen", "Premium Audio", "Glass Roof", "Heated Seats"]');
+('f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a66', 'Electric Motor', 346, '389 lb-ft', 0.0, 'Single-Speed', 'AWD', 5, 4, 0.0, '["Autopilot", "Collision Avoidance", "8 Cameras"]', '["15-inch Touchscreen", "Premium Audio", "Glass Roof", "Heated Seats"]');
 
 -- Sample ratings
 INSERT INTO ratings (rater_id, rated_user_id, vehicle_id, score, comment) VALUES

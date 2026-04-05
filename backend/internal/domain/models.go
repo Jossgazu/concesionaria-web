@@ -50,7 +50,6 @@ type Vehicle struct {
 	Views        int             `gorm:"default:0" json:"views"`
 	Images       []VehicleImage  `gorm:"foreignKey:VehicleID" json:"images,omitempty"`
 	Specs        *VehicleSpecs   `gorm:"foreignKey:VehicleID" json:"specs,omitempty"`
-	Valuation    *Valuation      `gorm:"foreignKey:VehicleID" json:"valuation,omitempty"`
 	CreatedAt    time.Time       `json:"created_at"`
 	UpdatedAt    time.Time       `json:"updated_at"`
 	DeletedAt    *time.Time      `gorm:"index" json:"-"`
