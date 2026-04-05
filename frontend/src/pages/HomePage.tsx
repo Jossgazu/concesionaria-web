@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ChevronRight, Shield, Clock, Car, TrendingUp, MessageSquare, Star } from 'lucide-react';
+import { Search, ChevronRight, Shield, Clock, Car, MessageSquare, Star } from 'lucide-react';
 import { vehicleService } from '../services/api';
 import VehicleCard from '../components/vehicles/VehicleCard';
 
@@ -195,12 +195,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
           <div className="flex items-start gap-4">
             <div className="bg-primary/10 p-3 rounded-lg">
-              <TrendingUp className="w-6 h-6 text-primary" />
+              <Shield className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-1">Valuación gratuita</h3>
+              <h3 className="font-semibold text-gray-900 mb-1">Compra segura</h3>
               <p className="text-gray-600 text-sm">
-                Conoce el valor de mercado de tu vehículo al instante.
+                Vendedores verificados y evaluados por la comunidad.
               </p>
             </div>
           </div>

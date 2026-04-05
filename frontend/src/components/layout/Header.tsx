@@ -40,9 +40,6 @@ export function Header() {
             <Link to="/vender" className="text-gray-600 hover:text-primary transition-colors font-medium">
               Vender
             </Link>
-            <Link to="/valuacion" className="text-gray-600 hover:text-primary transition-colors font-medium">
-              Tasación
-            </Link>
           </nav>
 
           <form onSubmit={handleSearch} className="hidden md:flex items-center gap-2 flex-1 max-w-md mx-8">
@@ -164,13 +161,6 @@ export function Header() {
               onClick={() => setIsMenuOpen(false)}
             >
               Vender
-            </Link>
-            <Link
-              to="/valuacion"
-              className="px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Tasación
             </Link>
             {isAuthenticated ? (
               <>
