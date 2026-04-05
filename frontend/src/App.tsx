@@ -50,8 +50,9 @@ function App() {
           <Route path="vehicles/:id/edit" element={<DashboardVehiclesPage />} />
           <Route path="favorites" element={<DashboardFavoritesPage />} />
           <Route path="messages" element={<DashboardMessagesPage />} />
-          <Route path="ratings" element={<DashboardMessagesPage />} />
+          <Route path="valuations" element={<DashboardValuationsPage />} />
           <Route path="profile" element={<DashboardProfilePage />} />
+          <Route path="settings" element={<DashboardProfilePage />} />
         </Route>
         
         <Route path="/favoritos" element={<DashboardFavoritesPage />} />
