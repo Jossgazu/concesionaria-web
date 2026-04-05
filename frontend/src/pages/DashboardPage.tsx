@@ -17,7 +17,7 @@ const NAV_ITEMS = [
   { path: '/dashboard/settings', label: 'Configuración', icon: Settings },
 ];
 
-export default function DashboardPage() {
+export default function DashboardPage({ children }: { children?: React.ReactNode }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
@@ -92,7 +92,7 @@ export default function DashboardPage() {
           </aside>
 
           <main className="flex-1 min-w-0">
-            <Outlet context={{ stats, refreshStats: loadStats }} />
+            {children || <Outlet context={{ stats, refreshStats: loadStats }} />}
           </main>
         </div>
       </div>
