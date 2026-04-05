@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Car, Heart, MessageSquare, Star, 
-  User, LogOut, Menu, X, Settings
+  User, LogOut, Menu, X, Settings, TrendingUp
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { vehicleService } from '../services/api';
@@ -12,7 +12,8 @@ const NAV_ITEMS = [
   { path: '/dashboard/vehicles', label: 'Mis vehículos', icon: Car },
   { path: '/dashboard/favorites', label: 'Favoritos', icon: Heart },
   { path: '/dashboard/messages', label: 'Mensajes', icon: MessageSquare },
-  { path: '/dashboard/valuations', label: 'Valuaciones', icon: Star },
+  { path: '/dashboard/valuations', label: 'Valuaciones', icon: TrendingUp },
+  { path: '/dashboard/ratings', label: 'Valoraciones', icon: Star },
   { path: '/dashboard/profile', label: 'Mi perfil', icon: User },
   { path: '/dashboard/settings', label: 'Configuración', icon: Settings },
 ];

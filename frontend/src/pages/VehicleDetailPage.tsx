@@ -3,9 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { 
   ChevronLeft, ChevronRight, Heart, Share2, 
   MapPin, Calendar, Gauge, Fuel, Settings2,
-  MessageCircle, Shield, Phone
+  MessageCircle, Shield, Phone, Star
 } from 'lucide-react';
-import { vehicleService } from '../services/api';
+import { vehicleService, ratingService } from '../services/api';
 import { useAuthStore } from '../store/authStore';
 import { VehicleSpecsTable } from '../components/vehicles/VehicleSpecsTable';
 import SellerCard from '../components/sellers/SellerCard';
@@ -19,10 +19,19 @@ export default function VehicleDetailPage() {
   const [currentImage, setCurrentImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [activeTab, setActiveTab] = useState<'specs' | 'description'>('specs');
+  const [sellerRating, setSellerRating] = useState<any>(null);
 
   useEffect(() => {
     loadVehicle();
   }, [id]);
+
+  useEffect(() => {
+    if (vehicle?.seller?.id) {
+      ratingService.getUserSummary(vehicle.seller.id)
+        .then((res) => setSellerRating(res.data.data || null))
+        .catch(() => setSellerRating(null));
+    }
+  }, [vehicle?.seller?.id]);
 
   const loadVehicle = async () => {
     try {
@@ -86,7 +95,7 @@ export default function VehicleDetailPage() {
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
           <Link to="/">Inicio</Link>
           <ChevronRight className="w-4 h-4" />
-          <Link to="/vehicles">Vehículos</Link>
+          <Link to="/vehiculos">Vehículos</Link>
           <ChevronRight className="w-4 h-4" />
           <span className="text-gray-900">{vehicle.brand} {vehicle.model}</span>
         </div>
@@ -237,7 +246,41 @@ export default function VehicleDetailPage() {
 
           <div className="space-y-6">
             {vehicle.seller && (
-              <SellerCard seller={vehicle.seller} />
+              <SellerCard seller={vehicle.seller} vehicleId={vehicle.id} />
+            )}
+
+            {sellerRating && sellerRating.total > 0 && (
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <h3 className="font-semibold text-gray-900 mb-4">Valoración del vendedor</h3>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="text-center">
+                    <p className="text-4xl font-bold text-primary">
+                      {sellerRating.average?.toFixed(1) || '0.0'}
+                    </p>
+                    <RatingStars rating={sellerRating.average || 0} size="md" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-500 mb-2">{sellerRating.total} valoraciones</p>
+                    {[5, 4, 3, 2, 1].map((star) => {
+                      const key = `${['one', 'two', 'three', 'four', 'five'][star - 1]}_star` as keyof typeof sellerRating;
+                      const count = sellerRating[key] || 0;
+                      const pct = sellerRating.total > 0 ? (count / sellerRating.total) * 100 : 0;
+                      return (
+                        <div key={star} className="flex items-center gap-2 mb-1">
+                          <span className="text-xs text-gray-500 w-3">{star}</span>
+                          <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-yellow-400 rounded-full transition-all"
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                          <span className="text-xs text-gray-500 w-6 text-right">{count}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             )}
 
             <div className="bg-white rounded-xl p-6 shadow-sm">

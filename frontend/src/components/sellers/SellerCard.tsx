@@ -34,13 +34,15 @@ export default function SellerCard({ seller, vehicleId }: SellerCardProps) {
             <h3 className="font-semibold text-gray-900">{seller.name}</h3>
             <CheckCircle className="w-4 h-4 text-emerald-500" />
           </div>
-          {seller.rating_summary && (
+          {seller.rating_summary && seller.rating_summary.total > 0 ? (
             <div className="flex items-center gap-2 mt-1">
               <RatingStars rating={seller.rating_summary.average} size="sm" />
               <span className="text-sm text-gray-500">
-                ({seller.rating_summary.total} valoraciones)
+                ({seller.rating_summary.total})
               </span>
             </div>
+          ) : (
+            <p className="text-xs text-gray-400 mt-1">Sin valoraciones</p>
           )}
         </div>
       </div>
@@ -51,11 +53,6 @@ export default function SellerCard({ seller, vehicleId }: SellerCardProps) {
       >
         Ver perfil del vendedor
       </Link>
-
-      <button className="w-full mt-2 bg-primary hover:bg-primary/90 text-white py-2 rounded-lg flex items-center justify-center gap-2">
-        <MessageCircle className="w-4 h-4" />
-        Enviar mensaje
-      </button>
     </div>
   );
 }
