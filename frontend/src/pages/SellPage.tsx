@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Car, FileText, User, CheckCircle } from 'lucide-react';
+import { Car, FileText, CheckCircle, User } from 'lucide-react';
 import { valuationService } from '../services/api';
+import { useAuthStore } from '../store/authStore';
 
 const STEPS = [
   { id: 1, title: 'Vehículo', icon: Car },
@@ -29,6 +30,7 @@ const CONDITIONS = [
 
 export default function SellPage() {
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuthStore();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -45,6 +47,21 @@ export default function SellPage() {
     notes: '',
   });
 
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      setFormData(prev => ({
+        ...prev,
+        name: user.name || prev.name,
+        email: user.email || prev.email,
+        phone: user.phone || prev.phone,
+      }));
+    }
+  }, [isAuthenticated, user]);
+
+  const totalSteps = isAuthenticated ? 3 : 4;
+
+  const displaySteps = STEPS.slice(0, totalSteps);
+
   const updateForm = (key: string, value: any) => {
     setFormData(prev => ({ ...prev, [key]: value }));
   };
@@ -56,6 +73,7 @@ export default function SellPage() {
       case 2:
         return formData.condition;
       case 3:
+        if (isAuthenticated) return true;
         return formData.name && formData.email && formData.phone;
       default:
         return true;
@@ -83,13 +101,13 @@ export default function SellPage() {
             Conoce el valor de tu vehículo
           </h1>
           <p className="text-gray-600">
-            Completa el formulario y te dareos una estimación gratuita
+            Completa el formulario y te daremos una estimación gratuita
           </p>
         </div>
 
         <div className="mb-12">
           <div className="flex justify-between items-center">
-            {STEPS.map((s, index) => (
+            {displaySteps.map((s, index) => (
               <div key={s.id} className="flex items-center">
                 <div className={`
                   w-12 h-12 rounded-full flex items-center justify-center
@@ -101,7 +119,7 @@ export default function SellPage() {
                 <span className={`ml-3 font-medium ${step >= s.id ? 'text-gray-900' : 'text-gray-400'}`}>
                   {s.title}
                 </span>
-                {index < STEPS.length - 1 && (
+                {index < displaySteps.length - 1 && (
                   <div className={`w-16 h-1 mx-4 ${step > s.id ? 'bg-primary' : 'bg-gray-200'}`} />
                 )}
               </div>
@@ -229,7 +247,7 @@ export default function SellPage() {
             </div>
           )}
 
-          {step === 3 && (
+          {step === 3 && !isAuthenticated && (
             <div className="space-y-6">
               <h2 className="text-xl font-semibold">Datos de contacto</h2>
               
@@ -266,6 +284,30 @@ export default function SellPage() {
             </div>
           )}
 
+          {step === 3 && isAuthenticated && (
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold">Datos de contacto</h2>
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+                    <User className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">{user?.name}</p>
+                    <p className="text-sm text-gray-600">{user?.email}</p>
+                    {user?.phone && <p className="text-sm text-gray-600">{user.phone}</p>}
+                  </div>
+                </div>
+                <p className="text-sm text-gray-500 mt-4">
+                  Se usarán los datos de tu cuenta para esta valuación. 
+                  <button onClick={() => navigate('/dashboard/profile')} className="text-primary hover:underline ml-1">
+                    ¿Quieres cambiarlos?
+                  </button>
+                </p>
+              </div>
+            </div>
+          )}
+
           {step === 4 && result && (
             <div className="text-center py-8">
               <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -287,17 +329,35 @@ export default function SellPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                {isAuthenticated ? (
+                  <button
+                    onClick={() => navigate('/dashboard/valuations')}
+                    className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium"
+                  >
+                    Ver mis valuaciones
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => navigate('/register')}
+                    className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium"
+                  >
+                    Crear cuenta para guardar
+                  </button>
+                )}
                 <button
-                  onClick={() => navigate('/register')}
-                  className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium"
-                >
-                  Publicar mi vehículo
-                </button>
-                <button
-                  onClick={() => window.location.href = '/'}
+                  onClick={() => {
+                    setStep(1);
+                    setResult(null);
+                    setFormData({
+                      brand: '', model: '', year: new Date().getFullYear(),
+                      mileage: 0, body_type: '', condition: '',
+                      name: user?.name || '', email: user?.email || '',
+                      phone: user?.phone || '', notes: '',
+                    });
+                  }}
                   className="border border-gray-300 px-6 py-3 rounded-lg font-medium text-gray-700 hover:bg-gray-50"
                 >
-                  Volver al inicio
+                  Nueva valuación
                 </button>
               </div>
             </div>
@@ -316,7 +376,7 @@ export default function SellPage() {
                 <div />
               )}
               
-              {step < 3 ? (
+              {step < totalSteps ? (
                 <button
                   onClick={() => setStep(s => s + 1)}
                   disabled={!canProceed()}

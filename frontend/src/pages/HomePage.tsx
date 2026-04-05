@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ChevronRight, Car, Shield, Clock } from 'lucide-react';
+import { Search, ChevronRight, Shield, Clock, Car, TrendingUp, MessageSquare, Star } from 'lucide-react';
 import { vehicleService } from '../services/api';
 import VehicleCard from '../components/vehicles/VehicleCard';
 
@@ -157,34 +157,34 @@ export default function HomePage() {
       <section className="py-16 px-4 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
-            ¿Cómo funciona?
+            ¿Por qué elegirnos?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="bg-primary/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="w-8 h-8" />
+                <Shield className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">1. Busca tu vehículo</h3>
+              <h3 className="text-xl font-semibold mb-2">Vehículos verificados</h3>
               <p className="text-gray-400">
-                Filtra por marca, modelo, precio y más para encontrar exactamente lo que necesitas.
+                Todos los vehículos pasan por un proceso de verificación antes de ser publicados.
               </p>
             </div>
             <div className="text-center">
               <div className="bg-primary/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Car className="w-8 h-8" />
+                <MessageSquare className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">2. Contacta al vendedor</h3>
+              <h3 className="text-xl font-semibold mb-2">Contacto directo</h3>
               <p className="text-gray-400">
                 Comunícate directamente con el vendedor a través de nuestro sistema de mensajería.
               </p>
             </div>
             <div className="text-center">
               <div className="bg-primary/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8" />
+                <Star className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">3. Cierra el trato</h3>
+              <h3 className="text-xl font-semibold mb-2">Vendedores evaluados</h3>
               <p className="text-gray-400">
-                Negocia y completa la compra de forma segura con vendedores verificados.
+                Sistema de valoraciones para que compres con confianza.
               </p>
             </div>
           </div>
@@ -195,12 +195,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
           <div className="flex items-start gap-4">
             <div className="bg-primary/10 p-3 rounded-lg">
-              <Shield className="w-6 h-6 text-primary" />
+              <TrendingUp className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-1">Vehículos verificados</h3>
+              <h3 className="font-semibold text-gray-900 mb-1">Valuación gratuita</h3>
               <p className="text-gray-600 text-sm">
-                Todos los vehículos son revisados para asegurar calidad y autenticidad.
+                Conoce el valor de mercado de tu vehículo al instante.
               </p>
             </div>
           </div>

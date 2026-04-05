@@ -10,24 +10,37 @@ interface AuthState {
   updateUser: (user: Partial<User>) => void;
 }
 
+const getUserFromStorage = (): User | null => {
+  try {
+    const stored = sessionStorage.getItem('user');
+    return stored ? JSON.parse(stored) : null;
+  } catch {
+    return null;
+  }
+};
+
+const getTokenFromStorage = (): string | null => {
+  return sessionStorage.getItem('token');
+};
+
 export const useAuthStore = create<AuthState>((set) => ({
-  user: JSON.parse(localStorage.getItem('user') || 'null'),
-  token: localStorage.getItem('token'),
-  isAuthenticated: !!localStorage.getItem('token'),
+  user: getUserFromStorage(),
+  token: getTokenFromStorage(),
+  isAuthenticated: !!getTokenFromStorage(),
   login: (user, token) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
+    sessionStorage.setItem('token', token);
+    sessionStorage.setItem('user', JSON.stringify(user));
     set({ user, token, isAuthenticated: true });
   },
   logout: () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
     set({ user: null, token: null, isAuthenticated: false });
   },
   updateUser: (userData) => {
-    const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-    const updatedUser = { ...currentUser, ...userData };
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    set({ user: updatedUser });
+    const currentUser = getUserFromStorage();
+    const updatedUser = { ...(currentUser || {}), ...userData };
+    sessionStorage.setItem('user', JSON.stringify(updatedUser));
+    set({ user: updatedUser as User });
   },
 }));
