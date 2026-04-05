@@ -57,7 +57,7 @@ function App() {
         <Route path="/favoritos" element={<DashboardFavoritesPage />} />
         <Route path="/mensajes" element={<DashboardMessagesPage />} />
         <Route path="/valuacion" element={<DashboardValuationsPage />} />
-        <Route path="/sell" element={<SellPage />} />
+        <Route path="/vender" element={<SellPage />} />
         <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Toast />
