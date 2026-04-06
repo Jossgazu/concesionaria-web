@@ -97,17 +97,21 @@ export default function VehicleDetailPage() {
   };
 
   const handleSendMessage = async () => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || !vehicle.seller?.id) {
+      toast.error('Inicia sesión para enviar mensajes');
+      return;
+    }
     if (!messageContent.trim()) return;
     try {
       setSendingMessage(true);
       await messageService.send(vehicle.seller.id, messageContent, vehicle.id);
       setMessageModalOpen(false);
       setMessageContent('');
-      alert('Mensaje enviado correctamente');
-    } catch (error) {
+      toast.success('Mensaje enviado correctamente');
+    } catch (error: any) {
       console.error('Failed to send message', error);
-      alert('Error al enviar mensaje');
+      const errorMsg = error?.response?.data?.message || 'Error al enviar mensaje';
+      toast.error(errorMsg);
     } finally {
       setSendingMessage(false);
     }

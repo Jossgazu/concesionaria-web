@@ -3,6 +3,8 @@ package redis
 import (
 	"context"
 	"log"
+	"net/url"
+	"strings"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -20,8 +22,16 @@ func NewClient(redisURL string) *Client {
 		return &Client{rdb: nil}
 	}
 
+	addr := redisURL
+	if strings.HasPrefix(redisURL, "redis://") {
+		u, err := url.Parse(redisURL)
+		if err == nil && u.Host != "" {
+			addr = u.Host
+		}
+	}
+
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     redisURL,
+		Addr:     addr,
 		Password: "",
 		DB:       0,
 	})

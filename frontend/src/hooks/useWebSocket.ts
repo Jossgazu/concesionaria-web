@@ -12,34 +12,50 @@ export function useWebSocket() {
   const [lastMessage, setLastMessage] = useState<WebSocketMessage | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isMountedRef = useRef(true);
 
   const connect = useCallback(() => {
-    if (!user?.id || wsRef.current?.readyState === WebSocket.OPEN) {
+    if (!isMountedRef.current) return;
+    
+    const token = sessionStorage.getItem('token');
+    const userId = user?.id || sessionStorage.getItem('userId');
+    
+    if (!token || !userId) {
       return;
     }
 
-    const token = sessionStorage.getItem('token');
-    if (!token) return;
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      return;
+    }
 
     const wsUrl = `${import.meta.env.VITE_WS_URL || 'ws://localhost:3000/api/v1/ws'}?token=${token}`;
+    
+    console.log('Connecting to WebSocket:', wsUrl);
     
     try {
       const ws = new WebSocket(wsUrl);
       
       ws.onopen = () => {
         console.log('WebSocket connected');
-        setIsConnected(true);
+        if (isMountedRef.current) {
+          setIsConnected(true);
+        }
       };
 
       ws.onclose = () => {
         console.log('WebSocket disconnected');
-        setIsConnected(false);
-        wsRef.current = null;
-        
-        if (user?.id) {
-          reconnectTimeoutRef.current = setTimeout(() => {
-            connect();
-          }, 5000);
+        if (isMountedRef.current) {
+          setIsConnected(false);
+          wsRef.current = null;
+          
+          const currentUserId = user?.id || sessionStorage.getItem('userId');
+          if (currentUserId && isMountedRef.current) {
+            reconnectTimeoutRef.current = setTimeout(() => {
+              if (isMountedRef.current) {
+                connect();
+              }
+            }, 5000);
+          }
         }
       };
 
@@ -48,6 +64,7 @@ export function useWebSocket() {
       };
 
       ws.onmessage = (event) => {
+        if (!isMountedRef.current) return;
         try {
           const data = JSON.parse(event.data);
           setLastMessage(data);
@@ -63,16 +80,21 @@ export function useWebSocket() {
   }, [user?.id]);
 
   useEffect(() => {
-    if (user?.id) {
+    isMountedRef.current = true;
+    
+    const token = sessionStorage.getItem('token');
+    if (token && user?.id) {
       connect();
     }
 
     return () => {
+      isMountedRef.current = false;
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current);
       }
       if (wsRef.current) {
         wsRef.current.close();
+        wsRef.current = null;
       }
     };
   }, [user?.id, connect]);
