@@ -1,27 +1,59 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 import { Send, MessageCircle, Users } from 'lucide-react';
 import { messageService } from '../services/api';
 import { useAuthStore } from '../store/authStore';
+import { useWebSocket } from '../hooks/useWebSocket';
 
 export default function DashboardMessagesPage() {
-  const { userId } = useParams();
   const { user } = useAuthStore();
+  const { isConnected, lastMessage } = useWebSocket();
   const [conversations, setConversations] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     loadConversations();
   }, []);
 
   useEffect(() => {
-    if (userId) {
-      loadMessages(userId);
+    if (selectedUser) {
+      loadMessages(selectedUser.id);
     }
-  }, [userId]);
+  }, [selectedUser]);
+
+  useEffect(() => {
+    if (lastMessage?.type === 'new_message' && lastMessage?.message) {
+      const msg = lastMessage.message;
+      
+      if (selectedUser?.id === msg.sender_id || selectedUser?.id === msg.receiver_id) {
+        setMessages(prev => {
+          const exists = prev.some(m => m.id === msg.id);
+          if (exists) return prev;
+          return [...prev, msg];
+        });
+      }
+      
+      if (msg.sender_id !== user?.id) {
+        setConversations(prev => prev.map(c => {
+          if (c.user?.id === msg.sender_id) {
+            return {
+              ...c,
+              last_message: msg,
+              unread_count: (c.unread_count || 0) + 1,
+            };
+          }
+          return c;
+        }));
+      }
+    }
+  }, [lastMessage, selectedUser, user?.id]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const loadConversations = async () => {
     try {
@@ -40,6 +72,13 @@ export default function DashboardMessagesPage() {
       setMessages(response.data.data || []);
       const conv = conversations.find(c => c.user?.id === otherUserId);
       if (conv) setSelectedUser(conv.user);
+      
+      if (conv?.unread_count > 0) {
+        await messageService.markAsRead(otherUserId);
+        setConversations(prev => prev.map(c => 
+          c.user?.id === otherUserId ? { ...c, unread_count: 0 } : c
+        ));
+      }
     } catch (error) {
       console.error('Failed to load messages', error);
     }
@@ -50,19 +89,53 @@ export default function DashboardMessagesPage() {
     if (!newMessage.trim() || !selectedUser) return;
 
     try {
-      await messageService.send(selectedUser.id, newMessage);
+      const tempMessage = {
+        id: Date.now().toString(),
+        sender_id: user?.id,
+        receiver_id: selectedUser.id,
+        content: newMessage,
+        created_at: new Date().toISOString(),
+      };
+      setMessages(prev => [...prev, tempMessage]);
+      
+      const response = await messageService.send(selectedUser.id, newMessage);
       setNewMessage('');
-      loadMessages(selectedUser.id);
+      
+      const sentMessage = response.data.data || response.data;
+      setMessages(prev => prev.map(m => 
+        m.id === tempMessage.id ? sentMessage : m
+      ));
+      
+      setConversations(prev => {
+        const existing = prev.find(c => c.user?.id === selectedUser.id);
+        if (existing) {
+          return prev.map(c => 
+            c.user?.id === selectedUser.id 
+              ? { ...c, last_message: sentMessage }
+              : c
+          );
+        }
+        return prev;
+      });
     } catch (error) {
       console.error('Failed to send message', error);
+      setMessages(prev => prev.filter(m => m.id !== Date.now().toString()));
     }
   };
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-on-surface">Mensajes</h1>
-        <p className="text-on-surface-variant mt-1">Tus conversaciones con otros usuarios</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-on-surface">Mensajes</h1>
+          <p className="text-on-surface-variant mt-1">Tus conversaciones con otros usuarios</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
+          <span className="text-xs text-on-surface-variant">
+            {isConnected ? 'Conectado' : 'Desconectado'}
+          </span>
+        </div>
       </div>
 
       <div className="bg-surface-container-lowest rounded-2xl shadow-[0_8px_16px_rgba(25,28,30,0.04)] overflow-hidden" style={{ height: 'calc(100vh - 280px)', minHeight: '500px' }}>
@@ -174,6 +247,7 @@ export default function DashboardMessagesPage() {
                       </div>
                     );
                   })}
+                  <div ref={messagesEndRef} />
                 </div>
 
                 <form onSubmit={handleSend} className="p-4 border-t border-surface-container-low flex gap-3">

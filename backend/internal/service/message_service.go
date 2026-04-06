@@ -58,6 +58,8 @@ func (s *MessageService) SendMessage(senderID uuid.UUID, req SendMessageRequest)
 	}
 
 	s.publishNewMessage(message)
+	s.invalidateConversationCache(senderID, receiverID)
+	s.invalidateConversationCache(receiverID, senderID)
 
 	return message, nil
 }
@@ -165,6 +167,20 @@ func (s *MessageService) invalidateUnreadCache(userID uuid.UUID) {
 	ctx := context.Background()
 	cacheKey := unreadCountCacheKey(userID)
 	s.redisClient.Del(ctx, cacheKey)
+}
+
+func (s *MessageService) invalidateConversationCache(userID, otherUserID uuid.UUID) {
+	if s.redisClient == nil || !s.redisClient.IsConnected() {
+		return
+	}
+
+	ctx := context.Background()
+	for page := 1; page <= 10; page++ {
+		for limit := 10; limit <= 50; limit += 10 {
+			cacheKey := conversationCacheKey(userID, otherUserID, page, limit)
+			s.redisClient.Del(ctx, cacheKey)
+		}
+	}
 }
 
 func conversationCacheKey(userID, otherUserID uuid.UUID, page, limit int) string {

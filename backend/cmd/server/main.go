@@ -118,8 +118,7 @@ func main() {
 	messages.Get("/:userId", messageHandler.GetConversation)
 	messages.Put("/:id/read", messageHandler.MarkAsRead)
 
-	api.Use("/ws", wsHandler.Upgrade)
-	api.Get("/ws", websocket.New(wsHandler.Handle))
+	api.Get("/ws/:token", websocket.New(wsHandler.Handle))
 
 	dashboard := api.Group("/dashboard", middleware.Protected(cfg.JWTSecret))
 	dashboard.Get("/stats", vehicleHandler.GetDashboardStats)
