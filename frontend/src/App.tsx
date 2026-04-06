@@ -15,6 +15,7 @@ import DashboardFavoritesPage from './pages/DashboardFavoritesPage';
 import DashboardMessagesPage from './pages/DashboardMessagesPage';
 import DashboardValuationsPage from './pages/DashboardValuationsPage';
 import DashboardRatingsPage from './pages/DashboardRatingsPage';
+import SellerProfilePage from './pages/SellerProfilePage';
 import SellPage from './pages/SellPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { Header } from './components/layout/Header';
@@ -37,6 +38,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/vehiculos" element={<VehicleBrowsePage />} />
         <Route path="/vehiculos/:id" element={<VehicleDetailPage />} />
+        <Route path="/users/:id" element={<SellerProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         
@@ -53,7 +55,6 @@ function App() {
           <Route path="messages" element={<DashboardMessagesPage />} />
           <Route path="ratings" element={<DashboardRatingsPage />} />
           <Route path="profile" element={<DashboardProfilePage />} />
-          <Route path="settings" element={<DashboardProfilePage />} />
         </Route>
         
         <Route path="/favoritos" element={<ProtectedRoute><DashboardPage><DashboardFavoritesPage /></DashboardPage></ProtectedRoute>} />

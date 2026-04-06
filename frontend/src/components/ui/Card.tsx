@@ -10,8 +10,8 @@ interface CardProps {
 export function Card({ children, className = '', hover = false, onClick }: CardProps) {
   return (
     <div
-      className={`bg-white rounded-lg shadow-md overflow-hidden ${
-        hover ? 'hover:shadow-lg transition-shadow cursor-pointer' : ''
+      className={`bg-[#ffffff] rounded-lg shadow-[0_8px_16px_rgba(25,28,30,0.04)] overflow-hidden ${
+        hover ? 'hover:shadow-[0_20px_40px_rgba(25,28,30,0.06)] transition-shadow cursor-pointer' : ''
       } ${className}`}
       onClick={onClick}
     >
@@ -21,7 +21,7 @@ export function Card({ children, className = '', hover = false, onClick }: CardP
 }
 
 export function CardHeader({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return <div className={`px-4 py-3 border-b border-gray-100 ${className}`}>{children}</div>;
+  return <div className={`px-4 py-3 border-b border-[#e8e8ea] ${className}`}>{children}</div>;
 }
 
 export function CardContent({ children, className = '' }: { children: React.ReactNode; className?: string }) {
@@ -29,5 +29,5 @@ export function CardContent({ children, className = '' }: { children: React.Reac
 }
 
 export function CardFooter({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return <div className={`px-4 py-3 border-t border-gray-100 bg-gray-50 ${className}`}>{children}</div>;
+  return <div className={`px-4 py-3 border-t border-[#e8e8ea] bg-[#f3f3f6] ${className}`}>{children}</div>;
 }

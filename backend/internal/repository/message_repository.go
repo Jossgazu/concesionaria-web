@@ -96,3 +96,11 @@ func (r *MessageRepository) GetUser(id uuid.UUID) (*domain.User, error) {
 	err := r.db.First(&user, "id = ?", id).Error
 	return &user, err
 }
+
+func (r *MessageRepository) CountUnread(userID uuid.UUID) (int64, error) {
+	var count int64
+	err := r.db.Model(&domain.Message{}).
+		Where("receiver_id = ? AND read = false", userID).
+		Count(&count).Error
+	return count, err
+}

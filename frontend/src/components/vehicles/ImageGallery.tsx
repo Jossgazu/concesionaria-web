@@ -24,7 +24,7 @@ export function ImageGallery({ images, alt }: ImageGalleryProps) {
     <>
       <div className="relative">
         <div
-          className="aspect-video bg-gray-100 rounded-lg overflow-hidden cursor-pointer"
+          className="aspect-video bg-[#f3f3f6] rounded-lg overflow-hidden cursor-pointer"
           onClick={() => setIsFullscreen(true)}
         >
           <img
@@ -37,13 +37,13 @@ export function ImageGallery({ images, alt }: ImageGalleryProps) {
           <>
             <button
               onClick={goToPrevious}
-              className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-white bg-opacity-90 rounded-full hover:bg-opacity-100 transition-opacity"
+              className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-[#ffffff] bg-opacity-90 rounded-full hover:bg-opacity-100 transition-opacity"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-white bg-opacity-90 rounded-full hover:bg-opacity-100 transition-opacity"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-[#ffffff] bg-opacity-90 rounded-full hover:bg-opacity-100 transition-opacity"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -61,7 +61,7 @@ export function ImageGallery({ images, alt }: ImageGalleryProps) {
               key={index}
               onClick={() => setCurrentIndex(index)}
               className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                index === currentIndex ? 'border-primary' : 'border-transparent'
+                index === currentIndex ? 'border-[#007AFF]' : 'border-transparent'
               }`}
             >
               <img
@@ -78,13 +78,13 @@ export function ImageGallery({ images, alt }: ImageGalleryProps) {
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
           <button
             onClick={() => setIsFullscreen(false)}
-            className="absolute top-4 right-4 p-2 text-white hover:text-gray-300 transition-colors"
+            className="absolute top-4 right-4 p-2 text-white hover:text-white/70 transition-colors"
           >
             <X className="w-8 h-8" />
           </button>
           <button
             onClick={goToPrevious}
-            className="absolute left-4 p-2 text-white hover:text-gray-300 transition-colors"
+            className="absolute left-4 p-2 text-white hover:text-white/70 transition-colors"
           >
             <ChevronLeft className="w-10 h-10" />
           </button>
@@ -95,7 +95,7 @@ export function ImageGallery({ images, alt }: ImageGalleryProps) {
           />
           <button
             onClick={goToNext}
-            className="absolute right-4 p-2 text-white hover:text-gray-300 transition-colors"
+            className="absolute right-4 p-2 text-white hover:text-white/70 transition-colors"
           >
             <ChevronRight className="w-10 h-10" />
           </button>

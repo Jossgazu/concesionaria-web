@@ -34,11 +34,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-surface-container-low flex items-center justify-center py-12 px-4">
       <div className="max-w-lg w-full">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Crear cuenta</h1>
-          <p className="text-gray-600 mt-2">
+          <h1 className="text-3xl font-bold text-on-surface">Crear cuenta</h1>
+          <p className="text-on-surface-variant mt-2">
             ¿Ya tienes cuenta?{' '}
             <Link to="/login" className="text-primary hover:text-primary/80">
               Inicia sesión
@@ -46,7 +46,7 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-surface-container-lowest rounded-2xl shadow-[0_20px_40px_rgba(25,28,30,0.06)] p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
@@ -55,46 +55,13 @@ export default function RegisterPage() {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                ¿Qué te gustaría hacer?
-              </label>
-              <div className="grid grid-cols-2 gap-4">
-                <label className="relative cursor-pointer">
-                  <input
-                    type="radio"
-                    value="buyer"
-                    {...register('role')}
-                    className="peer sr-only"
-                    defaultChecked
-                  />
-                  <div className="p-4 border-2 border-gray-200 rounded-xl peer-checked:border-primary peer-checked:bg-primary/5 transition-colors">
-                    <p className="font-medium text-gray-900">Comprar</p>
-                    <p className="text-sm text-gray-500">Buscar vehículos</p>
-                  </div>
-                </label>
-                <label className="relative cursor-pointer">
-                  <input
-                    type="radio"
-                    value="seller"
-                    {...register('role')}
-                    className="peer sr-only"
-                  />
-                  <div className="p-4 border-2 border-gray-200 rounded-xl peer-checked:border-primary peer-checked:bg-primary/5 transition-colors">
-                    <p className="font-medium text-gray-900">Vender</p>
-                    <p className="text-sm text-gray-500">Publicar vehículos</p>
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Nombre completo</label>
+              <label className="block text-sm font-medium text-on-surface mb-2">Nombre completo</label>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant" />
                 <input
                   type="text"
                   {...register('name', { required: 'Este campo es requerido' })}
-                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full pl-12 pr-4 py-3 border border-surface-container-high rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   placeholder="Tu nombre"
                 />
               </div>
@@ -102,16 +69,16 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Correo electrónico</label>
+              <label className="block text-sm font-medium text-on-surface mb-2">Correo electrónico</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant" />
                 <input
                   type="email"
                   {...register('email', { 
                     required: 'Este campo es requerido',
                     pattern: { value: /^\S+@\S+$/i, message: 'Email inválido' }
                   })}
-                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full pl-12 pr-4 py-3 border border-surface-container-high rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   placeholder="tu@email.com"
                 />
               </div>
@@ -119,35 +86,35 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
+              <label className="block text-sm font-medium text-on-surface mb-2">Teléfono</label>
               <div className="relative">
-                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant" />
                 <input
                   type="tel"
                   {...register('phone')}
-                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full pl-12 pr-4 py-3 border border-surface-container-high rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   placeholder="+51 999 999 999"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
+              <label className="block text-sm font-medium text-on-surface mb-2">Contraseña</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   {...register('password', { 
                     required: 'Este campo es requerido',
                     minLength: { value: 6, message: 'Mínimo 6 caracteres' }
                   })}
-                  className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full pl-12 pr-12 py-3 border border-surface-container-high rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -156,16 +123,16 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Confirmar contraseña</label>
+              <label className="block text-sm font-medium text-on-surface mb-2">Confirmar contraseña</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   {...register('confirmPassword', { 
                     required: 'Este campo es requerido',
                     validate: (value) => value === password || 'Las contraseñas no coinciden'
                   })}
-                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full pl-12 pr-4 py-3 border border-surface-container-high rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   placeholder="••••••••"
                 />
               </div>

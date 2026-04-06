@@ -69,15 +69,15 @@ export default function DashboardRatingsPage() {
       4: 'text-blue-500',
       5: 'text-green-500',
     };
-    return colors[score] || 'text-gray-500';
+    return colors[score] || 'text-on-surface-variant';
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Valoraciones</h1>
-          <p className="text-gray-500 mt-1">Opiniones y evaluaciones de usuarios</p>
+          <h1 className="text-2xl font-bold text-on-surface">Valoraciones</h1>
+          <p className="text-on-surface-variant mt-1">Opiniones y evaluaciones de usuarios</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
@@ -89,25 +89,25 @@ export default function DashboardRatingsPage() {
       </div>
 
       {showForm && (
-        <div className="bg-white rounded-2xl p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Evaluar a un usuario</h2>
+        <div className="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_8px_16px_rgba(25,28,30,0.04)]">
+          <h2 className="text-lg font-semibold text-on-surface mb-4">Evaluar a un usuario</h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             {!userId && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">ID del usuario *</label>
+                <label className="block text-sm font-medium text-on-surface mb-2">ID del usuario *</label>
                 <input
                   type="text"
                   value={formData.target_id}
                   onChange={(e) => setFormData(prev => ({ ...prev, target_id: e.target.value }))}
                   placeholder="ID del usuario a evaluar"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full px-4 py-3 border border-surface-container-high rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   required
                 />
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Puntuación *</label>
+              <label className="block text-sm font-medium text-on-surface mb-2">Puntuación *</label>
               <div className="flex items-center gap-3">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
@@ -117,7 +117,7 @@ export default function DashboardRatingsPage() {
                     className={`w-12 h-12 rounded-lg flex items-center justify-center transition-all ${
                       formData.score >= star
                         ? 'bg-yellow-100 text-yellow-500 scale-110'
-                        : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
+                        : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high'
                     }`}
                   >
                     <Star className={`w-7 h-7 ${formData.score >= star ? 'fill-current' : ''}`} />
@@ -130,13 +130,13 @@ export default function DashboardRatingsPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Comentario (opcional)</label>
+              <label className="block text-sm font-medium text-on-surface mb-2">Comentario (opcional)</label>
               <textarea
                 value={formData.comment}
                 onChange={(e) => setFormData(prev => ({ ...prev, comment: e.target.value }))}
                 rows={3}
                 placeholder="Cuéntanos tu experiencia con este usuario..."
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="w-full px-4 py-3 border border-surface-container-high rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
               />
             </div>
 
@@ -144,7 +144,7 @@ export default function DashboardRatingsPage() {
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                className="px-6 py-3 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50"
+                className="px-6 py-3 border border-surface-container-high rounded-lg font-medium text-on-surface hover:bg-surface-container-low"
               >
                 Cancelar
               </button>
@@ -162,16 +162,16 @@ export default function DashboardRatingsPage() {
       {loading ? (
         <div className="grid gap-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="bg-white h-32 rounded-2xl animate-pulse shadow-sm" />
+            <div key={i} className="bg-surface-container-lowest h-32 rounded-2xl animate-pulse shadow-[0_8px_16px_rgba(25,28,30,0.04)]" />
           ))}
         </div>
       ) : ratings.length === 0 ? (
-        <div className="bg-white rounded-2xl p-12 text-center shadow-sm">
+        <div className="bg-surface-container-lowest rounded-2xl p-12 text-center shadow-[0_8px_16px_rgba(25,28,30,0.04)]">
           <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <Star className="w-10 h-10 text-yellow-500" />
           </div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Sin valoraciones</h2>
-          <p className="text-gray-500 mb-8 max-w-md mx-auto">
+          <h2 className="text-xl font-semibold text-on-surface mb-2">Sin valoraciones</h2>
+          <p className="text-on-surface-variant mb-8 max-w-md mx-auto">
             {userId
               ? 'Este usuario aún no ha recibido valoraciones.'
               : 'Aún no hay valoraciones. Evalúa a un usuario después de una transacción.'}
@@ -180,11 +180,11 @@ export default function DashboardRatingsPage() {
       ) : (
         <div className="grid gap-4">
           {ratings.map((rating: any) => (
-            <div key={rating.id} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div key={rating.id} className="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_8px_16px_rgba(25,28,30,0.04)] hover:shadow-[0_8px_16px_rgba(25,28,30,0.04)] transition-shadow">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center shrink-0">
-                    <span className="font-bold text-gray-500">
+                  <div className="w-12 h-12 bg-surface-container-low rounded-full flex items-center justify-center shrink-0">
+                    <span className="font-bold text-on-surface-variant">
                       {rating.rater?.name?.charAt(0)?.toUpperCase() || '?'}
                     </span>
                   </div>
@@ -196,15 +196,15 @@ export default function DashboardRatingsPage() {
                       </span>
                     </div>
                     {rating.comment && (
-                      <p className="text-gray-600 mt-2">{rating.comment}</p>
+                      <p className="text-on-surface-variant mt-2">{rating.comment}</p>
                     )}
-                    <p className="text-sm text-gray-400 mt-2">
+                    <p className="text-sm text-on-surface-variant mt-2 opacity-60">
                       Por {rating.rater?.name || 'Usuario'} · {new Date(rating.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
                     </p>
                     {rating.seller_response && (
-                      <div className="mt-3 bg-gray-50 rounded-lg p-3">
-                        <p className="text-sm font-medium text-gray-700">Respuesta del vendedor:</p>
-                        <p className="text-sm text-gray-600 mt-1">{rating.seller_response}</p>
+                      <div className="mt-3 bg-surface-container-low rounded-lg p-3">
+                        <p className="text-sm font-medium text-on-surface">Respuesta del vendedor:</p>
+                        <p className="text-sm text-on-surface-variant mt-1">{rating.seller_response}</p>
                       </div>
                     )}
                   </div>
@@ -228,7 +228,7 @@ function RatingStars({ rating, size = 'md' }: { rating: number; size?: 'sm' | 'm
         <Star
           key={star}
           className={`${cls} ${
-            star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-200'
+            star <= rating ? 'text-yellow-400 fill-current' : 'text-surface-container-high'
           }`}
         />
       ))}

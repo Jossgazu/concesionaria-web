@@ -13,10 +13,11 @@ import (
 
 type VehicleHandler struct {
 	vehicleService *service.VehicleService
+	messageService *service.MessageService
 }
 
-func NewVehicleHandler(vehicleService *service.VehicleService) *VehicleHandler {
-	return &VehicleHandler{vehicleService: vehicleService}
+func NewVehicleHandler(vehicleService *service.VehicleService, messageService *service.MessageService) *VehicleHandler {
+	return &VehicleHandler{vehicleService: vehicleService, messageService: messageService}
 }
 
 func (h *VehicleHandler) Create(c *fiber.Ctx) error {
@@ -139,6 +140,16 @@ func (h *VehicleHandler) GetAll(c *fiber.Ctx) error {
 	if maxYear := c.Query("max_year"); maxYear != "" {
 		val, _ := strconv.Atoi(maxYear)
 		filter.YearTo = &val
+	}
+
+	if minMileage := c.Query("min_mileage"); minMileage != "" {
+		val, _ := strconv.Atoi(minMileage)
+		filter.MinMileage = &val
+	}
+
+	if maxMileage := c.Query("max_mileage"); maxMileage != "" {
+		val, _ := strconv.Atoi(maxMileage)
+		filter.MaxMileage = &val
 	}
 
 	if verified := c.Query("verified"); verified != "" {
@@ -380,6 +391,8 @@ func (h *VehicleHandler) GetDashboardStats(c *fiber.Ctx) error {
 		return response.InternalError(c, "Failed to fetch stats")
 	}
 
+	unreadMessages, _ := h.messageService.GetUnreadCount(userID)
+
 	recentVehicles, _, _ := h.vehicleService.GetBySeller(userID, 1, 5)
 
 	recentVehicleResponses := make([]interface{}, len(recentVehicles))
@@ -390,6 +403,7 @@ func (h *VehicleHandler) GetDashboardStats(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"stats":           stats,
 		"recent_vehicles": recentVehicleResponses,
+		"unread_messages": unreadMessages,
 	})
 }
 

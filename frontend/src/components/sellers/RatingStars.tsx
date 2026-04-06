@@ -43,7 +43,7 @@ export default function RatingStars({
           >
             <Star
               className={`${sizeClasses[size]} ${
-                filled || partial ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+                filled || partial ? 'text-yellow-400 fill-yellow-400' : 'text-[#e8e8ea]'
               }`}
               style={partial ? { fill: 'url(#gradient)' } : undefined}
             />

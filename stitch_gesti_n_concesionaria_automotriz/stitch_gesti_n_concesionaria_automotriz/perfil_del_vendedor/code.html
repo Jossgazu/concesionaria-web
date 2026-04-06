@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#444749",
+                    "surface-variant": "#e2e2e5",
+                    "surface-tint": "#5c5f61",
+                    "surface-container": "#edeef1",
+                    "tertiary-fixed": "#d8e2ff",
+                    "on-tertiary-fixed-variant": "#004493",
+                    "on-error": "#ffffff",
+                    "background": "#f9f9fc",
+                    "tertiary-container": "#002e69",
+                    "surface-container-low": "#f3f3f6",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#c5c7c9",
+                    "on-primary-container": "#96999b",
+                    "tertiary": "#001a41",
+                    "primary": "#191c1e",
+                    "outline-variant": "#c4c7c9",
+                    "inverse-on-surface": "#f0f0f3",
+                    "on-secondary-fixed-variant": "#44474b",
+                    "on-surface-variant": "#444749",
+                    "outline": "#74777a",
+                    "on-surface": "#1a1c1e",
+                    "on-tertiary-container": "#5b96ff",
+                    "on-secondary-fixed": "#181c20",
+                    "inverse-primary": "#c5c7c9",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#c4c6cc",
+                    "on-tertiary-fixed": "#001a41",
+                    "surface-container-highest": "#e2e2e5",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#2e3133",
+                    "surface-bright": "#f9f9fc",
+                    "primary-fixed": "#e1e3e5",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#e0e2e8",
+                    "secondary": "#5b5f63",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#e0e2e8",
+                    "error": "#ba1a1a",
+                    "on-background": "#1a1c1e",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#e8e8eb",
+                    "surface-dim": "#d9dadd",
+                    "on-secondary-container": "#616569",
+                    "tertiary-fixed-dim": "#adc6ff",
+                    "inverse-surface": "#2f3133",
+                    "on-primary-fixed": "#191c1e",
+                    "surface": "#f9f9fc"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .brand-font { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-on-tertiary-container/30">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#F9F9FC]/80 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#2E3133] font-['Manrope'] tracking-tight">Andina Motor Studio</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-[#8E9196] hover:text-[#2E3133] transition-all duration-300 ease-in-out font-['Manrope'] tracking-tight" href="#">Comprar</a>
+<a class="text-[#8E9196] hover:text-[#2E3133] transition-all duration-300 ease-in-out font-['Manrope'] tracking-tight" href="#">Vender</a>
+<a class="text-[#8E9196] hover:text-[#2E3133] transition-all duration-300 ease-in-out font-['Manrope'] tracking-tight" href="#">Nosotros</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 text-[#007AFF] font-semibold border-b-2 border-[#007AFF] pb-1 font-['Manrope'] tracking-tight">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+                    Mi Cuenta
+                </button>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-16 px-6 lg:px-12 max-w-screen-2xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Profile Info & Reviews -->
+<div class="lg:col-span-8 space-y-12">
+<!-- Profile Header -->
+<section class="bg-surface-container-lowest p-8 rounded-xl flex flex-col md:flex-row gap-8 items-start md:items-center">
+<div class="relative">
+<img alt="Ricardo Paredes Profile" class="w-32 h-32 rounded-full object-cover ring-4 ring-surface-container" data-alt="Professional portrait of a middle-aged Hispanic man in a business casual navy blazer, clean studio lighting with soft gray background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC04MjKfWTTsSCMq_DxBvzClEO7WzT3fI3tD5Qxyos4LY3pGHWdLrg1jraGpQ2TuZ9pIYzklKJ2BX2d9SK03T5MJbC92rynmxsj0QD8g2jp-X4W4sxviGrzFsSsfuL25HOFIuIisgEb7PcopKo7lMUQ89W2GbP-9Bz3m0VrGuSZ1qWVDGGrcLhB_EusX3SONrHwvDW3o2QqkhZ1fWo4uYSOGzTesGXwWQG4bLy2HpcaKD-HLOdW9JgMsmp5SZ2JVDXHV1znd8RcO7cN"/>
+<div class="absolute bottom-1 right-1 bg-on-tertiary-container text-white p-1 rounded-full border-2 border-white">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h1 class="text-3xl font-extrabold tracking-tight text-primary">Ricardo Paredes</h1>
+<span class="bg-surface-container-high px-3 py-1 rounded-full text-xs font-semibold text-secondary uppercase tracking-wider">Vendedor Pro</span>
+</div>
+<div class="flex flex-wrap gap-4 text-secondary text-sm font-medium">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">location_on</span> Lima, Perú
+                            </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">calendar_today</span> Miembro desde 2021
+                            </span>
+<span class="flex items-center gap-1 text-[#007AFF]">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">grade</span> 4.8/5 (42 reviews)
+                            </span>
+</div>
+</div>
+</section>
+<!-- Rating Distribution & Reviews -->
+<section>
+<div class="flex items-end justify-between mb-8 border-b border-outline-variant/20 pb-4">
+<h2 class="text-2xl font-bold tracking-tight text-primary">Reseñas de clientes</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
+<!-- Rating Bars -->
+<div class="md:col-span-5 space-y-3">
+<div class="flex items-center gap-4">
+<span class="text-sm font-bold w-12">5 stars</span>
+<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-on-tertiary-container w-[85%]"></div>
+</div>
+<span class="text-sm text-secondary w-8 text-right">36</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm font-bold w-12">4 stars</span>
+<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-on-tertiary-container w-[10%]"></div>
+</div>
+<span class="text-sm text-secondary w-8 text-right">4</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm font-bold w-12">3 stars</span>
+<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-on-tertiary-container w-[5%]"></div>
+</div>
+<span class="text-sm text-secondary w-8 text-right">2</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm font-bold w-12">2 stars</span>
+<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-on-tertiary-container w-[0%]"></div>
+</div>
+<span class="text-sm text-secondary w-8 text-right">0</span>
+</div>
+<div class="flex items-center gap-4 opacity-40">
+<span class="text-sm font-bold w-12">1 star</span>
+<div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-on-tertiary-container w-[0%]"></div>
+</div>
+<span class="text-sm text-secondary w-8 text-right">0</span>
+</div>
+</div>
+<!-- Recent Feedback List -->
+<div class="md:col-span-7 space-y-8">
+<div class="group">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-bold text-primary">Carlos Mendoza</h4>
+<span class="text-xs text-secondary">Hace 2 semanas</span>
+</div>
+<div class="flex text-[#007AFF]">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">Excelente trato. Ricardo fue muy transparente con el historial del BMW y facilitó todo el proceso de transferencia. 100% recomendado.</p>
+</div>
+<div class="group">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-bold text-primary">Elena Rodriguez</h4>
+<span class="text-xs text-secondary">Hace 1 mes</span>
+</div>
+<div class="flex text-[#007AFF]">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">Muy puntual y conocedor de los aspectos técnicos. El auto estaba tal cual las fotos.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Current Listings -->
+<section>
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-2xl font-bold tracking-tight text-primary">Vehículos activos (12)</h2>
+<a class="text-sm font-semibold text-[#007AFF] hover:underline transition-all" href="#">Ver todos</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Vehicle Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="relative h-48 overflow-hidden">
+<img alt="BMW M4" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" data-alt="Sleek black BMW M4 parked in a modern minimalist concrete garage with dramatic overhead lighting and sharp reflections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3gN7YZzPJyvfSWlAubljL1M1PSNVMek87DxuwkMQwH2WttCmX6RAsP4T2lfmNUTeaqVzZOLpwbzIauEKJyd0vrIblk2EYx8DFEjVwdgEcuy8e2jq7JS_ZzHdpJ9zjWCQ1ynPCbDMguEoYr5dvgxTyb7Hqh719rHGzikpwpKmAEpmHahN951akwjz_Z5zqPiKuzkwfoG0TIi4whhsp6gxbkTf8Z7Jgz6cbQCTkNxxnLtzVuW5dn-GBorR23SK7Py_Rr6bJ7RyWt1an"/>
+<div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-primary shadow-sm">
+                                    Destacado
+                                </div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-lg text-primary">BMW M4 Competition</h3>
+<p class="text-secondary text-sm">2022 • 12,500 km</p>
+</div>
+<span class="text-lg font-black text-primary">$89,900</span>
+</div>
+<div class="flex gap-4 pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-1 text-xs text-secondary">
+<span class="material-symbols-outlined text-sm">settings_input_component</span> Automático
+                                    </div>
+<div class="flex items-center gap-1 text-xs text-secondary">
+<span class="material-symbols-outlined text-sm">local_gas_station</span> Gasolina
+                                    </div>
+</div>
+</div>
+</div>
+<!-- Vehicle Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+<div class="relative h-48 overflow-hidden">
+<img alt="Porsche 911" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" data-alt="Silver Porsche 911 Carrera driving on a coastal road during golden hour, soft warm lighting and blurred ocean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdxvTs8t8blI_ZZdwmFzut-p-CBS7Sy-fiS97pR67w6NlyIUwyqcyXYu6TB26z2giv-luF1BZnUBpXmJPp9NKo5l3DlpEp7h3M4SP_ZuNtbc7s-SUnzopumAdvFJ_WxgDfbAXCqVeRfexfdaNhoDk84kNVvbLrgqgLRhoeJ5e6RwSP_PCv-z5bsxBTw_8RCYZ35FygIcP9ote_gb_WCbYfZW1am4AMv4u5jl7do8RAyXTIWBUv6qOkQMJEDeGkQx7a1XNQ8xr4up1R"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-bold text-lg text-primary">Porsche 911 Carrera S</h3>
+<p class="text-secondary text-sm">2021 • 8,200 km</p>
+</div>
+<span class="text-lg font-black text-primary">$134,500</span>
+</div>
+<div class="flex gap-4 pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-1 text-xs text-secondary">
+<span class="material-symbols-outlined text-sm">settings_input_component</span> PDK
+                                    </div>
+<div class="flex items-center gap-1 text-xs text-secondary">
+<span class="material-symbols-outlined text-sm">local_gas_station</span> Gasolina
+                                    </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Contact & Stats -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Contact Panel -->
+<div class="sticky top-28 bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
+<h3 class="text-xl font-bold mb-6 text-primary">Contacto rápido</h3>
+<div class="space-y-4">
+<button class="w-full flex items-center justify-center gap-3 bg-[#007AFF] text-white py-4 px-6 rounded-lg font-bold hover:opacity-90 transition-all shadow-lg shadow-[#007AFF]/20 group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+                            WhatsApp
+                        </button>
+<button class="w-full flex items-center justify-center gap-3 bg-white text-primary border border-outline-variant/30 py-4 px-6 rounded-lg font-bold hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">call</span>
+                            Llamar ahora
+                        </button>
+</div>
+<div class="mt-8 pt-8 border-t border-outline-variant/10 space-y-4">
+<div class="flex items-center gap-4 text-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-[#007AFF]">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<div>
+<p class="font-bold text-primary">Respuesta rápida</p>
+<p class="text-secondary">Usualmente en menos de 1 hora</p>
+</div>
+</div>
+<div class="flex items-center gap-4 text-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-[#007AFF]">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div>
+<p class="font-bold text-primary">Vendedor Verificado</p>
+<p class="text-secondary">Identidad y documentos validados</p>
+</div>
+</div>
+</div>
+<div class="mt-8 bg-surface-container-highest/50 p-4 rounded-lg">
+<p class="text-xs text-secondary leading-relaxed">
+<span class="font-bold block text-primary mb-1">Nota de Seguridad:</span>
+                            Nunca realices depósitos por adelantado sin ver el vehículo físicamente y verificar la documentación legal.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#2E3133] text-white py-16 px-12 mt-20">
+<div class="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="space-y-4">
+<span class="text-lg font-['Manrope'] font-bold">Andina Motor Studio</span>
+<p class="text-[#8E9196] text-xs leading-relaxed max-w-xs">© 2024 Andina Motor Studio. Curaduría Automotriz de Precisión.</p>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="text-sm font-bold mb-2">Vehículos</h4>
+<a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-colors" href="#">SUV</a>
+<a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-colors" href="#">Sedan</a>
+<a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-colors" href="#">Pickups</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="text-sm font-bold mb-2">Vender</h4>
+<a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-colors" href="#">Publicar auto</a>
+<a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-colors" href="#">Seguridad</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="text-sm font-bold mb-2">Compañía</h4>
+<a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-colors" href="#">Nosotros</a>
+<a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-colors" href="#">Contacto</a>
+</div>
+</div>
+</footer>
+</body></html>

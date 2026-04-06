@@ -17,7 +17,7 @@ export function MobileMenu() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="md:hidden p-2 text-gray-600"
+        className="md:hidden p-2 text-[#444749]"
       >
         <Menu className="w-6 h-6" />
       </button>
@@ -25,14 +25,14 @@ export function MobileMenu() {
       {isOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setIsOpen(false)} />
-          <div className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-xl">
-            <div className="flex items-center justify-between p-4 border-b border-gray-100">
+          <div className="fixed left-0 top-0 bottom-0 w-64 bg-[#ffffff] shadow-[0_20px_40px_rgba(25,28,30,0.06)]">
+            <div className="flex items-center justify-between p-4 border-b border-[#e8e8ea]">
               <Link to="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-                <Car className="w-6 h-6 text-primary" />
-                <span className="font-bold text-primary">Concesionaria</span>
+                <Car className="w-6 h-6 text-[#007AFF]" />
+                <span className="font-bold text-[#191c1e]">Concesionaria</span>
               </Link>
               <button onClick={() => setIsOpen(false)} className="p-2">
-                <X className="w-5 h-5 text-gray-500" />
+                <X className="w-5 h-5 text-[#444749]" />
               </button>
             </div>
             <nav className="p-4">
@@ -41,7 +41,7 @@ export function MobileMenu() {
                   <li key={item.path}>
                     <Link
                       to={item.path}
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg"
+                      className="block px-4 py-2 text-[#1a1c1e] hover:bg-[#f3f3f6] rounded-lg"
                       onClick={() => setIsOpen(false)}
                     >
                       {item.label}

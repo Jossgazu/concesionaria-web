@@ -23,10 +23,27 @@ interface VehicleCardProps {
 export function VehicleCard({ vehicle, onFavorite, isFavorite, showFavoriteButton = true }: VehicleCardProps) {
   const primaryImage = vehicle.images?.[0] ?? '/placeholder-car.jpg';
 
+  const bodyTypeLabels: Record<string, string> = {
+    suv: 'SUV',
+    sedan: 'Sedán',
+    hatchback: 'Hatchback',
+    pickup: 'Pick Up',
+    van: 'Van',
+    coupe: 'Coupé',
+    convertible: 'Convertible',
+  };
+
+  const fuelTypeLabels: Record<string, string> = {
+    gasoline: 'Gasolina',
+    diesel: 'Diiesel',
+    electric: 'Eléctrico',
+    hybrid: 'Híbrido',
+  };
+
   return (
     <Link
       to={`/vehiculos/${vehicle.id}`}
-      className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group"
+      className="bg-surface-container-lowest rounded-xl overflow-hidden group transition-all duration-500 hover:shadow-xl"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
@@ -37,7 +54,7 @@ export function VehicleCard({ vehicle, onFavorite, isFavorite, showFavoriteButto
         />
         
         {vehicle.verified && (
-          <div className="absolute top-3 left-3 bg-emerald-500 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+          <div className="absolute top-3 left-3 bg-white/90 glass-effect text-[#007AFF] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter flex items-center gap-1">
             <CheckCircle className="w-3 h-3" />
             Verificado
           </div>
@@ -49,10 +66,10 @@ export function VehicleCard({ vehicle, onFavorite, isFavorite, showFavoriteButto
               e.preventDefault();
               onFavorite(vehicle.id);
             }}
-            className={`absolute top-3 right-3 p-2 rounded-full shadow-sm transition-colors ${
+            className={`absolute top-3 right-3 p-2 rounded-full transition-all duration-200 active:scale-[0.98] ${
               isFavorite
                 ? 'bg-red-500 text-white'
-                : 'bg-white/90 text-gray-600 hover:bg-white'
+                : 'bg-white/90 glass-effect text-on-surface-variant hover:bg-surface-container-lowest'
             }`}
           >
             <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
@@ -61,27 +78,27 @@ export function VehicleCard({ vehicle, onFavorite, isFavorite, showFavoriteButto
       </div>
 
       <div className="p-4">
-        <h3 className="font-semibold text-lg text-gray-900 mb-1">
+        <h3 className="font-headline font-bold text-lg text-on-surface mb-1 tracking-tight">
           {vehicle.brand} {vehicle.model}
         </h3>
         
-        <p className="text-gray-500 text-sm mb-3">
+        <p className="text-on-surface-variant text-sm mb-3">
           {vehicle.year ?? 'N/A'} • {vehicle.mileage?.toLocaleString() ?? '0'} km
         </p>
 
-        <p className="text-xl font-bold text-primary mb-3">
+        <p className="text-xl font-headline font-black text-primary mb-3 tracking-tight">
           {vehicle.currency || 'USD'} {vehicle.price?.toLocaleString() ?? '0'}
         </p>
 
         <div className="flex flex-wrap gap-2">
           {vehicle.body_type && (
-            <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
-              {vehicle.body_type}
+            <span className="bg-tertiary-fixed text-tertiary text-xs px-2 py-1 rounded-full font-medium">
+              {bodyTypeLabels[vehicle.body_type] || vehicle.body_type}
             </span>
           )}
           {vehicle.fuel_type && (
-            <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
-              {vehicle.fuel_type}
+            <span className="bg-tertiary-fixed text-tertiary text-xs px-2 py-1 rounded-full font-medium">
+              {fuelTypeLabels[vehicle.fuel_type] || vehicle.fuel_type}
             </span>
           )}
         </div>

@@ -59,7 +59,7 @@ func (r *RatingRepository) FindByUserID(userID uuid.UUID, page, limit int) ([]do
 
 	offset := (page - 1) * limit
 	err := query.Order("created_at DESC").Offset(offset).Limit(limit).
-		Preload("Rater").Preload("Vehicle").
+		Preload("Rater").
 		Find(&ratings).Error
 
 	return ratings, total, err
@@ -88,6 +88,21 @@ func (r *RatingRepository) HasRatedTransaction(raterID, ratedUserID, transaction
 			raterID, ratedUserID, transactionID).
 		Count(&count).Error
 	return count > 0, err
+}
+
+func (r *RatingRepository) UpdateSellerResponse(ratingID, sellerID uuid.UUID, response string) error {
+	return r.db.Model(&domain.Rating{}).
+		Where("id = ? AND target_id = ?", ratingID, sellerID).
+		Update("seller_response", response).Error
+}
+
+func (r *RatingRepository) FindByID(ratingID uuid.UUID) (*domain.Rating, error) {
+	var rating domain.Rating
+	err := r.db.First(&rating, "id = ?", ratingID).Error
+	if err != nil {
+		return nil, err
+	}
+	return &rating, nil
 }
 
 type RatingSummary struct {

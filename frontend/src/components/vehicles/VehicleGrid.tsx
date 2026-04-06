@@ -29,7 +29,7 @@ export function VehicleGrid({
   if (vehicles.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">{emptyMessage}</p>
+        <p className="text-on-surface-variant">{emptyMessage}</p>
       </div>
     );
   }

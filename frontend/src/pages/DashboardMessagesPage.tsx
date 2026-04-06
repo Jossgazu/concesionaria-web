@@ -61,15 +61,15 @@ export default function DashboardMessagesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Mensajes</h1>
-        <p className="text-gray-500 mt-1">Tus conversaciones con otros usuarios</p>
+        <h1 className="text-2xl font-bold text-on-surface">Mensajes</h1>
+        <p className="text-on-surface-variant mt-1">Tus conversaciones con otros usuarios</p>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm overflow-hidden" style={{ height: 'calc(100vh - 280px)', minHeight: '500px' }}>
+      <div className="bg-surface-container-lowest rounded-2xl shadow-[0_8px_16px_rgba(25,28,30,0.04)] overflow-hidden" style={{ height: 'calc(100vh - 280px)', minHeight: '500px' }}>
         <div className="flex h-full">
-          <div className="w-80 border-r border-gray-100 flex flex-col">
-            <div className="p-4 border-b border-gray-100">
-              <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="w-80 border-r border-surface-container-low flex flex-col">
+            <div className="p-4 border-b border-surface-container-low">
+              <div className="flex items-center gap-2 text-sm text-on-surface-variant">
                 <Users className="w-4 h-4" />
                 <span>{conversations.length} conversaciones</span>
               </div>
@@ -79,16 +79,16 @@ export default function DashboardMessagesPage() {
                 <div className="p-4 space-y-3">
                   {[...Array(3)].map((_, i) => (
                     <div key={i} className="flex items-center gap-3 p-3 animate-pulse">
-                      <div className="w-12 h-12 bg-gray-200 rounded-full" />
+                      <div className="w-12 h-12 bg-surface-container-high rounded-full" />
                       <div className="flex-1 space-y-2">
-                        <div className="h-4 bg-gray-200 rounded w-3/4" />
-                        <div className="h-3 bg-gray-200 rounded w-1/2" />
+                        <div className="h-4 bg-surface-container-high rounded w-3/4" />
+                        <div className="h-3 bg-surface-container-high rounded w-1/2" />
                       </div>
                     </div>
                   ))}
                 </div>
               ) : conversations.length === 0 ? (
-                <div className="p-8 text-center text-gray-500">
+                <div className="p-8 text-center text-on-surface-variant">
                   <MessageCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
                   <p>No hay conversaciones</p>
                 </div>
@@ -97,28 +97,28 @@ export default function DashboardMessagesPage() {
                   <button
                     key={conv.user?.id}
                     onClick={() => setSelectedUser(conv.user)}
-                    className={`w-full p-4 border-b border-gray-100 text-left hover:bg-gray-50 transition-colors ${
-                      selectedUser?.id === conv.user?.id ? 'bg-gray-50' : ''
+                    className={`w-full p-4 border-b border-surface-container-low text-left hover:bg-surface-container-low transition-colors ${
+                      selectedUser?.id === conv.user?.id ? 'bg-surface-container-low' : ''
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center shrink-0">
+                      <div className="w-12 h-12 bg-surface-container-high rounded-full flex items-center justify-center shrink-0">
                         {conv.user?.avatar_url ? (
                           <img src={conv.user.avatar_url} alt="" className="w-full h-full rounded-full object-cover" />
                         ) : (
-                          <span className="font-bold text-gray-500 text-lg">
+                          <span className="font-bold text-on-surface-variant text-lg">
                             {conv.user?.name?.charAt(0)?.toUpperCase()}
                           </span>
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-center">
-                          <p className="font-medium text-gray-900 truncate">{conv.user?.name}</p>
-                          <span className="text-xs text-gray-400 shrink-0 ml-2">
+                          <p className="font-medium text-on-surface truncate">{conv.user?.name}</p>
+                          <span className="text-xs text-on-surface-variant shrink-0 ml-2 opacity-60">
                             {conv.last_message?.created_at ? new Date(conv.last_message.created_at).toLocaleDateString() : ''}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-500 truncate">
+                        <p className="text-sm text-on-surface-variant truncate">
                           {conv.last_message?.content || 'Sin mensajes'}
                         </p>
                       </div>
@@ -137,19 +137,19 @@ export default function DashboardMessagesPage() {
           <div className="flex-1 flex flex-col">
             {selectedUser ? (
               <>
-                <div className="p-4 border-b border-gray-100 flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center shrink-0">
+                <div className="p-4 border-b border-surface-container-low flex items-center gap-3">
+                  <div className="w-10 h-10 bg-surface-container-high rounded-full flex items-center justify-center shrink-0">
                     {selectedUser.avatar_url ? (
                       <img src={selectedUser.avatar_url} alt="" className="w-full h-full rounded-full object-cover" />
                     ) : (
-                      <span className="font-bold text-gray-500">
+                      <span className="font-bold text-on-surface-variant">
                         {selectedUser.name?.charAt(0)?.toUpperCase()}
                       </span>
                     )}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">{selectedUser.name}</p>
-                    <p className="text-sm text-gray-500">{selectedUser.email}</p>
+                    <p className="font-medium text-on-surface">{selectedUser.name}</p>
+                    <p className="text-sm text-on-surface-variant">{selectedUser.email}</p>
                   </div>
                 </div>
 
@@ -162,11 +162,11 @@ export default function DashboardMessagesPage() {
                         className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}
                       >
                         <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${
-                          isMe ? 'bg-primary text-white rounded-br-md' : 'bg-gray-100 text-gray-900 rounded-bl-md'
+                          isMe ? 'bg-primary text-white rounded-br-md' : 'bg-surface-container-low text-on-surface rounded-bl-md'
                         }`}>
                           <p>{msg.content}</p>
                           <p className={`text-xs mt-1 ${
-                            isMe ? 'text-white/70' : 'text-gray-400'
+                            isMe ? 'text-white/70' : 'text-on-surface-variant opacity-60'
                           }`}>
                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </p>
@@ -176,13 +176,13 @@ export default function DashboardMessagesPage() {
                   })}
                 </div>
 
-                <form onSubmit={handleSend} className="p-4 border-t border-gray-100 flex gap-3">
+                <form onSubmit={handleSend} className="p-4 border-t border-surface-container-low flex gap-3">
                   <input
                     type="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Escribe un mensaje..."
-                    className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    className="flex-1 px-4 py-3 border border-surface-container-high rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   />
                   <button
                     type="submit"
@@ -194,7 +194,7 @@ export default function DashboardMessagesPage() {
                 </form>
               </>
             ) : (
-              <div className="flex-1 flex items-center justify-center text-gray-500">
+              <div className="flex-1 flex items-center justify-center text-on-surface-variant">
                 <div className="text-center">
                   <MessageCircle className="w-16 h-16 mx-auto mb-4 opacity-50" />
                   <p className="font-medium">Selecciona una conversación</p>

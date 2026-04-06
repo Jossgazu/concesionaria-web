@@ -8,14 +8,14 @@ export function Toast() {
   const icons = {
     success: <CheckCircle className="w-5 h-5 text-emerald-500" />,
     error: <AlertCircle className="w-5 h-5 text-red-500" />,
-    info: <Info className="w-5 h-5 text-blue-500" />,
+    info: <Info className="w-5 h-5 text-[#007AFF]" />,
     warning: <AlertTriangle className="w-5 h-5 text-amber-500" />,
   };
 
   const bgColors = {
     success: 'bg-emerald-50 border-emerald-200',
     error: 'bg-red-50 border-red-200',
-    info: 'bg-blue-50 border-blue-200',
+    info: 'bg-[#d8e2ff] border-[#007AFF] border-opacity-20',
     warning: 'bg-amber-50 border-amber-200',
   };
 
@@ -29,12 +29,12 @@ export function Toast() {
           className={`flex items-center gap-3 px-4 py-3 rounded-lg border shadow-lg ${bgColors[toast.type]}`}
         >
           {icons[toast.type]}
-          <p className="text-sm text-gray-700">{toast.message}</p>
+          <p className="text-sm text-[#1a1c1e]">{toast.message}</p>
           <button
             onClick={() => removeToast(toast.id)}
-            className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-1 hover:bg-[#f3f3f6] rounded-full transition-colors"
           >
-            <X className="w-4 h-4 text-gray-400" />
+            <X className="w-4 h-4 text-[#444749]" />
           </button>
         </div>
       ))}

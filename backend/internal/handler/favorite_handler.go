@@ -61,6 +61,7 @@ func (h *FavoriteHandler) GetFavorites(c *fiber.Ctx) error {
 	for i, f := range favorites {
 		data[i] = map[string]interface{}{
 			"id":         f.ID,
+			"vehicle_id": f.VehicleID,
 			"vehicle":    f.Vehicle,
 			"created_at": f.CreatedAt,
 		}

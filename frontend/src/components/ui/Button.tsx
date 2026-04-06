@@ -19,11 +19,11 @@ export function Button({
   const baseStyles = 'font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variants = {
-    primary: 'bg-primary text-white hover:bg-opacity-90',
-    secondary: 'bg-secondary text-white hover:bg-opacity-90',
-    accent: 'bg-accent text-white hover:bg-opacity-90',
-    outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white',
-    ghost: 'text-primary hover:bg-primary hover:bg-opacity-10',
+    primary: 'bg-[#191c1e] text-white hover:bg-opacity-90',
+    secondary: 'bg-[#444749] text-white hover:bg-opacity-90',
+    accent: 'bg-[#007AFF] text-white hover:bg-opacity-90',
+    outline: 'border-2 border-[#191c1e] text-[#191c1e] hover:bg-[#191c1e] hover:text-white',
+    ghost: 'text-[#191c1e] hover:bg-[#d8e2ff] hover:bg-opacity-10',
   };
   
   const sizes = {

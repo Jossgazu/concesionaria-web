@@ -76,6 +76,7 @@ export const ratingService = {
   create: (data: any) => api.post('/ratings', data),
   getUserRatings: (userId: string, params?: any) => api.get(`/ratings/user/${userId}`, { params }),
   getUserSummary: (userId: string) => api.get(`/ratings/user/${userId}/summary`),
+  getUserRatingSummary: (userId: string) => api.get(`/ratings/user/${userId}/summary`),
 };
 
 export default api;

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,6 +17,29 @@
   
   .animate-fade-in {
     animation: fadeIn 0.2s ease-out;
+  }
+
+  .glass-effect {
+    backdrop-filter: blur(16px);
+  }
+
+  .glass-nav {
+    background: rgba(249, 249, 252, 0.8);
+    backdrop-filter: blur(16px);
+  }
+
+  .text-gradient-primary {
+    background: linear-gradient(135deg, #191c1e 0%, #2e3133 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .btn-metallic {
+    background: linear-gradient(135deg, #191c1e 0%, #2e3133 100%);
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
 }
 
@@ -39,29 +64,75 @@
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: #FAFAFA;
-  color: #1A1A2E;
+  font-family: 'Inter', sans-serif;
+  background-color: #f9f9fc;
+  color: #1a1c1e;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-opacity-90 transition-colors;
+    @apply bg-primary text-white px-4 py-2 rounded-lg font-semibold transition-all hover:opacity-90 active:scale-[0.98];
   }
   
   .btn-secondary {
-    @apply bg-secondary text-white px-4 py-2 rounded-lg font-medium hover:bg-opacity-90 transition-colors;
+    @apply bg-white border border-outline-variant text-on-surface px-4 py-2 rounded-lg font-medium hover:bg-surface-container-low transition-colors;
   }
   
   .btn-accent {
-    @apply bg-accent text-white px-4 py-2 rounded-lg font-medium hover:bg-opacity-90 transition-colors;
+    @apply bg-[#007AFF] text-white px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition-all active:scale-[0.98];
   }
   
   .btn-outline {
-    @apply border-2 border-primary text-primary px-4 py-2 rounded-lg font-medium hover:bg-primary hover:text-white transition-colors;
+    @apply border border-outline-variant bg-transparent text-on-surface px-4 py-2 rounded-lg font-medium hover:bg-surface-container-low transition-colors;
   }
-  
-  .input-field {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+
+  .card {
+    @apply bg-surface-container-lowest rounded-xl overflow-hidden;
   }
+
+  .card-shadow {
+    @apply bg-surface-container-lowest rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden;
+  }
+
+  .chip {
+    @apply px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider;
+  }
+
+  .chip-new {
+    @apply bg-tertiary-fixed text-on-tertiary-fixed-variant;
+  }
+
+  .chip-verified {
+    @apply bg-emerald-500 text-white;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f3f3f6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4c7c9;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #74777a;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

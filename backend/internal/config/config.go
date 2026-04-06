@@ -17,6 +17,7 @@ type Config struct {
 	JWTSecret   string
 	ServerPort  string
 	UploadPath  string
+	RedisURL    string
 }
 
 func Load() *Config {
@@ -26,6 +27,7 @@ func Load() *Config {
 			JWTSecret:   getEnv("JWT_SECRET", "concesionaria-secret-key-2024"),
 			ServerPort:  getEnv("PORT", "3000"),
 			UploadPath:  getEnv("UPLOAD_DIR", "./uploads"),
+			RedisURL:    getEnv("REDIS_URL", ""),
 		}
 		cfg.parseDatabaseURL(dbURL)
 		return cfg
@@ -40,6 +42,7 @@ func Load() *Config {
 		JWTSecret:  getEnv("JWT_SECRET", "concesionaria-secret-key-2024"),
 		ServerPort: getEnv("PORT", "3000"),
 		UploadPath: getEnv("UPLOAD_DIR", "./uploads"),
+		RedisURL:   getEnv("REDIS_URL", ""),
 	}
 }
 

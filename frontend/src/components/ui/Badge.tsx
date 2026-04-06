@@ -14,10 +14,10 @@ export function Badge({
   className = '',
 }: BadgeProps) {
   const variants = {
-    default: 'bg-gray-100 text-gray-600',
-    primary: 'bg-primary bg-opacity-10 text-primary',
-    secondary: 'bg-secondary bg-opacity-10 text-secondary',
-    accent: 'bg-accent bg-opacity-10 text-accent',
+    default: 'bg-[#f3f3f6] text-[#444749]',
+    primary: 'bg-[#d8e2ff] bg-opacity-30 text-[#191c1e]',
+    secondary: 'bg-[#e8e8ea] text-[#444749]',
+    accent: 'bg-[#007AFF] bg-opacity-10 text-[#007AFF]',
     success: 'bg-emerald-500 bg-opacity-10 text-emerald-500',
     warning: 'bg-amber-500 bg-opacity-10 text-amber-500',
     error: 'bg-red-500 bg-opacity-10 text-red-500',

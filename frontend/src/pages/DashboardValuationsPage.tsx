@@ -39,13 +39,13 @@ export default function DashboardValuationsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-surface-container-low">
       <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
+        <div className="bg-surface-container-lowest rounded-2xl shadow-[0_8px_16px_rgba(25,28,30,0.04)] p-6 mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Mis valuaciones</h1>
-              <p className="text-gray-500 mt-1">Conoce el valor de mercado de tus vehículos</p>
+              <h1 className="text-2xl font-bold text-on-surface">Mis valuaciones</h1>
+              <p className="text-on-surface-variant mt-1">Conoce el valor de mercado de tus vehículos</p>
             </div>
             <Link
               to="/vender"
@@ -60,16 +60,16 @@ export default function DashboardValuationsPage() {
         {loading ? (
           <div className="grid gap-4">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="bg-white h-32 rounded-2xl animate-pulse shadow-sm" />
+              <div key={i} className="bg-surface-container-lowest h-32 rounded-2xl animate-pulse shadow-[0_8px_16px_rgba(25,28,30,0.04)]" />
             ))}
           </div>
         ) : valuations.length === 0 ? (
-          <div className="bg-white rounded-2xl p-12 text-center shadow-sm">
+          <div className="bg-surface-container-lowest rounded-2xl p-12 text-center shadow-[0_8px_16px_rgba(25,28,30,0.04)]">
             <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <TrendingUp className="w-10 h-10 text-primary" />
             </div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Sin valuaciones</h2>
-            <p className="text-gray-500 mb-8 max-w-md mx-auto">
+            <h2 className="text-xl font-semibold text-on-surface mb-2">Sin valuaciones</h2>
+            <p className="text-on-surface-variant mb-8 max-w-md mx-auto">
               Aún no tienes valuaciones solicitadas. Solicita tu primera valuación para conocer el valor de mercado de tu vehículo.
             </p>
             <Link
@@ -83,20 +83,20 @@ export default function DashboardValuationsPage() {
         ) : (
           <div className="grid gap-4">
             {valuations.map((valuation: any) => (
-              <div key={valuation.id} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div key={valuation.id} className="bg-surface-container-lowest rounded-2xl p-6 shadow-[0_8px_16px_rgba(25,28,30,0.04)] hover:shadow-[0_8px_16px_rgba(25,28,30,0.04)] transition-shadow">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-4">
-                    <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center shrink-0">
-                      <Car className="w-8 h-8 text-gray-400" />
+                    <div className="w-16 h-16 bg-surface-container-low rounded-xl flex items-center justify-center shrink-0">
+                      <Car className="w-8 h-8 text-on-surface-variant" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-lg">
+                      <h3 className="font-semibold text-on-surface text-lg">
                         {valuation.brand} {valuation.model}
                       </h3>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-on-surface-variant">
                         {valuation.year} · {valuation.mileage?.toLocaleString() ?? '0'} km
                       </p>
-                      <p className="text-sm text-gray-500 mt-1 capitalize">
+                      <p className="text-sm text-on-surface-variant mt-1 capitalize">
                         Estado: {valuation.condition}
                       </p>
                     </div>
@@ -105,12 +105,12 @@ export default function DashboardValuationsPage() {
                     <p className="text-2xl font-bold text-primary">
                       USD {valuation.estimated_price?.toLocaleString() ?? '0'}
                     </p>
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium mt-2 ${statusColors[valuation.status] || 'bg-gray-100 text-gray-700'}`}>
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium mt-2 ${statusColors[valuation.status] || 'bg-surface-container-low text-on-surface'}`}>
                       {statusLabels[valuation.status] || valuation.status}
                     </span>
                   </div>
                 </div>
-                <div className="mt-4 pt-4 border-t border-gray-100 flex items-center gap-4 text-sm text-gray-500">
+                <div className="mt-4 pt-4 border-t border-surface-container-low flex items-center gap-4 text-sm text-on-surface-variant">
                   <span className="flex items-center gap-1">
                     <Clock className="w-4 h-4" />
                     {valuation.created_at ? new Date(valuation.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) : 'N/A'}
@@ -122,9 +122,9 @@ export default function DashboardValuationsPage() {
         )}
 
         {!isAuthenticated && (
-          <div className="mt-8 bg-white rounded-2xl p-8 text-center shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">¿Quieres saber el valor de tu vehículo?</h3>
-            <p className="text-gray-500 mb-6">Inicia sesión para solicitar una valuación profesional</p>
+          <div className="mt-8 bg-surface-container-lowest rounded-2xl p-8 text-center shadow-[0_8px_16px_rgba(25,28,30,0.04)]">
+            <h3 className="text-lg font-semibold text-on-surface mb-2">¿Quieres saber el valor de tu vehículo?</h3>
+            <p className="text-on-surface-variant mb-6">Inicia sesión para solicitar una valuación profesional</p>
             <Link to="/login" className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-xl font-medium transition-colors">
               Iniciar sesión
             </Link>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Andina Motor Studio | Curaduría Automotriz</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed-variant": "#444749",
+                      "surface-variant": "#e2e2e5",
+                      "surface-tint": "#5c5f61",
+                      "surface-container": "#edeef1",
+                      "tertiary-fixed": "#d8e2ff",
+                      "on-tertiary-fixed-variant": "#004493",
+                      "on-error": "#ffffff",
+                      "background": "#f9f9fc",
+                      "tertiary-container": "#002e69",
+                      "surface-container-low": "#f3f3f6",
+                      "on-error-container": "#93000a",
+                      "primary-fixed-dim": "#c5c7c9",
+                      "on-primary-container": "#96999b",
+                      "tertiary": "#001a41",
+                      "primary": "#191c1e",
+                      "outline-variant": "#c4c7c9",
+                      "inverse-on-surface": "#f0f0f3",
+                      "on-secondary-fixed-variant": "#44474b",
+                      "on-surface-variant": "#444749",
+                      "outline": "#74777a",
+                      "on-surface": "#1a1c1e",
+                      "on-tertiary-container": "#5b96ff",
+                      "on-secondary-fixed": "#181c20",
+                      "inverse-primary": "#c5c7c9",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#c4c6cc",
+                      "on-tertiary-fixed": "#001a41",
+                      "surface-container-highest": "#e2e2e5",
+                      "on-primary": "#ffffff",
+                      "primary-container": "#2e3133",
+                      "surface-bright": "#f9f9fc",
+                      "primary-fixed": "#e1e3e5",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-container": "#e0e2e8",
+                      "secondary": "#5b5f63",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed": "#e0e2e8",
+                      "error": "#ba1a1a",
+                      "on-background": "#1a1c1e",
+                      "on-secondary": "#ffffff",
+                      "surface-container-high": "#e8e8eb",
+                      "surface-dim": "#d9dadd",
+                      "on-secondary-container": "#616569",
+                      "tertiary-fixed-dim": "#adc6ff",
+                      "inverse-surface": "#2f3133",
+                      "on-primary-fixed": "#191c1e",
+                      "surface": "#f9f9fc"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Manrope"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#F9F9FC]/80 backdrop-blur-md dark:bg-[#2E3133]/80 shadow-sm dark:shadow-none font-['Manrope'] tracking-tight">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="text-xl font-bold text-[#2E3133] dark:text-[#F9F9FC]">
+                Andina Motor Studio
+            </div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-[#007AFF] font-semibold border-b-2 border-[#007AFF] pb-1 transition-all duration-300 ease-in-out hover:opacity-80" href="#">Comprar</a>
+<a class="text-[#8E9196] hover:text-[#2E3133] dark:hover:text-[#F9F9FC] transition-all duration-300 ease-in-out hover:opacity-80" href="#">Vender</a>
+<a class="text-[#8E9196] hover:text-[#2E3133] dark:hover:text-[#F9F9FC] transition-all duration-300 ease-in-out hover:opacity-80" href="#">Nosotros</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="flex items-center space-x-2 text-[#2E3133] font-semibold transition-all duration-300 ease-in-out hover:opacity-80">
+<span class="material-symbols-outlined">person</span>
+<span>Mi Cuenta</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-16">
+<!-- Hero Section -->
+<section class="relative h-[870px] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="luxury dark gray sports car in a minimalist architectural garage with dramatic lighting and reflections on the polished concrete floor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYBbtvjB1fwtnRUygTLOme3ldUpfK1-xvGax8dhvtpNlRvwmxe3idOx2WNh9ijiiI6LHkNt9a9Qzol39XNaE3uDrRU6JxxK72xwEXUKXEqVLcVESriKaR_TbK4a4KuU8Kqr63z8z4DoTrUtN7O46tLC4E_AjfnMeyHtLy8MBX0h79U38a7tNYpEiFxah7NlEoGzPnROPCmvdXJ2EQGSpqh7tQ2LFsqrRwmuMv-zeHz6j9joHJCrlL9akH1X1vZcl4O6KmIU88p8YYS"/>
+<div class="absolute inset-0 bg-gradient-to-r from-[#2E3133]/60 to-transparent"></div>
+</div>
+<div class="relative z-10 w-full max-w-7xl px-8">
+<div class="max-w-2xl">
+<h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight tracking-tighter mb-6">
+                        Excelencia en Cada <br/><span class="text-[#007AFF]">Kilómetro.</span>
+</h1>
+<p class="text-xl text-white/80 mb-12 font-body max-w-lg">
+                        Descubre nuestra selección exclusiva de vehículos curados bajo los más altos estándares de calidad y rendimiento.
+                    </p>
+</div>
+<!-- Centered Search Bar -->
+<div class="bg-white/10 backdrop-blur-xl p-2 rounded-xl border border-white/20 shadow-2xl max-w-4xl">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+<div class="bg-white/5 p-3 rounded-lg flex flex-col">
+<span class="text-[10px] uppercase tracking-wider text-white/60 font-bold mb-1 ml-1">Marca</span>
+<select class="bg-transparent text-white border-none focus:ring-0 cursor-pointer font-medium">
+<option class="text-on-surface">Todas las marcas</option>
+<option class="text-on-surface">Toyota</option>
+<option class="text-on-surface">BMW</option>
+<option class="text-on-surface">Mercedes-Benz</option>
+</select>
+</div>
+<div class="bg-white/5 p-3 rounded-lg flex flex-col">
+<span class="text-[10px] uppercase tracking-wider text-white/60 font-bold mb-1 ml-1">Modelo</span>
+<select class="bg-transparent text-white border-none focus:ring-0 cursor-pointer font-medium">
+<option class="text-on-surface">Cualquier modelo</option>
+<option class="text-on-surface">Serie M</option>
+<option class="text-on-surface">Hilux</option>
+</select>
+</div>
+<div class="bg-white/5 p-3 rounded-lg flex flex-col">
+<span class="text-[10px] uppercase tracking-wider text-white/60 font-bold mb-1 ml-1">Año</span>
+<select class="bg-transparent text-white border-none focus:ring-0 cursor-pointer font-medium">
+<option class="text-on-surface">Desde 2020</option>
+<option class="text-on-surface">Desde 2015</option>
+</select>
+</div>
+<button class="bg-[#007AFF] hover:bg-[#0056b3] text-white rounded-lg flex items-center justify-center space-x-2 transition-all duration-300 shadow-lg shadow-[#007AFF]/20">
+<span class="material-symbols-outlined">search</span>
+<span class="font-bold">Buscar</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Categories Section -->
+<section class="py-24 bg-surface-container-low px-8">
+<div class="max-w-7xl mx-auto">
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="text-[#007AFF] font-bold tracking-widest uppercase text-xs">Categorías</span>
+<h2 class="text-4xl font-bold mt-2">Encuentra tu estilo</h2>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<div class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-4 group-hover:bg-[#007AFF]/10 transition-colors">
+<span class="material-symbols-outlined text-3xl group-hover:text-[#007AFF]">electric_car</span>
+</div>
+<span class="font-bold text-lg">SUV</span>
+</div>
+<div class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-4 group-hover:bg-[#007AFF]/10 transition-colors">
+<span class="material-symbols-outlined text-3xl group-hover:text-[#007AFF]">directions_car</span>
+</div>
+<span class="font-bold text-lg">Sedán</span>
+</div>
+<div class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-4 group-hover:bg-[#007AFF]/10 transition-colors">
+<span class="material-symbols-outlined text-3xl group-hover:text-[#007AFF]">wheelchair_pickup</span>
+</div>
+<span class="font-bold text-lg">Pickup</span>
+</div>
+<div class="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-4 group-hover:bg-[#007AFF]/10 transition-colors">
+<span class="material-symbols-outlined text-3xl group-hover:text-[#007AFF]">electric_car</span>
+</div>
+<span class="font-bold text-lg">Eléctricos</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Vehicles Grid -->
+<section class="py-24 px-8 max-w-7xl mx-auto">
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="text-[#007AFF] font-bold tracking-widest uppercase text-xs">Inventario</span>
+<h2 class="text-4xl font-bold mt-2">Vehículos Destacados</h2>
+</div>
+<a class="text-[#007AFF] font-semibold flex items-center space-x-1 group" href="#">
+<span>Ver catálogo completo</span>
+<span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Vehicle Card 1 -->
+<div class="bg-surface-container-low rounded-2xl overflow-hidden group hover:shadow-2xl transition-all duration-500">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="silver toyota hilux 2023 parked on a mountain trail at sunset, rugged terrain background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyqGwvvMy2srE9JYZTixg9Y_pstYFdqveE0Z8JEdWy1fYXeHW5G3zGwios7IodR93Uo18uJEHTbb5Pkts_UpAuPW_QuBeDUj19mjReqoG9yYVDQBslbhWFYn-XnAnO0s2o9K-2iCIebi9364XpoauwXiflX6ZnRG3pmVXtRR6iuqaAAAXYGfJxeEKgcIEKzRdszk-B2OLmlAqgbALsjup340OV12IC6-nBVODbAreuJq2cBODgqCM5m7A6HsTy1wnSx3qKpq2U2WHj"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Nuevo Ingreso</div>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold mb-2">Toyota Hilux 2023</h3>
+<p class="text-2xl font-black text-[#007AFF] mb-4">USD 48,500</p>
+<div class="flex items-center space-x-4 text-[#8E9196] text-xs font-medium mb-6">
+<div class="flex items-center"><span class="material-symbols-outlined text-sm mr-1">speed</span> 12,000 km</div>
+<div class="flex items-center"><span class="material-symbols-outlined text-sm mr-1">location_on</span> Quito</div>
+</div>
+<button class="w-full py-3 rounded-lg bg-white border border-[#8E9196]/20 font-bold hover:bg-[#2E3133] hover:text-white transition-colors duration-300">Ver más</button>
+</div>
+</div>
+<!-- Vehicle Card 2 -->
+<div class="bg-surface-container-low rounded-2xl overflow-hidden group hover:shadow-2xl transition-all duration-500">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="black bmw x5 2021 driving on a sleek modern highway at dusk with city lights in the background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0iFue7PK8oKnf8lOkqDyoTBZM8r8Hs6vHfenyg4pZNSmk0TXW5oD2B4gk6yV63Qfxl12HVymOjUHIc7Up9xQcQ0tjwbOH6zZju_HlSk7CuqPvJEtz2klfMmRD_AEq5v3Oq41qVC1L4aEJ7ewrcbbUnPQI3SIH5F3NQXfkNptIYwAsRnfa4pfVAmAdHBoIcG3HrOaF4itaPE9gGTzTW8qIwcBwl1csQW3g1R5Y7HlSAgKC4DCrJBHCPqBH9rzWB82gX0IgUfitaTKK"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold mb-2">BMW X5 2021</h3>
+<p class="text-2xl font-black text-[#007AFF] mb-4">USD 62,900</p>
+<div class="flex items-center space-x-4 text-[#8E9196] text-xs font-medium mb-6">
+<div class="flex items-center"><span class="material-symbols-outlined text-sm mr-1">speed</span> 35,000 km</div>
+<div class="flex items-center"><span class="material-symbols-outlined text-sm mr-1">location_on</span> Guayaquil</div>
+</div>
+<button class="w-full py-3 rounded-lg bg-white border border-[#8E9196]/20 font-bold hover:bg-[#2E3133] hover:text-white transition-colors duration-300">Ver más</button>
+</div>
+</div>
+<!-- Vehicle Card 3 -->
+<div class="bg-surface-container-low rounded-2xl overflow-hidden group hover:shadow-2xl transition-all duration-500">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="white hyundai tucson 2024 in a modern suburban setting during day light, contemporary architecture behind" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0Piq8ZDLmgMaRYZb2WCFTdOHkDiLrHViNPAqvvN4c6oeQ27ASRsHEIIqFWL4H1ZeP3Z-YbohnfNtK7PvgogtkQaCumKvRvnI1RznF-zk_KHu4rE9wynJ-YQyk1VBWzryg3M3N3RNqUBdNG0PUu7RsKNJWlGv_8lT4BwR8XYFCR_5ZHqueZSPvcU-yMQgPAn-xnwmLjjde9qcBm1Xz_3nelAeLcFkU2GKEYWHEAwJREsFypKAcozpIWK-JZxTpe3ho90btGJMZylPq"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold mb-2">Hyundai Tucson 2024</h3>
+<p class="text-2xl font-black text-[#007AFF] mb-4">USD 34,200</p>
+<div class="flex items-center space-x-4 text-[#8E9196] text-xs font-medium mb-6">
+<div class="flex items-center"><span class="material-symbols-outlined text-sm mr-1">speed</span> 500 km</div>
+<div class="flex items-center"><span class="material-symbols-outlined text-sm mr-1">location_on</span> Cuenca</div>
+</div>
+<button class="w-full py-3 rounded-lg bg-white border border-[#8E9196]/20 font-bold hover:bg-[#2E3133] hover:text-white transition-colors duration-300">Ver más</button>
+</div>
+</div>
+<!-- Vehicle Card 4 -->
+<div class="bg-surface-container-low rounded-2xl overflow-hidden group hover:shadow-2xl transition-all duration-500">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="aggressive ford raptor 2022 in blue color kicking up dust in a desert landscape during golden hour" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnIFcMcMfzHvRMSlasDZQITzSJfW-k6yroxZxCHOAyHPf1a-I70NjoLr8lADKV_8YVC1cEjm0pRTRZSfFI-E0NVMJeE5v890gUZjPFZ-fJVDlawPpBBntIUjcyfWdprnA23ng3UTvJcM2muMJzfxx-5OGW0RzoSTb7ZY0UEeqj-gNMTGrW-EtlVhy9C75ZTsPreVNPEiwbI-gfzQPzmnTGql_yoOrMQF3WtUtVNNv6FY9N9mPTK1XC8Q2gCJP4S2HeB5jbMznLibiC"/>
+</div>
+<div class="p-6">
+<h3 class="text-xl font-bold mb-2">Ford Raptor 2022</h3>
+<p class="text-2xl font-black text-[#007AFF] mb-4">USD 89,000</p>
+<div class="flex items-center space-x-4 text-[#8E9196] text-xs font-medium mb-6">
+<div class="flex items-center"><span class="material-symbols-outlined text-sm mr-1">speed</span> 21,500 km</div>
+<div class="flex items-center"><span class="material-symbols-outlined text-sm mr-1">location_on</span> Quito</div>
+</div>
+<button class="w-full py-3 rounded-lg bg-white border border-[#8E9196]/20 font-bold hover:bg-[#2E3133] hover:text-white transition-colors duration-300">Ver más</button>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Banner -->
+<section class="py-24 px-8">
+<div class="max-w-7xl mx-auto bg-[#2E3133] rounded-[2rem] overflow-hidden relative p-12 md:p-24 flex flex-col md:flex-row items-center justify-between gap-12">
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+<img class="w-full h-full object-cover" data-alt="detailed macro shot of a steering wheel emblem and dashboard of a premium car with leather texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtx0bG5TMd02HmsbXWOBRV0MIJjmXnZ-WnnbgFbroWFJSth1dWUXOQYC7o4MBCi0Tlzf30kqiG-M4HPak13pnod3t5Tphp8kMz6TfzKTT-jqeB3VqylPi0ZjSbgpVWSKzR4xC00c156ShDvZ9Gkx-HasCLzC0zURS7jSIN_eqVOi2QZFZg3qdGglQezv49FyEqGe2jduI945oaNI2nL2Z_npXEFmlQ558zkxuyca5jk7Ee1gpCJ66-ZIyq5D8a_90g9T_Wq3adcuvN"/>
+</div>
+<div class="relative z-10 max-w-xl">
+<h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight">¿Quieres vender tu auto? Publícalo gratis hoy mismo.</h2>
+<p class="text-[#8E9196] text-lg mb-0 font-body">Llega a miles de compradores calificados en nuestra plataforma premium.</p>
+</div>
+<div class="relative z-10">
+<button class="bg-[#007AFF] hover:bg-[#0056b3] text-white px-10 py-5 rounded-xl text-lg font-bold transition-all duration-300 shadow-2xl shadow-[#007AFF]/30 hover:scale-105 active:scale-95">
+                        Vender Vehículo
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#2E3133] dark:bg-[#1A1C1E] w-full mt-auto font-['Inter'] text-xs leading-relaxed border-t border-[#8E9196]/20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 w-full max-w-screen-2xl mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="text-lg font-['Manrope'] text-white mb-6">Andina Motor Studio</div>
+<p class="text-[#8E9196]">Expertos en curaduría automotriz de alta gama. Pasión por la precisión.</p>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Modelos</h4>
+<ul class="space-y-4">
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] transition-opacity opacity-70 hover:opacity-100" href="#">SUV</a></li>
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] transition-opacity opacity-70 hover:opacity-100" href="#">Sedan</a></li>
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] transition-opacity opacity-70 hover:opacity-100" href="#">Pickups</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Empresa</h4>
+<ul class="space-y-4">
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] transition-opacity opacity-70 hover:opacity-100" href="#">Nosotros</a></li>
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] transition-opacity opacity-70 hover:opacity-100" href="#">Contacto</a></li>
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] transition-opacity opacity-70 hover:opacity-100" href="#">Seguridad</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Publicar</h4>
+<ul class="space-y-4">
+<li><a class="text-[#007AFF] font-bold underline transition-opacity opacity-70 hover:opacity-100" href="#">Publicar auto</a></li>
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] transition-opacity opacity-70 hover:opacity-100" href="#">Guía de venta</a></li>
+</ul>
+</div>
+</div>
+<div class="px-12 py-8 border-t border-white/5 text-center text-[#8E9196]">
+            © 2024 Andina Motor Studio. Curaduría Automotriz de Precisión.
+        </div>
+</footer>
+</body></html>

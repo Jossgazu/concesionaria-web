@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | Andina Motor Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#444749",
+                        "surface-variant": "#e2e2e5",
+                        "surface-tint": "#5c5f61",
+                        "surface-container": "#edeef1",
+                        "tertiary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed-variant": "#004493",
+                        "on-error": "#ffffff",
+                        "background": "#f9f9fc",
+                        "tertiary-container": "#002e69",
+                        "surface-container-low": "#f3f3f6",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#c5c7c9",
+                        "on-primary-container": "#96999b",
+                        "tertiary": "#001a41",
+                        "primary": "#191c1e",
+                        "outline-variant": "#c4c7c9",
+                        "inverse-on-surface": "#f0f0f3",
+                        "on-secondary-fixed-variant": "#44474b",
+                        "on-surface-variant": "#444749",
+                        "outline": "#74777a",
+                        "on-surface": "#1a1c1e",
+                        "on-tertiary-container": "#5b96ff",
+                        "on-secondary-fixed": "#181c20",
+                        "inverse-primary": "#c5c7c9",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#c4c6cc",
+                        "on-tertiary-fixed": "#001a41",
+                        "surface-container-highest": "#e2e2e5",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#2e3133",
+                        "surface-bright": "#f9f9fc",
+                        "primary-fixed": "#e1e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#e0e2e8",
+                        "secondary": "#5b5f63",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#e0e2e8",
+                        "error": "#ba1a1a",
+                        "on-background": "#1a1c1e",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e8e8eb",
+                        "surface-dim": "#d9dadd",
+                        "on-secondary-container": "#616569",
+                        "tertiary-fixed-dim": "#adc6ff",
+                        "inverse-surface": "#2f3133",
+                        "on-primary-fixed": "#191c1e",
+                        "surface": "#f9f9fc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3 {
+            font-family: 'Manrope', sans-serif;
+        }
+        .premium-shadow {
+            box-shadow: 0 20px 40px rgba(46, 49, 51, 0.06);
+        }
+        .electric-blue-gradient {
+            background: linear-gradient(135deg, #007AFF 0%, #0056B3 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex items-center justify-center p-6 selection:bg-on-tertiary-container/30">
+<main class="w-full max-w-[480px]">
+<!-- Shell logic: Navigation is suppressed for transactional focus -->
+<div class="bg-surface-container-lowest rounded-xl premium-shadow overflow-hidden flex flex-col p-10 md:p-12">
+<!-- Logo Section -->
+<div class="flex flex-col items-center mb-10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-[#007AFF] text-3xl" data-icon="directions_car">directions_car</span>
+<span class="text-xl font-headline font-extrabold tracking-tight text-primary">Andina Motor Studio</span>
+</div>
+<div class="h-px w-12 bg-outline-variant/30 mt-4"></div>
+</div>
+<!-- Header -->
+<div class="mb-8">
+<h1 class="text-2xl md:text-3xl font-headline font-bold text-primary tracking-tight mb-2">Bienvenido de nuevo</h1>
+<p class="text-on-surface-variant font-body text-sm">Inicia sesión para gestionar tus vehículos</p>
+</div>
+<!-- Form -->
+<form class="space-y-6">
+<!-- Email Field -->
+<div class="space-y-1.5">
+<label class="text-xs font-semibold uppercase tracking-wider text-secondary" for="email">Correo electrónico</label>
+<div class="relative">
+<input class="w-full px-4 py-3.5 bg-surface-container-low border-none rounded-lg text-on-surface placeholder:text-outline focus:ring-2 focus:ring-[#007AFF]/20 focus:bg-surface-container-high transition-all duration-300" id="email" placeholder="nombre@ejemplo.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-1.5">
+<label class="text-xs font-semibold uppercase tracking-wider text-secondary" for="password">Contraseña</label>
+<div class="relative flex items-center">
+<input class="w-full px-4 py-3.5 bg-surface-container-low border-none rounded-lg text-on-surface placeholder:text-outline focus:ring-2 focus:ring-[#007AFF]/20 focus:bg-surface-container-high transition-all duration-300" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember & Forgot -->
+<div class="flex items-center justify-between py-1">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="w-4 h-4 rounded border-outline-variant text-[#007AFF] focus:ring-[#007AFF]/20 transition-all" type="checkbox"/>
+<span class="text-sm text-secondary group-hover:text-on-surface transition-colors">Recuérdame</span>
+</label>
+<a class="text-sm font-medium text-[#007AFF] hover:underline decoration-2 underline-offset-4" href="#">¿Olvidaste tu contraseña?</a>
+</div>
+<!-- Submit Button -->
+<button class="w-full electric-blue-gradient text-white font-headline font-bold py-4 rounded-lg shadow-lg hover:shadow-xl hover:opacity-95 transform active:scale-[0.98] transition-all duration-300" type="submit">
+                    Iniciar Sesión
+                </button>
+</form>
+<!-- Social/Alternative Logic -->
+<div class="mt-8 pt-8 border-t border-outline-variant/10 text-center">
+<p class="text-sm text-secondary">
+                    ¿No tienes una cuenta? 
+                    <a class="text-[#007AFF] font-bold ml-1 hover:underline decoration-2 underline-offset-4" href="#">Regístrate gratis</a>
+</p>
+</div>
+</div>
+<!-- Footer Legal (Minimalist) -->
+<footer class="mt-8 text-center">
+<p class="text-[10px] text-outline font-body uppercase tracking-[0.2em]">© 2024 Andina Motor Studio · Curaduría Automotriz de Precisión</p>
+</footer>
+</main>
+<!-- Background Decoration (Subtle Premium Elements) -->
+<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-[#007AFF]/5 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-24 -left-24 w-96 h-96 bg-primary-container/5 rounded-full blur-3xl"></div>
+<!-- Background Imagery (Decorative Silhouette) -->
+<div class="absolute bottom-0 right-0 w-full h-[40%] opacity-[0.03] mix-blend-multiply">
+<img class="w-full h-full object-cover object-bottom" data-alt="monochrome silhouette of a classic sports car in a high-end minimalist studio with dramatic side lighting and long shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQeXPDky7HTgmG6lbNt4gKjkq_SivMmYUXEoaNQw2Vk9j-wxVCHqMrutaVqA709kc-XvdbabsGDOoaT8CPCDG7sIdFBpx15blQ7YBzAc0uUKV32FyyqEQHw9eq_0BbPTXx8i601_knAw3q2IFSC1nNfIASV0v3-hrQIu5hruclVjcc6MCNC33vCblQ32DvP7flPfLDdUe17niDa7QSFxJV7FmpbdlMduJ8C-41nqwt8YWIYXYbIYc4vTw1lv71lku9mUvRiFFDdrRW"/>
+</div>
+</div>
+</body></html>

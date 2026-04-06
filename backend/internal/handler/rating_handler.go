@@ -138,14 +138,47 @@ func (h *RatingHandler) GetUserRatingSummary(c *fiber.Ctx) error {
 	return c.JSON(summary)
 }
 
+func (h *RatingHandler) RespondToRating(c *fiber.Ctx) error {
+	sellerID, _ := uuid.Parse(c.Locals("user_id").(string))
+
+	ratingIDStr := c.Params("id")
+	ratingID, err := uuid.Parse(ratingIDStr)
+	if err != nil {
+		return response.BadRequest(c, "Invalid rating ID")
+	}
+
+	var req struct {
+		Response string `json:"response"`
+	}
+	if err := c.BodyParser(&req); err != nil {
+		return response.BadRequest(c, "Invalid request")
+	}
+
+	rating, err := h.ratingRepo.FindByID(ratingID)
+	if err != nil {
+		return response.NotFound(c, "Rating not found")
+	}
+
+	if rating.TargetID != sellerID {
+		return response.Unauthorized(c, "Not authorized to respond to this rating")
+	}
+
+	if err := h.ratingRepo.UpdateSellerResponse(ratingID, sellerID, req.Response); err != nil {
+		return response.InternalError(c, "Failed to update response")
+	}
+
+	return response.Success(c, fiber.Map{"message": "Response added successfully"})
+}
+
 func (h *RatingHandler) ratingToResponse(r *domain.Rating) fiber.Map {
 	return fiber.Map{
-		"id":         r.ID,
-		"rater_id":   r.RaterID,
-		"target_id":  r.TargetID,
-		"score":      r.Score,
-		"comment":    r.Comment,
-		"created_at": r.CreatedAt,
+		"id":              r.ID,
+		"rater_id":        r.RaterID,
+		"target_id":       r.TargetID,
+		"score":           r.Score,
+		"comment":         r.Comment,
+		"seller_response": r.SellerResponse,
+		"created_at":      r.CreatedAt,
 	}
 }
 

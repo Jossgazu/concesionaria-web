@@ -43,16 +43,16 @@ export default function DashboardProfilePage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Mi perfil</h1>
+      <h1 className="text-2xl font-bold text-on-surface">Mi perfil</h1>
 
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-surface-container-lowest rounded-xl shadow-[0_8px_16px_rgba(25,28,30,0.04)] p-6">
         <div className="flex items-center gap-6 mb-8 pb-8 border-b">
           <div className="relative">
-            <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+            <div className="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center overflow-hidden">
               {user?.avatarUrl ? (
                 <img src={user.avatarUrl} alt="" className="w-full h-full object-cover" />
               ) : (
-                <span className="text-3xl font-bold text-gray-400">
+                <span className="text-3xl font-bold text-on-surface-variant">
                   {user?.name?.charAt(0).toUpperCase()}
                 </span>
               )}
@@ -69,9 +69,9 @@ export default function DashboardProfilePage() {
             </label>
           </div>
           <div>
-            <h2 className="font-semibold text-gray-900">{user?.name}</h2>
-            <p className="text-gray-500">{user?.email}</p>
-            <p className="text-sm text-gray-400 mt-1">
+            <h2 className="font-semibold text-on-surface">{user?.name}</h2>
+            <p className="text-on-surface-variant">{user?.email}</p>
+            <p className="text-sm text-on-surface-variant mt-1 opacity-60">
               Miembro desde {new Date(user?.createdAt || Date.now()).toLocaleDateString('es-ES', { year: 'numeric', month: 'long' })}
             </p>
           </div>
@@ -80,29 +80,29 @@ export default function DashboardProfilePage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Nombre completo</label>
+              <label className="block text-sm font-medium text-on-surface mb-2">Nombre completo</label>
               <input
                 type="text"
                 {...register('name')}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="w-full px-4 py-2 border border-surface-container-high rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono</label>
+              <label className="block text-sm font-medium text-on-surface mb-2">Teléfono</label>
               <input
                 type="tel"
                 {...register('phone')}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="w-full px-4 py-2 border border-surface-container-high rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Biografía</label>
+            <label className="block text-sm font-medium text-on-surface mb-2">Biografía</label>
             <textarea
               rows={4}
               {...register('bio')}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+              className="w-full px-4 py-2 border border-surface-container-high rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
               placeholder="Cuéntanos sobre ti..."
             />
           </div>
@@ -119,22 +119,22 @@ export default function DashboardProfilePage() {
         </form>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm p-6">
-        <h2 className="font-semibold text-gray-900 mb-4">Valoraciones recibidas</h2>
+      <div className="bg-surface-container-lowest rounded-xl shadow-[0_8px_16px_rgba(25,28,30,0.04)] p-6">
+        <h2 className="font-semibold text-on-surface mb-4">Valoraciones recibidas</h2>
         {(user as any)?.ratingSummary ? (
           <div className="flex items-center gap-8">
             <div className="text-center">
               <p className="text-4xl font-bold text-primary">
                 {(user as any).ratingSummary.average?.toFixed(1) || '0.0'}
               </p>
-              <p className="text-sm text-gray-500">de 5</p>
+              <p className="text-sm text-on-surface-variant">de 5</p>
             </div>
             <div className="flex-1">
               <div className="space-y-1">
                 {[5, 4, 3, 2, 1].map((star) => (
                   <div key={star} className="flex items-center gap-2">
-                    <span className="text-sm text-gray-500 w-8">{star}</span>
-                    <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <span className="text-sm text-on-surface-variant w-8">{star}</span>
+                    <div className="flex-1 h-2 bg-surface-container-low rounded-full overflow-hidden">
                       <div 
                         className="h-full bg-yellow-400 rounded-full"
                         style={{ 
@@ -144,14 +144,14 @@ export default function DashboardProfilePage() {
                         }}
                       />
                     </div>
-                    <span className="text-sm text-gray-500 w-8">{(user as any).ratingSummary[`${star}Star`] || 0}</span>
+                    <span className="text-sm text-on-surface-variant w-8">{(user as any).ratingSummary[`${star}Star`] || 0}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
         ) : (
-          <p className="text-gray-500 text-center py-4">Aún no tienes valoraciones</p>
+          <p className="text-on-surface-variant text-center py-4">Aún no tienes valoraciones</p>
         )}
       </div>
     </div>
