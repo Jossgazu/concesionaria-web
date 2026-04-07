@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Registro - Andina Motor Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#444749",
+                        "surface-variant": "#e2e2e5",
+                        "surface-tint": "#5c5f61",
+                        "surface-container": "#edeef1",
+                        "tertiary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed-variant": "#004493",
+                        "on-error": "#ffffff",
+                        "background": "#f9f9fc",
+                        "tertiary-container": "#002e69",
+                        "surface-container-low": "#f3f3f6",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#c5c7c9",
+                        "on-primary-container": "#96999b",
+                        "tertiary": "#001a41",
+                        "primary": "#191c1e",
+                        "outline-variant": "#c4c7c9",
+                        "inverse-on-surface": "#f0f0f3",
+                        "on-secondary-fixed-variant": "#44474b",
+                        "on-surface-variant": "#444749",
+                        "outline": "#74777a",
+                        "on-surface": "#1a1c1e",
+                        "on-tertiary-container": "#5b96ff",
+                        "on-secondary-fixed": "#181c20",
+                        "inverse-primary": "#c5c7c9",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#c4c6cc",
+                        "on-tertiary-fixed": "#001a41",
+                        "surface-container-highest": "#e2e2e5",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#2e3133",
+                        "surface-bright": "#f9f9fc",
+                        "primary-fixed": "#e1e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#e0e2e8",
+                        "secondary": "#5b5f63",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#e0e2e8",
+                        "error": "#ba1a1a",
+                        "on-background": "#1a1c1e",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e8e8eb",
+                        "surface-dim": "#d9dadd",
+                        "on-secondary-container": "#616569",
+                        "tertiary-fixed-dim": "#adc6ff",
+                        "inverse-surface": "#2f3133",
+                        "on-primary-fixed": "#191c1e",
+                        "surface": "#f9f9fc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-mesh {
+            background-color: #f9f9fc;
+            background-image: radial-gradient(at 0% 0%, rgba(0, 122, 255, 0.03) 0px, transparent 50%), 
+                              radial-gradient(at 100% 100%, rgba(0, 122, 255, 0.05) 0px, transparent 50%);
+        }
+    </style>
+</head>
+<body class="bg-mesh font-body text-on-surface min-h-screen flex flex-col items-center justify-center p-6">
+<!-- Brand Header (Outside Card) -->
+<div class="mb-10 text-center">
+<h1 class="font-headline font-extrabold text-3xl tracking-tight text-primary">Andina Motor Studio</h1>
+<p class="text-secondary font-medium mt-1">Curaduría Automotriz de Precisión</p>
+</div>
+<!-- Registration Card -->
+<main class="w-full max-w-[540px] bg-surface-container-lowest rounded-xl shadow-[0_20px_40px_rgba(46,49,51,0.06)] overflow-hidden">
+<div class="p-8 md:p-12">
+<!-- Form Header -->
+<header class="mb-10">
+<h2 class="font-headline text-2xl font-bold text-primary mb-2">Crea tu cuenta</h2>
+<p class="text-secondary text-sm leading-relaxed">Únete al marketplace automotriz más confiable de Perú</p>
+</header>
+<form class="space-y-6">
+<!-- Nombre Completo -->
+<div class="space-y-2">
+<label class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant" for="fullname">Nombre completo</label>
+<div class="relative">
+<input class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-on-tertiary-container/20 focus:bg-surface-container-highest transition-all duration-300 text-on-surface placeholder:text-outline/50" id="fullname" name="fullname" placeholder="Ej. Juan Pérez" type="text"/>
+</div>
+</div>
+<!-- Correo Electrónico -->
+<div class="space-y-2">
+<label class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant" for="email">Correo electrónico</label>
+<input class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-on-tertiary-container/20 focus:bg-surface-container-highest transition-all duration-300 text-on-surface placeholder:text-outline/50" id="email" name="email" placeholder="correo@ejemplo.pe" type="email"/>
+</div>
+<!-- Teléfono -->
+<div class="space-y-2">
+<label class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant" for="phone">Teléfono (+51)</label>
+<div class="flex">
+<span class="flex items-center px-4 bg-surface-container-high text-on-surface-variant text-sm font-medium rounded-l-lg border-r border-background/50">+51</span>
+<input class="w-full px-4 py-3 bg-surface-container-low border-none rounded-r-lg focus:ring-2 focus:ring-on-tertiary-container/20 focus:bg-surface-container-highest transition-all duration-300 text-on-surface placeholder:text-outline/50" id="phone" name="phone" placeholder="999 999 999" type="tel"/>
+</div>
+</div>
+<!-- Password Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant" for="password">Contraseña</label>
+<input class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-on-tertiary-container/20 focus:bg-surface-container-highest transition-all duration-300 text-on-surface placeholder:text-outline/50" id="password" name="password" placeholder="••••••••" type="password"/>
+</div>
+<div class="space-y-2">
+<label class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant" for="confirm-password">Confirmar contraseña</label>
+<input class="w-full px-4 py-3 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-on-tertiary-container/20 focus:bg-surface-container-highest transition-all duration-300 text-on-surface placeholder:text-outline/50" id="confirm-password" name="confirm-password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Terms -->
+<div class="flex items-start gap-3 py-2">
+<div class="flex items-center h-5">
+<input class="h-4 w-4 text-on-tertiary-container border-outline rounded focus:ring-on-tertiary-container" id="terms" name="terms" type="checkbox"/>
+</div>
+<label class="text-sm text-secondary" for="terms">
+                        Acepto los <a class="text-on-tertiary-container font-medium hover:underline" href="#">términos y condiciones</a> de uso y privacidad.
+                    </label>
+</div>
+<!-- Main CTA -->
+<button class="w-full py-4 bg-primary text-on-primary font-semibold rounded-lg hover:opacity-90 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-primary/10" type="submit">
+                    Crear Cuenta
+                </button>
+</form>
+<!-- Divider -->
+<div class="relative my-8">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-surface-container-highest"></div>
+</div>
+<div class="relative flex justify-center text-xs font-semibold uppercase">
+<span class="bg-surface-container-lowest px-4 text-outline">O regístrate con</span>
+</div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-3 px-4 py-3 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors duration-200 text-sm font-medium text-primary">
+<img alt="Google" class="w-5 h-5" data-alt="Official Google G logo in bright primary colors isolated on transparent background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBLXvqNU0rQN_Uzxns2VjumWP8MKHLZdAwpeXOeqIxZ_Snb_kbdjdFnHsstMs6PUMGkfvgUT7WB3I9TYeJUdL4RgLRcfe_Ew2b094jLknMX8TpolOAE-OefEuDXS0RhSLu_Lv_3heZ_2_dC-9pZvYFaR-tgDIPTJoo2G-JxffUuKeaTZwPSSx__zMUomIN3e272XPyqIbOSjve9IvTVU-I4Zmgp2MlzeHXTf8L4XWTAilJQOuBZnDVGvxrnkW6IvoC2jMGpnQWKNhD"/>
+<span>Registrarse con Google</span>
+</button>
+<button class="flex items-center justify-center gap-3 px-4 py-3 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors duration-200 text-sm font-medium text-primary">
+<svg class="w-5 h-5 text-[#1877F2]" fill="currentColor" viewbox="0 0 24 24">
+<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+</svg>
+<span>Registrarse con Facebook</span>
+</button>
+</div>
+<!-- Footer Link -->
+<p class="text-center mt-8 text-sm text-secondary">
+                ¿Ya tienes una cuenta? <a class="text-on-tertiary-container font-semibold hover:underline" href="#">Inicia sesión aquí</a>
+</p>
+</div>
+</main>
+<!-- Visual Footer Decor -->
+<div class="mt-12 text-center">
+<p class="text-outline text-xs tracking-widest uppercase font-medium">© 2024 Andina Motor Studio</p>
+<div class="flex justify-center gap-6 mt-4">
+<span class="text-outline/40 material-symbols-outlined text-3xl" data-icon="security" style="font-variation-settings: 'FILL' 0;">security</span>
+<span class="text-outline/40 material-symbols-outlined text-3xl" data-icon="verified_user" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+<span class="text-outline/40 material-symbols-outlined text-3xl" data-icon="precision_manufacturing" style="font-variation-settings: 'FILL' 0;">precision_manufacturing</span>
+</div>
+</div>
+<!-- Background Decorative Element -->
+<div class="fixed top-0 right-0 -z-10 opacity-[0.03] select-none pointer-events-none translate-x-1/4 -translate-y-1/4">
+<span class="material-symbols-outlined text-[600px]" data-icon="directions_car">directions_car</span>
+</div>
+</body></html>

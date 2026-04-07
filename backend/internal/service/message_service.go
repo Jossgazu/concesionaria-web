@@ -1,19 +1,24 @@
 package service
 
 import (
+	"context"
+	"encoding/json"
 	"errors"
+	"time"
 
 	"github.com/concesionaria-web/backend/internal/domain"
+	"github.com/concesionaria-web/backend/internal/redis"
 	"github.com/concesionaria-web/backend/internal/repository"
 	"github.com/google/uuid"
 )
 
 type MessageService struct {
-	repo *repository.MessageRepository
+	repo        *repository.MessageRepository
+	redisClient *redis.Client
 }
 
-func NewMessageService(repo *repository.MessageRepository) *MessageService {
-	return &MessageService{repo: repo}
+func NewMessageService(repo *repository.MessageRepository, redisClient *redis.Client) *MessageService {
+	return &MessageService{repo: repo, redisClient: redisClient}
 }
 
 type SendMessageRequest struct {
@@ -52,11 +57,46 @@ func (s *MessageService) SendMessage(senderID uuid.UUID, req SendMessageRequest)
 		return nil, err
 	}
 
+	s.publishNewMessage(message)
+	s.invalidateConversationCache(senderID, receiverID)
+	s.invalidateConversationCache(receiverID, senderID)
+
 	return message, nil
 }
 
 func (s *MessageService) GetConversation(userID, otherUserID uuid.UUID, page, limit int) ([]domain.Message, int64, error) {
-	return s.repo.FindConversation(userID, otherUserID, page, limit)
+	cacheKey := conversationCacheKey(userID, otherUserID, page, limit)
+
+	if s.redisClient != nil && s.redisClient.IsConnected() {
+		ctx := context.Background()
+		if cached, err := s.redisClient.Get(ctx, cacheKey); err == nil {
+			var result struct {
+				Messages []domain.Message
+				Total    int64
+			}
+			if json.Unmarshal([]byte(cached), &result) == nil {
+				return result.Messages, result.Total, nil
+			}
+		}
+	}
+
+	messages, total, err := s.repo.FindConversation(userID, otherUserID, page, limit)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	if s.redisClient != nil && s.redisClient.IsConnected() && page == 1 {
+		ctx := context.Background()
+		result := struct {
+			Messages []domain.Message
+			Total    int64
+		}{messages, total}
+		if data, err := json.Marshal(result); err == nil {
+			s.redisClient.Set(ctx, cacheKey, data, 5*time.Minute)
+		}
+	}
+
+	return messages, total, nil
 }
 
 func (s *MessageService) GetConversations(userID uuid.UUID) ([]map[string]interface{}, error) {
@@ -64,5 +104,90 @@ func (s *MessageService) GetConversations(userID uuid.UUID) ([]map[string]interf
 }
 
 func (s *MessageService) MarkAsRead(messageID, userID uuid.UUID) error {
-	return s.repo.MarkAsRead(messageID, userID)
+	err := s.repo.MarkAsRead(messageID, userID)
+	if err != nil {
+		return err
+	}
+
+	s.invalidateUnreadCache(userID)
+	return nil
+}
+
+func (s *MessageService) GetUnreadCount(userID uuid.UUID) (int64, error) {
+	cacheKey := unreadCountCacheKey(userID)
+
+	if s.redisClient != nil && s.redisClient.IsConnected() {
+		ctx := context.Background()
+		if cached, err := s.redisClient.Get(ctx, cacheKey); err == nil {
+			var count int64
+			if json.Unmarshal([]byte(cached), &count) == nil {
+				return count, nil
+			}
+		}
+	}
+
+	count, err := s.repo.CountUnread(userID)
+	if err != nil {
+		return 0, err
+	}
+
+	if s.redisClient != nil && s.redisClient.IsConnected() {
+		ctx := context.Background()
+		if data, err := json.Marshal(count); err == nil {
+			s.redisClient.Set(ctx, cacheKey, data, 30*time.Second)
+		}
+	}
+
+	return count, nil
+}
+
+func (s *MessageService) publishNewMessage(message *domain.Message) {
+	if s.redisClient == nil || !s.redisClient.IsConnected() {
+		return
+	}
+
+	ctx := context.Background()
+	channel := "user:" + message.ReceiverID.String() + ":messages"
+	event := map[string]interface{}{
+		"type":    "new_message",
+		"message": message,
+	}
+	if data, err := json.Marshal(event); err == nil {
+		s.redisClient.Publish(ctx, channel, data)
+	}
+
+	s.invalidateUnreadCache(message.ReceiverID)
+}
+
+func (s *MessageService) invalidateUnreadCache(userID uuid.UUID) {
+	if s.redisClient == nil || !s.redisClient.IsConnected() {
+		return
+	}
+
+	ctx := context.Background()
+	cacheKey := unreadCountCacheKey(userID)
+	s.redisClient.Del(ctx, cacheKey)
+}
+
+func (s *MessageService) invalidateConversationCache(userID, otherUserID uuid.UUID) {
+	if s.redisClient == nil || !s.redisClient.IsConnected() {
+		return
+	}
+
+	ctx := context.Background()
+	for page := 1; page <= 10; page++ {
+		for limit := 10; limit <= 50; limit += 10 {
+			cacheKey := conversationCacheKey(userID, otherUserID, page, limit)
+			s.redisClient.Del(ctx, cacheKey)
+		}
+	}
+}
+
+func conversationCacheKey(userID, otherUserID uuid.UUID, page, limit int) string {
+	return "conversation:" + userID.String() + ":" + otherUserID.String() + ":" +
+		string(rune('0'+page)) + ":" + string(rune('0'+limit))
+}
+
+func unreadCountCacheKey(userID uuid.UUID) string {
+	return "unread:" + userID.String()
 }

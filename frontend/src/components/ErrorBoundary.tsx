@@ -27,10 +27,10 @@ export class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return this.props.fallback || (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="min-h-screen flex items-center justify-center bg-surface-container-low">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Algo salió mal</h1>
-            <p className="text-gray-600 mb-4">Lo sentimos, ocurrió un error</p>
+            <h1 className="text-2xl font-bold text-on-surface mb-2">Algo salió mal</h1>
+            <p className="text-on-surface-variant mb-4">Lo sentimos, ocurrió un error</p>
             <button
               onClick={() => window.location.reload()}
               className="bg-primary text-white px-4 py-2 rounded-lg"

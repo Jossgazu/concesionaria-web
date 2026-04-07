@@ -7,11 +7,13 @@ import (
 	"github.com/concesionaria-web/backend/internal/database"
 	"github.com/concesionaria-web/backend/internal/handler"
 	"github.com/concesionaria-web/backend/internal/middleware"
+	"github.com/concesionaria-web/backend/internal/redis"
 	"github.com/concesionaria-web/backend/internal/repository"
 	"github.com/concesionaria-web/backend/internal/service"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/websocket/v2"
 )
 
 func main() {
@@ -24,6 +26,8 @@ func main() {
 
 	_ = db
 
+	redisClient := redis.NewClient(cfg.RedisURL)
+
 	userRepo := repository.NewUserRepository(db)
 	vehicleRepo := repository.NewVehicleRepository(db)
 	valuationRepo := repository.NewValuationRepository(db)
@@ -35,15 +39,18 @@ func main() {
 	vehicleService := service.NewVehicleService(vehicleRepo, userRepo)
 	valuationService := service.NewValuationService(valuationRepo)
 	favoriteService := service.NewFavoriteService(favoriteRepo)
-	messageService := service.NewMessageService(messageRepo)
+	messageService := service.NewMessageService(messageRepo, redisClient)
+
+	middleware.SetJWTSecret(cfg.JWTSecret)
 
 	authHandler := handler.NewAuthHandler(authService)
 	userHandler := handler.NewUserHandler(userRepo, vehicleRepo, ratingRepo, cfg.UploadPath)
-	vehicleHandler := handler.NewVehicleHandler(vehicleService)
+	vehicleHandler := handler.NewVehicleHandler(vehicleService, messageService)
 	valuationHandler := handler.NewValuationHandler(valuationService)
 	favoriteHandler := handler.NewFavoriteHandler(favoriteService)
 	ratingHandler := handler.NewRatingHandler(ratingRepo, userRepo)
 	messageHandler := handler.NewMessageHandler(messageService)
+	wsHandler := handler.NewWebSocketHandler(redisClient)
 
 	app := fiber.New(fiber.Config{
 		BodyLimit: 10 * 1024 * 1024,
@@ -66,6 +73,7 @@ func main() {
 	auth.Post("/register", authHandler.Register)
 	auth.Post("/login", authHandler.Login)
 	auth.Get("/me", middleware.Protected(cfg.JWTSecret), authHandler.Me)
+	auth.Put("/profile", middleware.Protected(cfg.JWTSecret), userHandler.UpdateProfile)
 
 	users := api.Group("/users")
 	users.Get("/:id", userHandler.GetPublicProfile)
@@ -79,6 +87,7 @@ func main() {
 	vehicles := api.Group("/vehicles")
 	vehicles.Get("/", vehicleHandler.GetAll)
 	vehicles.Get("/featured", vehicleHandler.GetFeatured)
+	vehicles.Get("/my", middleware.Protected(cfg.JWTSecret), vehicleHandler.GetSellerVehicles)
 	vehicles.Get("/:id", vehicleHandler.GetByID)
 	vehicles.Post("/", middleware.Protected(cfg.JWTSecret), vehicleHandler.Create)
 	vehicles.Put("/:id", middleware.Protected(cfg.JWTSecret), vehicleHandler.Update)
@@ -101,12 +110,15 @@ func main() {
 	ratings.Post("/", middleware.Protected(cfg.JWTSecret), ratingHandler.Create)
 	ratings.Get("/user/:userId", ratingHandler.GetUserRatings)
 	ratings.Get("/user/:userId/summary", ratingHandler.GetUserRatingSummary)
+	ratings.Put("/:id/respond", middleware.Protected(cfg.JWTSecret), ratingHandler.RespondToRating)
 
 	messages := api.Group("/messages", middleware.Protected(cfg.JWTSecret))
 	messages.Post("/", messageHandler.SendMessage)
 	messages.Get("/", messageHandler.GetConversations)
 	messages.Get("/:userId", messageHandler.GetConversation)
 	messages.Put("/:id/read", messageHandler.MarkAsRead)
+
+	api.Get("/ws", websocket.New(wsHandler.Handle))
 
 	dashboard := api.Group("/dashboard", middleware.Protected(cfg.JWTSecret))
 	dashboard.Get("/stats", vehicleHandler.GetDashboardStats)

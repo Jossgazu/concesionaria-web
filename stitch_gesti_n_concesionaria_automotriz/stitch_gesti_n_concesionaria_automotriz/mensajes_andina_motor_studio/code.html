@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mensajes | Andina Motor Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#444749",
+                    "surface-variant": "#e2e2e5",
+                    "surface-tint": "#5c5f61",
+                    "surface-container": "#edeef1",
+                    "tertiary-fixed": "#d8e2ff",
+                    "on-tertiary-fixed-variant": "#004493",
+                    "on-error": "#ffffff",
+                    "background": "#f9f9fc",
+                    "tertiary-container": "#002e69",
+                    "surface-container-low": "#f3f3f6",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#c5c7c9",
+                    "on-primary-container": "#96999b",
+                    "tertiary": "#001a41",
+                    "primary": "#191c1e",
+                    "outline-variant": "#c4c7c9",
+                    "inverse-on-surface": "#f0f0f3",
+                    "on-secondary-fixed-variant": "#44474b",
+                    "on-surface-variant": "#444749",
+                    "outline": "#74777a",
+                    "on-surface": "#1a1c1e",
+                    "on-tertiary-container": "#5b96ff",
+                    "on-secondary-fixed": "#181c20",
+                    "inverse-primary": "#c5c7c9",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#c4c6cc",
+                    "on-tertiary-fixed": "#001a41",
+                    "surface-container-highest": "#e2e2e5",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#2e3133",
+                    "surface-bright": "#f9f9fc",
+                    "primary-fixed": "#e1e3e5",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#e0e2e8",
+                    "secondary": "#5b5f63",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#e0e2e8",
+                    "error": "#ba1a1a",
+                    "on-background": "#1a1c1e",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#e8e8eb",
+                    "surface-dim": "#d9dadd",
+                    "on-secondary-container": "#616569",
+                    "tertiary-fixed-dim": "#adc6ff",
+                    "inverse-surface": "#2f3133",
+                    "on-primary-fixed": "#191c1e",
+                    "surface": "#f9f9fc"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-effect {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body antialiased">
+<!-- SideNavBar Anchor -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-0 h-full p-6 bg-[#F9F9FC] dark:bg-[#2E3133] h-screen w-64 border-r border-[#8E9196]/15 font-['Inter'] text-sm z-40">
+<div class="mb-10 px-2">
+<h1 class="font-['Manrope'] font-black text-[#2E3133] dark:text-[#F9F9FC] text-2xl tracking-tighter">Andina Motor</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-[#8E9196] font-bold">Studio Digital</p>
+</div>
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#8E9196] hover:bg-[#8E9196]/5 hover:translate-x-1 transition-transform group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium">Panel Control</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#8E9196] hover:bg-[#8E9196]/5 hover:translate-x-1 transition-transform group" href="#">
+<span class="material-symbols-outlined" data-icon="directions_car">directions_car</span>
+<span class="font-medium">Mis Vehículos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#8E9196] hover:bg-[#8E9196]/5 hover:translate-x-1 transition-transform group" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-medium">Favoritos</span>
+</a>
+<!-- Active Navigation Logic: Messages -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#007AFF]/10 text-[#007AFF] font-bold border-r-4 border-[#007AFF] hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="mail" style="font-variation-settings: 'FILL' 1;">mail</span>
+<span class="font-medium">Mensajes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#8E9196] hover:bg-[#8E9196]/5 hover:translate-x-1 transition-transform group" href="#">
+<span class="material-symbols-outlined" data-icon="person_outline">person_outline</span>
+<span class="font-medium">Perfil</span>
+</a>
+</div>
+<button class="mt-auto bg-[#007AFF] text-white font-bold py-4 px-6 rounded-xl shadow-lg shadow-[#007AFF]/20 hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+            Publicar Auto
+        </button>
+</nav>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 h-screen flex flex-col overflow-hidden bg-background">
+<!-- Header for Mobile / Responsive Title -->
+<header class="lg:hidden flex items-center justify-between px-6 py-4 bg-surface-container-lowest border-b border-outline-variant/10">
+<span class="font-headline font-black text-xl text-primary tracking-tighter">Andina Motor</span>
+<span class="material-symbols-outlined text-on-surface" data-icon="menu">menu</span>
+</header>
+<div class="flex-1 flex overflow-hidden">
+<!-- Conversation List (Left Column) -->
+<section class="w-full md:w-80 lg:w-96 flex flex-col border-r border-outline-variant/10 bg-surface-container-lowest">
+<div class="p-6">
+<h2 class="font-headline text-2xl font-bold text-primary mb-6">Mensajes</h2>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-10 pr-4 text-sm focus:ring-2 focus:ring-on-tertiary-container/20 transition-all outline-none" placeholder="Buscar conversaciones..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-3 space-y-1">
+<!-- Active Chat Item -->
+<div class="p-4 rounded-2xl bg-surface-container-low cursor-pointer flex gap-4 transition-all hover:bg-surface-container-high border-l-4 border-on-tertiary-container">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="professional portrait of Julia Martínez in a brightly lit studio setting with warm friendly expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1l_BNCSELFxvyGpzvLUNIKHGdfQ4-TX19ELdu2fywoQLMxphVEXn_xAOh1Ycl2zt3jsj4BdQUMZHdJy_UET1NTusaI40MPD_wMlPJWHFrJzr3zFOHnmre2bBUDm7TjTVu0PZ57M2v367NGe_GSYGONVBOobbh17QF9dm8zYG0zYN1Wi8u7wWjh8pctlQkjO11mEyzFkGVEU_IktktXfdlvS6-zrDaOKS1oywsS-bFYiPC_u6TBrL0U_o1VJp2Jv3g7tvoxW1CvH51"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-surface-container-lowest rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-headline font-bold text-primary truncate">Julia Martínez</h3>
+<span class="text-[10px] font-semibold text-on-tertiary-container">12:45 PM</span>
+</div>
+<p class="text-xs text-on-surface-variant font-medium truncate">¿Cuándo podríamos agendar la prueba de manejo del BMW?</p>
+</div>
+<div class="flex flex-col justify-center">
+<div class="w-2 h-2 bg-on-tertiary-container rounded-full"></div>
+</div>
+</div>
+<!-- Conversation 2 -->
+<div class="p-4 rounded-2xl cursor-pointer flex gap-4 transition-all hover:bg-surface-container-low">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover opacity-80" data-alt="modern headshot of a businessman in a clean grey sweater with minimalist urban background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqIi0olyV9dWjT-Qjxdq2aB1QM9pli_hV2ymgCG5tk1mIpMPZlFuSWMkmyeBZ4uxf94YYhnnw0aHGJ-RfW6tNgpfJyTR3SaEcJrdw2dmjUxxd-fZEH1v3v-yrXWM90PlHfcVIle1VGUSnBusXP8Eq9imRC4xSX1af1QemTrz5e-dONrohTAlbl90Lr1DZd2_HH1y7FL6Xh1aVZGXyQDHI155x3MRBHG4ymojnMXc_hd6kZ-Gs00iqNDNnnvxioeJ70Wd7LD2lye-tA"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-headline font-semibold text-primary truncate">Roberto Gómez</h3>
+<span class="text-[10px] text-outline">Ayer</span>
+</div>
+<p class="text-xs text-outline truncate">El historial de mantenimiento está completo.</p>
+</div>
+</div>
+<!-- Conversation 3 -->
+<div class="p-4 rounded-2xl cursor-pointer flex gap-4 transition-all hover:bg-surface-container-low">
+<div class="relative flex-shrink-0">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-bold">CP</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-headline font-semibold text-primary truncate">Carlos P. (Vendedor)</h3>
+<span class="text-[10px] text-outline">Lunes</span>
+</div>
+<p class="text-xs text-outline truncate">Gracias por su interés en el Porsche Cayenne.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Active Chat Window (Right Column) -->
+<section class="hidden md:flex flex-1 flex-col bg-surface">
+<!-- Chat Header -->
+<div class="px-8 py-5 flex items-center justify-between bg-surface-container-lowest border-b border-outline-variant/10 shadow-sm z-10">
+<div class="flex items-center gap-4">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="close-up of Julia Martínez profile picture with soft lighting and professional look" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBthF2qwzKhGJcgrytPTcPzHA26nBS3Ay_ju05ENLIYd58Xx9lAyU45kmeFWYBfG4xnZ9AW39ACOpbCBiRrHErWGYjBIOTif7OBUW6snukL8IXZAA1uiJhVq1N3hNRykhsRvs_1Fiwounn4bip9fJTLi0njacroQJB4lu09Rea_NlwxEFZhllRGsnYPD0sgduvSUlu2ryXhnadCRU4Ii30PoSbn-hOjUpChf3ncfctIeRbYTTpJvcRKy-2TNlCWunABGv6ds5sZY4Wa"/>
+<div>
+<h2 class="font-headline font-bold text-primary text-lg leading-tight">Julia Martínez</h2>
+<button class="text-[11px] text-on-tertiary-container font-bold hover:underline flex items-center gap-1">
+                                Ver Perfil del Comprador <span class="material-symbols-outlined text-[12px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="phone">phone</span>
+</button>
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="videocam">videocam</span>
+</button>
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Chat Thread -->
+<div class="flex-1 overflow-y-auto p-8 space-y-6">
+<div class="flex justify-center">
+<span class="px-4 py-1 rounded-full bg-surface-container text-[10px] font-bold text-outline uppercase tracking-wider">Hoy</span>
+</div>
+<!-- Received Message -->
+<div class="flex gap-3 max-w-[80%]">
+<img class="w-8 h-8 rounded-full object-cover self-end" data-alt="avatar of Julia Martínez" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9YooS5W1GcK0x-qyIjeylQtNNBS2OkNNXY_itYW82rIVtCezI5yjSG4t8SHg3HPq_wREDghg3pXGXXsYFRaLroSK-RmxXuTWuPZIj0PYgC08UxNqY-lk32B7WHjkM-iNNw1bipehyrxBg51WK188S5pQrUj8wIHUpSDq9Kg3w3gpzBu1exyrldU1YwpYEN5M_0M-FZIeufk8hpr8pn5axb2LMjTkzn-5gjopw-ubbJQla1kkZNauq8s7BkURGYrKUMEFeqVSm7MMP"/>
+<div class="space-y-1">
+<div class="bg-surface-container-low p-4 rounded-2xl rounded-bl-none text-sm text-on-surface leading-relaxed shadow-sm">
+                                Hola, estuve revisando el anuncio del BMW M4 Competition que publicaron ayer. ¡Se ve impecable!
+                            </div>
+<span class="text-[10px] text-outline px-1">12:40 PM</span>
+</div>
+</div>
+<!-- Sent Message -->
+<div class="flex flex-row-reverse gap-3 max-w-[80%] ml-auto">
+<div class="space-y-1 flex flex-col items-end">
+<div class="bg-primary text-on-primary p-4 rounded-2xl rounded-br-none text-sm leading-relaxed shadow-lg shadow-primary/10">
+                                Hola Julia, un gusto saludarte. Efectivamente, el vehículo está en condiciones de exhibición, cuenta con todos los servicios en agencia.
+                            </div>
+<span class="text-[10px] text-outline px-1">12:42 PM • Leído</span>
+</div>
+</div>
+<!-- Received Message -->
+<div class="flex gap-3 max-w-[80%]">
+<img class="w-8 h-8 rounded-full object-cover self-end" data-alt="avatar of Julia Martínez" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApap5FJlPpZcGYxjiYqgbUNcJ09Bx5lkDENzL3PDJGFXtSA3NNuBQ1cdiNjzEdrwnjgNb6KVYHBtrHLGv1ZLhsdYwrRBJmEx8JKkdDnoTh9orTdGVmZC_IDAqAbU2qolhjfxni5ahxNXMjZr3CMgHPQRwcGJ21JXH1Gj2fSmKdrraw24Wuh4CGeWLYJgE4bqhAaUO683HMC3quCCcfjHt1d5pamPD9dceo5708aqVH7mdKYdCCffW7ulp_9cBFunwg6H48k731dE3H"/>
+<div class="space-y-1">
+<div class="bg-surface-container-low p-4 rounded-2xl rounded-bl-none text-sm text-on-surface leading-relaxed shadow-sm">
+                                Excelente. Me interesa mucho. ¿Cuándo podríamos agendar la prueba de manejo del BMW? Preferiría que fuera este sábado por la mañana.
+                            </div>
+<span class="text-[10px] text-outline px-1">12:45 PM</span>
+</div>
+</div>
+</div>
+<!-- Chat Input Area -->
+<div class="p-6 bg-surface-container-lowest border-t border-outline-variant/10">
+<div class="max-w-4xl mx-auto flex items-end gap-4 bg-surface-container-low p-3 rounded-2xl focus-within:ring-2 focus-within:ring-on-tertiary-container/10 transition-all">
+<button class="p-2 text-outline hover:text-on-tertiary-container transition-colors rounded-xl hover:bg-surface-container-highest">
+<span class="material-symbols-outlined" data-icon="attach_file">attach_file</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-2 resize-none max-h-32 placeholder:text-outline/60" placeholder="Escribe un mensaje aquí..." rows="1"></textarea>
+<button class="p-2 text-outline hover:text-on-tertiary-container transition-colors rounded-xl hover:bg-surface-container-highest">
+<span class="material-symbols-outlined" data-icon="mood">mood</span>
+</button>
+<button class="bg-on-tertiary-container text-white p-3 rounded-xl shadow-lg shadow-on-tertiary-container/20 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+<p class="text-center text-[10px] text-outline mt-3">Al enviar mensajes aceptas nuestros Términos de Seguridad y Privacidad.</p>
+</div>
+</section>
+</div>
+</main>
+<!-- Contextual FAB (Mobile Only) -->
+<button class="lg:hidden fixed bottom-8 right-6 w-14 h-14 bg-[#007AFF] text-white rounded-full shadow-2xl flex items-center justify-center z-50">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</button>
+</body></html>

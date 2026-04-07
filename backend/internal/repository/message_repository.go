@@ -31,7 +31,7 @@ func (r *MessageRepository) FindConversation(user1, user2 uuid.UUID, page, limit
 	query.Count(&total)
 
 	offset := (page - 1) * limit
-	err := query.Order("created_at DESC").Offset(offset).Limit(limit).
+	err := query.Order("created_at ASC").Offset(offset).Limit(limit).
 		Preload("Sender").Preload("Receiver").
 		Find(&messages).Error
 
@@ -45,8 +45,7 @@ func (r *MessageRepository) GetConversationList(userID uuid.UUID) ([]map[string]
 		SELECT
 			CASE WHEN sender_id = ? THEN receiver_id ELSE sender_id END as user_id,
 			MAX(created_at) as last_message_at,
-			COUNT(CASE WHEN read = false AND receiver_id = ? THEN 1 END) as unread_count,
-			MAX(id) as last_message_id
+			COUNT(CASE WHEN read = false AND receiver_id = ? THEN 1 END) as unread_count
 		FROM messages
 		WHERE sender_id = ? OR receiver_id = ?
 		GROUP BY user_id
@@ -59,18 +58,22 @@ func (r *MessageRepository) GetConversationList(userID uuid.UUID) ([]map[string]
 	defer rows.Close()
 
 	for rows.Next() {
-		var userID2 uuid.UUID
-		var lastMessageAt time.Time
+		var otherUserID uuid.UUID
+		var lastMessageAt *time.Time
 		var unreadCount int64
-		var lastMessageID uuid.UUID
 
-		rows.Scan(&userID2, &lastMessageAt, &unreadCount, &lastMessageID)
+		if err := rows.Scan(&otherUserID, &lastMessageAt, &unreadCount); err != nil {
+			continue
+		}
 
 		var user domain.User
-		r.db.First(&user, "id = ?", userID2)
+		r.db.First(&user, "id = ?", otherUserID)
 
 		var lastMessage domain.Message
-		r.db.First(&lastMessage, "id = ?", lastMessageID)
+		r.db.Where("(sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)",
+			userID, otherUserID, otherUserID, userID).
+			Order("created_at DESC").
+			First(&lastMessage)
 
 		results = append(results, map[string]interface{}{
 			"user":         user,
@@ -92,4 +95,12 @@ func (r *MessageRepository) GetUser(id uuid.UUID) (*domain.User, error) {
 	var user domain.User
 	err := r.db.First(&user, "id = ?", id).Error
 	return &user, err
+}
+
+func (r *MessageRepository) CountUnread(userID uuid.UUID) (int64, error) {
+	var count int64
+	err := r.db.Model(&domain.Message{}).
+		Where("receiver_id = ? AND read = false", userID).
+		Count(&count).Error
+	return count, err
 }

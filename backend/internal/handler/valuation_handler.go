@@ -16,7 +16,7 @@ func NewValuationHandler(service *service.ValuationService) *ValuationHandler {
 }
 
 func (h *ValuationHandler) CreateValuation(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 
 	var req service.CreateValuationRequest
 	if err := c.BodyParser(&req); err != nil {
@@ -40,7 +40,7 @@ func (h *ValuationHandler) CreateValuation(c *fiber.Ctx) error {
 }
 
 func (h *ValuationHandler) GetValuations(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 
 	valuations, err := h.service.GetUserValuations(userID)
 	if err != nil {
@@ -51,7 +51,7 @@ func (h *ValuationHandler) GetValuations(c *fiber.Ctx) error {
 }
 
 func (h *ValuationHandler) GetValuation(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 	id, err := uuid.Parse(c.Params("id"))
 	if err != nil {
 		return response.BadRequest(c, "Invalid ID")

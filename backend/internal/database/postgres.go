@@ -23,18 +23,28 @@ func Connect(cfg *config.Config) (*gorm.DB, error) {
 		return nil, fmt.Errorf("failed to connect to database: %w", err)
 	}
 
-	err = db.AutoMigrate(
-		&domain.User{},
-		&domain.Vehicle{},
-		&domain.VehicleImage{},
-		&domain.VehicleSpecs{},
-		&domain.Valuation{},
-		&domain.Favorite{},
-		&domain.Rating{},
-		&domain.Message{},
-	)
+	sqlDB, err := db.DB()
 	if err != nil {
-		return nil, fmt.Errorf("failed to migrate database: %w", err)
+		return nil, fmt.Errorf("failed to get sql.DB: %w", err)
+	}
+
+	var tableCount int
+	sqlDB.QueryRow("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name IN ('users', 'vehicles')").Scan(&tableCount)
+
+	if tableCount == 0 {
+		err = db.AutoMigrate(
+			&domain.User{},
+			&domain.Vehicle{},
+			&domain.VehicleImage{},
+			&domain.VehicleSpecs{},
+			&domain.Valuation{},
+			&domain.Favorite{},
+			&domain.Rating{},
+			&domain.Message{},
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to migrate database: %w", err)
+		}
 	}
 
 	return db, nil

@@ -13,10 +13,11 @@ import (
 
 type VehicleHandler struct {
 	vehicleService *service.VehicleService
+	messageService *service.MessageService
 }
 
-func NewVehicleHandler(vehicleService *service.VehicleService) *VehicleHandler {
-	return &VehicleHandler{vehicleService: vehicleService}
+func NewVehicleHandler(vehicleService *service.VehicleService, messageService *service.MessageService) *VehicleHandler {
+	return &VehicleHandler{vehicleService: vehicleService, messageService: messageService}
 }
 
 func (h *VehicleHandler) Create(c *fiber.Ctx) error {
@@ -139,6 +140,16 @@ func (h *VehicleHandler) GetAll(c *fiber.Ctx) error {
 	if maxYear := c.Query("max_year"); maxYear != "" {
 		val, _ := strconv.Atoi(maxYear)
 		filter.YearTo = &val
+	}
+
+	if minMileage := c.Query("min_mileage"); minMileage != "" {
+		val, _ := strconv.Atoi(minMileage)
+		filter.MinMileage = &val
+	}
+
+	if maxMileage := c.Query("max_mileage"); maxMileage != "" {
+		val, _ := strconv.Atoi(maxMileage)
+		filter.MaxMileage = &val
 	}
 
 	if verified := c.Query("verified"); verified != "" {
@@ -373,12 +384,14 @@ func (h *VehicleHandler) vehicleToResponse(v *domain.Vehicle) fiber.Map {
 }
 
 func (h *VehicleHandler) GetDashboardStats(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 
 	stats, err := h.vehicleService.GetSellerStats(userID)
 	if err != nil {
 		return response.InternalError(c, "Failed to fetch stats")
 	}
+
+	unreadMessages, _ := h.messageService.GetUnreadCount(userID)
 
 	recentVehicles, _, _ := h.vehicleService.GetBySeller(userID, 1, 5)
 
@@ -390,11 +403,12 @@ func (h *VehicleHandler) GetDashboardStats(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"stats":           stats,
 		"recent_vehicles": recentVehicleResponses,
+		"unread_messages": unreadMessages,
 	})
 }
 
 func (h *VehicleHandler) GetSellerVehicles(c *fiber.Ctx) error {
-	userID := c.Locals("user_id").(uuid.UUID)
+	userID, _ := uuid.Parse(c.Locals("user_id").(string))
 
 	page := c.QueryInt("page", 1)
 	limit := c.QueryInt("limit", 20)

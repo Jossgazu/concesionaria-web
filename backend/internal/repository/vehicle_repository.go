@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/concesionaria-web/backend/internal/domain"
@@ -18,22 +19,24 @@ func NewVehicleRepository(db *gorm.DB) *VehicleRepository {
 }
 
 type VehicleFilter struct {
-	Brand     string
-	Model     string
-	MinPrice  *float64
-	MaxPrice  *float64
-	YearFrom  *int
-	YearTo    *int
-	BodyType  string
-	FuelType  string
-	Status    string
-	Verified  *bool
-	SellerID  *uuid.UUID
-	Search    string
-	SortBy    string
-	SortOrder string
-	Page      int
-	Limit     int
+	Brand      string
+	Model      string
+	MinPrice   *float64
+	MaxPrice   *float64
+	MinMileage *int
+	MaxMileage *int
+	YearFrom   *int
+	YearTo     *int
+	BodyType   string
+	FuelType   string
+	Status     string
+	Verified   *bool
+	SellerID   *uuid.UUID
+	Search     string
+	SortBy     string
+	SortOrder  string
+	Page       int
+	Limit      int
 }
 
 func (r *VehicleRepository) FindAll(filter VehicleFilter) ([]domain.Vehicle, int64, error) {
@@ -49,11 +52,11 @@ func (r *VehicleRepository) FindAll(filter VehicleFilter) ([]domain.Vehicle, int
 	}
 
 	if filter.Brand != "" {
-		query = query.Where("brand ILIKE ?", "%"+filter.Brand+"%")
+		query = query.Where("LOWER(brand) LIKE ?", "%"+strings.ToLower(filter.Brand)+"%")
 	}
 
 	if filter.Model != "" {
-		query = query.Where("model ILIKE ?", "%"+filter.Model+"%")
+		query = query.Where("LOWER(model) LIKE ?", "%"+strings.ToLower(filter.Model)+"%")
 	}
 
 	if filter.MinPrice != nil {
@@ -62,6 +65,14 @@ func (r *VehicleRepository) FindAll(filter VehicleFilter) ([]domain.Vehicle, int
 
 	if filter.MaxPrice != nil {
 		query = query.Where("price <= ?", *filter.MaxPrice)
+	}
+
+	if filter.MinMileage != nil {
+		query = query.Where("mileage >= ?", *filter.MinMileage)
+	}
+
+	if filter.MaxMileage != nil {
+		query = query.Where("mileage <= ?", *filter.MaxMileage)
 	}
 
 	if filter.YearFrom != nil {
@@ -73,11 +84,11 @@ func (r *VehicleRepository) FindAll(filter VehicleFilter) ([]domain.Vehicle, int
 	}
 
 	if filter.BodyType != "" {
-		query = query.Where("body_type = ?", filter.BodyType)
+		query = query.Where("LOWER(body_type) = ?", strings.ToLower(filter.BodyType))
 	}
 
 	if filter.FuelType != "" {
-		query = query.Where("fuel_type = ?", filter.FuelType)
+		query = query.Where("LOWER(fuel_type) = ?", strings.ToLower(filter.FuelType))
 	}
 
 	if filter.Verified != nil {
@@ -89,7 +100,8 @@ func (r *VehicleRepository) FindAll(filter VehicleFilter) ([]domain.Vehicle, int
 	}
 
 	if filter.Search != "" {
-		query = query.Where("to_tsvector('spanish', brand || ' ' || model || ' ' || COALESCE(description, '')) @@ plainto_tsquery('spanish', ?)", filter.Search)
+		searchTerm := "%" + strings.ToLower(filter.Search) + "%"
+		query = query.Where("LOWER(brand) LIKE ? OR LOWER(model) LIKE ? OR LOWER(body_type) LIKE ? OR LOWER(fuel_type) LIKE ?", searchTerm, searchTerm, searchTerm, searchTerm)
 	}
 
 	query.Count(&total)
@@ -122,7 +134,7 @@ func (r *VehicleRepository) FindAll(filter VehicleFilter) ([]domain.Vehicle, int
 
 func (r *VehicleRepository) FindByID(id uuid.UUID) (*domain.Vehicle, error) {
 	var vehicle domain.Vehicle
-	err := r.db.Preload("Images").Preload("Specs").Preload("Seller").Preload("Valuation").
+	err := r.db.Preload("Images").Preload("Specs").Preload("Seller").
 		First(&vehicle, "id = ? AND deleted_at IS NULL", id).Error
 	if err != nil {
 		return nil, err

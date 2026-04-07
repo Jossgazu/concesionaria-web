@@ -68,7 +68,7 @@ func (s *AuthService) Register(req *RegisterRequest) (*domain.User, string, erro
 		Password: string(hashedPassword),
 		Name:     req.Name,
 		Phone:    req.Phone,
-		Role:     "user",
+		Role:     "buyer",
 	}
 
 	err = s.userRepo.Create(user)

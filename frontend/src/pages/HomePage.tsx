@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ChevronRight, Car, Shield, Clock } from 'lucide-react';
+import { Search, ChevronRight, Shield, Clock, Car, MessageSquare, Star } from 'lucide-react';
 import { vehicleService } from '../services/api';
 import VehicleCard from '../components/vehicles/VehicleCard';
 
@@ -47,31 +47,31 @@ export default function HomePage() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/vehicles?search=${encodeURIComponent(searchQuery)}`;
+      window.location.href = `/vehiculos?search=${encodeURIComponent(searchQuery)}`;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <section className="bg-gradient-to-br from-primary via-primary to-secondary text-white py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight tracking-tight">
               Encuentra tu próximo vehículo
             </h1>
             <p className="text-xl text-white/90 mb-8">
               Miles de vehículos verificados de vendedores de confianza
             </p>
             
-            <form onSubmit={handleSearch} className="bg-white rounded-xl p-2 shadow-2xl flex flex-col md:flex-row gap-2">
+            <form onSubmit={handleSearch} className="bg-surface-container-lowest rounded-xl p-2 shadow-[0_20px_40px_rgba(25,28,30,0.15)] flex flex-col md:flex-row gap-2">
               <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary w-5 h-5" />
                 <input
                   type="text"
                   placeholder="Buscar por marca, modelo o palabra clave..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  className="w-full pl-12 pr-4 py-4 rounded-lg text-on-surface bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
               <button
@@ -87,33 +87,33 @@ export default function HomePage() {
 
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-2xl font-bold text-on-surface mb-8 text-center">
             Explora por tipo de vehículo
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {BODY_TYPES.map((type) => (
               <Link
                 key={type.id}
-                to={`/vehicles?body_type=${type.id}`}
-                className="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all border border-gray-100"
+                to={`/vehiculos?body_type=${type.id}`}
+                className="bg-surface-container-lowest rounded-xl p-6 text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all"
               >
                 <span className="text-4xl mb-3 block">{type.icon}</span>
-                <span className="font-medium text-gray-800">{type.name}</span>
+                <span className="font-medium text-on-surface">{type.name}</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-12 px-4 bg-white">
+      <section className="py-12 px-4 bg-surface-container-low">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-on-surface">
               Vehículos destacados
             </h2>
             <Link
-              to="/vehicles"
-              className="text-primary hover:text-primary/80 font-medium flex items-center gap-1"
+              to="/vehiculos"
+              className="text-accent hover:text-on-tertiary-container font-medium flex items-center gap-1"
             >
               Ver todos <ChevronRight className="w-4 h-4" />
             </Link>
@@ -122,7 +122,7 @@ export default function HomePage() {
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="bg-gray-100 rounded-xl h-72 animate-pulse" />
+                <div key={i} className="bg-surface-container-lowest rounded-xl h-72 animate-pulse" />
               ))}
             </div>
           ) : (
@@ -137,91 +137,91 @@ export default function HomePage() {
 
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-2xl font-bold text-on-surface mb-8 text-center">
             Marcas populares
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
             {BRANDS.map((brand) => (
               <Link
                 key={brand.id}
-                to={`/vehicles?brand=${brand.id}`}
-                className="bg-white rounded-xl p-4 flex items-center justify-center shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+                to={`/vehiculos?brand=${brand.id}`}
+                className="bg-surface-container-lowest rounded-xl p-4 flex items-center justify-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-shadow"
               >
-                <span className="font-semibold text-gray-700">{brand.name}</span>
+                <span className="font-semibold text-on-surface">{brand.name}</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 px-4 bg-gray-900 text-white">
+      <section className="py-16 px-4 bg-primary text-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            ¿Cómo funciona?
+          <h2 className="text-3xl font-bold text-center mb-12 tracking-tight">
+            ¿Por qué elegirnos?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="bg-primary/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="w-8 h-8" />
+              <div className="bg-white/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">1. Busca tu vehículo</h3>
-              <p className="text-gray-400">
-                Filtra por marca, modelo, precio y más para encontrar exactamente lo que necesitas.
+              <h3 className="text-xl font-semibold mb-2">Vehículos verificados</h3>
+              <p className="text-white/70">
+                Todos los vehículos pasan por un proceso de verificación antes de ser publicados.
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-primary/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Car className="w-8 h-8" />
+              <div className="bg-white/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <MessageSquare className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">2. Contacta al vendedor</h3>
-              <p className="text-gray-400">
+              <h3 className="text-xl font-semibold mb-2">Contacto directo</h3>
+              <p className="text-white/70">
                 Comunícate directamente con el vendedor a través de nuestro sistema de mensajería.
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-primary/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8" />
+              <div className="bg-white/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Star className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">3. Cierra el trato</h3>
-              <p className="text-gray-400">
-                Negocia y completa la compra de forma segura con vendedores verificados.
+              <h3 className="text-xl font-semibold mb-2">Vendedores evaluados</h3>
+              <p className="text-white/70">
+                Sistema de valoraciones para que compres con confianza.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-12 px-4">
+      <section className="py-12 px-4 bg-surface-container-low">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
           <div className="flex items-start gap-4">
-            <div className="bg-primary/10 p-3 rounded-lg">
-              <Shield className="w-6 h-6 text-primary" />
+            <div className="bg-tertiary-fixed p-3 rounded-xl">
+              <Shield className="w-6 h-6 text-tertiary" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-1">Vehículos verificados</h3>
-              <p className="text-gray-600 text-sm">
-                Todos los vehículos son revisados para asegurar calidad y autenticidad.
+              <h3 className="font-semibold text-on-surface mb-1">Compra segura</h3>
+              <p className="text-on-surface-variant text-sm">
+                Vendedores verificados y evaluados por la comunidad.
               </p>
             </div>
           </div>
           <div className="flex items-start gap-4">
-            <div className="bg-primary/10 p-3 rounded-lg">
-              <Clock className="w-6 h-6 text-primary" />
+            <div className="bg-tertiary-fixed p-3 rounded-xl">
+              <Clock className="w-6 h-6 text-tertiary" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-1">Atención 24/7</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-semibold text-on-surface mb-1">Atención 24/7</h3>
+              <p className="text-on-surface-variant text-sm">
                 Estamos disponibles cuando tú nos necesites.
               </p>
             </div>
           </div>
           <div className="flex items-start gap-4">
-            <div className="bg-primary/10 p-3 rounded-lg">
-              <Car className="w-6 h-6 text-primary" />
+            <div className="bg-tertiary-fixed p-3 rounded-xl">
+              <Car className="w-6 h-6 text-tertiary" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900 mb-1">Miles de opciones</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-semibold text-on-surface mb-1">Miles de opciones</h3>
+              <p className="text-on-surface-variant text-sm">
                 Amplio catálogo de vehículos para todos los gustos y presupuestos.
               </p>
             </div>

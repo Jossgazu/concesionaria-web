@@ -1,12 +1,19 @@
 import axios from 'axios';
+import { create } from 'zustand';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1',
   timeout: 10000,
 });
 
+const authStore = create<{ token: string | null }>(() => ({ token: null }));
+
+export const setAuthToken = (token: string | null) => {
+  authStore.setState({ token });
+};
+
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = authStore.getState().token;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -17,8 +24,11 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      const hasToken = authStore.getState().token !== null;
+      if (hasToken && window.location.pathname !== '/login') {
+        setAuthToken(null);
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
@@ -68,8 +78,6 @@ export const messageService = {
   getMessages: (conversationId: string) => api.get(`/messages/conversations/${conversationId}`),
   send: (receiverId: string, content: string, vehicleId?: string) =>
     api.post('/messages', { receiver_id: receiverId, content, vehicle_id: vehicleId }),
-  sendMessage: (receiverId: string, content: string, vehicleId?: string) =>
-    api.post('/messages', { receiverId, content, vehicleId }),
   markAsRead: (id: string) => api.put(`/messages/${id}/read`),
 };
 
@@ -77,6 +85,7 @@ export const ratingService = {
   create: (data: any) => api.post('/ratings', data),
   getUserRatings: (userId: string, params?: any) => api.get(`/ratings/user/${userId}`, { params }),
   getUserSummary: (userId: string) => api.get(`/ratings/user/${userId}/summary`),
+  getUserRatingSummary: (userId: string) => api.get(`/ratings/user/${userId}/summary`),
 };
 
 export default api;

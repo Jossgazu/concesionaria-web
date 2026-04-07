@@ -14,6 +14,8 @@ import { DashboardVehiclesPage } from './pages/DashboardVehiclesPage';
 import DashboardFavoritesPage from './pages/DashboardFavoritesPage';
 import DashboardMessagesPage from './pages/DashboardMessagesPage';
 import DashboardValuationsPage from './pages/DashboardValuationsPage';
+import DashboardRatingsPage from './pages/DashboardRatingsPage';
+import SellerProfilePage from './pages/SellerProfilePage';
 import SellPage from './pages/SellPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { Header } from './components/layout/Header';
@@ -22,11 +24,41 @@ import { Toast } from './components/ui/Toast';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuthStore();
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  const { isAuthenticated, _hasHydrated } = useAuthStore();
+  if (!_hasHydrated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+  if (!isAuthenticated) return <Navigate to="/login" />;
+  return <>{children}</>;
+}
+
+function PublicRoute({ children }: { children: React.ReactNode }) {
+  const { _hasHydrated } = useAuthStore();
+  if (!_hasHydrated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+  return <>{children}</>;
 }
 
 function App() {
+  const { _hasHydrated } = useAuthStore();
+
+  if (!_hasHydrated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   return (
     <ErrorBoundary>
       <BrowserRouter>
@@ -36,6 +68,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/vehiculos" element={<VehicleBrowsePage />} />
         <Route path="/vehiculos/:id" element={<VehicleDetailPage />} />
+        <Route path="/users/:id" element={<SellerProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         
@@ -50,14 +83,15 @@ function App() {
           <Route path="vehicles/:id/edit" element={<DashboardVehiclesPage />} />
           <Route path="favorites" element={<DashboardFavoritesPage />} />
           <Route path="messages" element={<DashboardMessagesPage />} />
-          <Route path="ratings" element={<DashboardMessagesPage />} />
+          <Route path="ratings" element={<DashboardRatingsPage />} />
           <Route path="profile" element={<DashboardProfilePage />} />
         </Route>
         
-        <Route path="/favoritos" element={<DashboardFavoritesPage />} />
-        <Route path="/mensajes" element={<DashboardMessagesPage />} />
-        <Route path="/valuacion" element={<DashboardValuationsPage />} />
-        <Route path="/sell" element={<SellPage />} />
+        <Route path="/favoritos" element={<ProtectedRoute><DashboardPage><DashboardFavoritesPage /></DashboardPage></ProtectedRoute>} />
+        <Route path="/mensajes" element={<ProtectedRoute><DashboardPage><DashboardMessagesPage /></DashboardPage></ProtectedRoute>} />
+        <Route path="/valuacion" element={<Navigate to="/vender" />} />
+        <Route path="/vender" element={<ProtectedRoute><SellPage /></ProtectedRoute>} />
+        <Route path="/vehicles" element={<Navigate to="/vehiculos" />} />
         <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Toast />

@@ -31,7 +31,7 @@ export function ValuationWizard() {
     setIsLoading(true);
     try {
       const response = await valuationService.create(data);
-      setValuationResult(response.data);
+      setValuationResult(response.data.data || response.data);
       setCurrentStep(3);
       success('Tasación completada exitosamente');
     } catch (err) {
@@ -70,13 +70,13 @@ export function ValuationWizard() {
   ];
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="flex border-b border-gray-100">
+    <div className="max-w-2xl mx-auto bg-surface-container-lowest rounded-lg shadow-[0_8px_16px_rgba(25,28,30,0.04)] overflow-hidden">
+      <div className="flex border-b border-surface-container-low">
         {steps.map((step) => (
           <div
             key={step.id}
             className={`flex-1 flex items-center justify-center py-4 px-2 text-center ${
-              currentStep >= step.id ? 'bg-primary text-white' : 'bg-gray-50 text-gray-500'
+              currentStep >= step.id ? 'bg-primary text-white' : 'bg-surface-container-low text-on-surface-variant'
             }`}
           >
             <step.icon className="w-5 h-5 mr-2 hidden sm:block" />
@@ -154,10 +154,10 @@ export function ValuationWizard() {
             </div>
             <h3 className="text-xl font-semibold mb-2">Valor Estimado</h3>
             <p className="text-4xl font-bold text-primary mb-2">
-              {valuationResult.currency} {valuationResult.estimatedValue.toLocaleString()}
+              {valuationResult.currency ?? 'USD'} {valuationResult.estimatedValue?.toLocaleString() ?? '0'}
             </p>
-            <p className="text-gray-500 mb-6">
-              Basado en {getValues('year')} • {getValues('mileage').toLocaleString()} km • {getValues('condition')}
+            <p className="text-on-surface-variant mb-6">
+              Basado en {getValues('year') ?? 'N/A'} • {getValues('mileage')?.toLocaleString() ?? '0'} km • {getValues('condition') ?? 'N/A'}
             </p>
             <div className="flex justify-center gap-4">
               <Button type="button" variant="outline" onClick={() => setCurrentStep(1)}>

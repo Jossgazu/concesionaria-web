@@ -11,11 +11,11 @@ import (
 type User struct {
 	ID        uuid.UUID      `gorm:"type:uuid;primary_key" json:"id"`
 	Email     string         `gorm:"uniqueIndex;not null" json:"email"`
-	Password  string         `gorm:"not null" json:"-"`
+	Password  string         `gorm:"column:password_hash;not null" json:"-"`
 	Name      string         `gorm:"not null" json:"name"`
 	Phone     string         `json:"phone"`
 	AvatarURL string         `json:"avatar_url"`
-	Role      string         `gorm:"default:user" json:"role"`
+	Role      string         `gorm:"default:buyer" json:"role"`
 	Bio       string         `json:"bio"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
@@ -39,6 +39,7 @@ type Vehicle struct {
 	Year         int             `gorm:"not null;index" json:"year"`
 	Mileage      int             `gorm:"not null;index" json:"mileage"`
 	Price        decimal.Decimal `gorm:"type:decimal(12,2);not null;index" json:"price"`
+	Negotiable   bool            `gorm:"default:false" json:"negotiable"`
 	Currency     string          `gorm:"type:varchar(10);default:'USD'" json:"currency"`
 	BodyType     string          `gorm:"type:varchar(50);index" json:"body_type"`
 	FuelType     string          `gorm:"type:varchar(50)" json:"fuel_type"`
@@ -50,7 +51,6 @@ type Vehicle struct {
 	Views        int             `gorm:"default:0" json:"views"`
 	Images       []VehicleImage  `gorm:"foreignKey:VehicleID" json:"images,omitempty"`
 	Specs        *VehicleSpecs   `gorm:"foreignKey:VehicleID" json:"specs,omitempty"`
-	Valuation    *Valuation      `gorm:"foreignKey:VehicleID" json:"valuation,omitempty"`
 	CreatedAt    time.Time       `json:"created_at"`
 	UpdatedAt    time.Time       `json:"updated_at"`
 	DeletedAt    *time.Time      `gorm:"index" json:"-"`
@@ -99,9 +99,9 @@ type VehicleSpecs struct {
 	ConsumptionCity    float64   `json:"consumption_city"`
 	ConsumptionHighway float64   `json:"consumption_highway"`
 	Emissions          string    `gorm:"type:varchar(20)" json:"emissions"`
-	SafetyFeatures     string    `gorm:"type:text" json:"safety_features"`
-	ComfortFeatures    string    `gorm:"type:text" json:"comfort_features"`
-	OtherFeatures      string    `gorm:"type:text" json:"other_features"`
+	SafetyFeatures     string    `gorm:"type:jsonb" json:"safety_features"`
+	ComfortFeatures    string    `gorm:"type:jsonb" json:"comfort_features"`
+	OtherFeatures      string    `gorm:"type:jsonb" json:"other_features"`
 	CreatedAt          time.Time `json:"created_at"`
 	UpdatedAt          time.Time `json:"updated_at"`
 }
@@ -123,7 +123,7 @@ type Valuation struct {
 	Mileage        int             `gorm:"not null" json:"mileage"`
 	Condition      string          `gorm:"type:varchar(20)" json:"condition"`
 	EstimatedPrice decimal.Decimal `gorm:"type:decimal(12,2)" json:"estimated_price"`
-	Status         string          `gorm:"type:varchar(20);default:'processed'" json:"status"`
+	Status         string          `gorm:"type:varchar(20);default:'pending'" json:"status"`
 	Notes          string          `gorm:"type:text" json:"notes"`
 	CreatedAt      time.Time       `json:"created_at"`
 	UpdatedAt      time.Time       `json:"updated_at"`
@@ -153,14 +153,19 @@ func (f *Favorite) BeforeCreate(tx *gorm.DB) error {
 }
 
 type Rating struct {
-	ID        uuid.UUID `gorm:"type:uuid;primary_key" json:"id"`
-	RaterID   uuid.UUID `gorm:"type:uuid;not null" json:"rater_id"`
-	Rater     User      `gorm:"foreignKey:RaterID" json:"rater,omitempty"`
-	TargetID  uuid.UUID `gorm:"type:uuid;not null" json:"target_id"`
-	Target    User      `gorm:"foreignKey:TargetID" json:"target,omitempty"`
-	Score     int       `gorm:"not null" json:"score"`
-	Comment   string    `json:"comment"`
-	CreatedAt time.Time `json:"created_at"`
+	ID             uuid.UUID  `gorm:"type:uuid;primary_key" json:"id"`
+	RaterID        uuid.UUID  `gorm:"type:uuid;not null" json:"rater_id"`
+	TargetID       uuid.UUID  `gorm:"type:uuid;column:rated_user_id;not null" json:"target_id"`
+	VehicleID      *uuid.UUID `gorm:"type:uuid" json:"vehicle_id,omitempty"`
+	TransactionID  *uuid.UUID `gorm:"type:uuid" json:"transaction_id,omitempty"`
+	Score          int        `gorm:"not null" json:"score"`
+	Comment        string     `json:"comment"`
+	SellerResponse string     `gorm:"type:text" json:"seller_response"`
+	CreatedAt      time.Time  `json:"created_at"`
+	UpdatedAt      time.Time  `json:"updated_at"`
+	Vehicle        *Vehicle   `gorm:"foreignKey:VehicleID" json:"vehicle,omitempty"`
+	Rater          *User      `gorm:"foreignKey:RaterID" json:"rater,omitempty"`
+	Target         *User      `gorm:"foreignKey:TargetID" json:"target,omitempty"`
 }
 
 func (r *Rating) BeforeCreate(tx *gorm.DB) error {
@@ -179,7 +184,7 @@ type Message struct {
 	VehicleID  *uuid.UUID `gorm:"type:uuid" json:"vehicle_id,omitempty"`
 	Vehicle    *Vehicle   `gorm:"foreignKey:VehicleID" json:"vehicle,omitempty"`
 	Content    string     `gorm:"not null" json:"content"`
-	Read       bool       `gorm:"default:false" json:"read"`
+	Read       bool       `gorm:"column:read;default:false" json:"read"`
 	CreatedAt  time.Time  `json:"created_at"`
 }
 

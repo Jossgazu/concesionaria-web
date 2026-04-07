@@ -6,6 +6,7 @@ import (
 	"github.com/concesionaria-web/backend/pkg/response"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/google/uuid"
 )
 
 func Protected(jwtSecret string) fiber.Handler {
@@ -46,4 +47,30 @@ type JWTClaims struct {
 	Email  string `json:"email"`
 	Role   string `json:"role"`
 	jwt.RegisteredClaims
+}
+
+var jwtSecret string
+
+func SetJWTSecret(secret string) {
+	jwtSecret = secret
+}
+
+func GetUserIDFromToken(tokenString string) (uuid.UUID, error) {
+	if jwtSecret == "" {
+		jwtSecret = "concesionaria-secret-key-2024"
+	}
+
+	token, err := jwt.ParseWithClaims(tokenString, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(jwtSecret), nil
+	})
+	if err != nil || !token.Valid {
+		return uuid.Nil, err
+	}
+
+	claims, ok := token.Claims.(*JWTClaims)
+	if !ok {
+		return uuid.Nil, err
+	}
+
+	return uuid.Parse(claims.UserID)
 }

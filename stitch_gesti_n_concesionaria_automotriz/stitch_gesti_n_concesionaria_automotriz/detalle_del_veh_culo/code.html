@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#444749",
+                    "surface-variant": "#e2e2e5",
+                    "surface-tint": "#5c5f61",
+                    "surface-container": "#edeef1",
+                    "tertiary-fixed": "#d8e2ff",
+                    "on-tertiary-fixed-variant": "#004493",
+                    "on-error": "#ffffff",
+                    "background": "#f9f9fc",
+                    "tertiary-container": "#002e69",
+                    "surface-container-low": "#f3f3f6",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#c5c7c9",
+                    "on-primary-container": "#96999b",
+                    "tertiary": "#001a41",
+                    "primary": "#191c1e",
+                    "outline-variant": "#c4c7c9",
+                    "inverse-on-surface": "#f0f0f3",
+                    "on-secondary-fixed-variant": "#44474b",
+                    "on-surface-variant": "#444749",
+                    "outline": "#74777a",
+                    "on-surface": "#1a1c1e",
+                    "on-tertiary-container": "#5b96ff",
+                    "on-secondary-fixed": "#181c20",
+                    "inverse-primary": "#c5c7c9",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#c4c6cc",
+                    "on-tertiary-fixed": "#001a41",
+                    "surface-container-highest": "#e2e2e5",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#2e3133",
+                    "surface-bright": "#f9f9fc",
+                    "primary-fixed": "#e1e3e5",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#e0e2e8",
+                    "secondary": "#5b5f63",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#e0e2e8",
+                    "error": "#ba1a1a",
+                    "on-background": "#1a1c1e",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#e8e8eb",
+                    "surface-dim": "#d9dadd",
+                    "on-secondary-container": "#616569",
+                    "tertiary-fixed-dim": "#adc6ff",
+                    "inverse-surface": "#2f3133",
+                    "on-primary-fixed": "#191c1e",
+                    "surface": "#f9f9fc"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar Component -->
+<header class="fixed top-0 w-full z-50 bg-[#F9F9FC]/80 backdrop-blur-md shadow-sm">
+<nav class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#2E3133] font-['Manrope'] tracking-tight">Andina Motor Studio</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-[#8E9196] hover:text-[#2E3133] transition-all duration-300 font-['Manrope'] tracking-tight" href="#">Comprar</a>
+<a class="text-[#8E9196] hover:text-[#2E3133] transition-all duration-300 font-['Manrope'] tracking-tight" href="#">Vender</a>
+<a class="text-[#8E9196] hover:text-[#2E3133] transition-all duration-300 font-['Manrope'] tracking-tight" href="#">Nosotros</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 text-[#007AFF] font-semibold font-['Manrope'] tracking-tight px-4 py-2 hover:opacity-80 transition-all">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Mi Cuenta</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="pt-24 pb-16 px-4 md:px-8 max-w-screen-2xl mx-auto">
+<!-- Breadcrumbs (Manual Addition for Context) -->
+<nav class="flex items-center gap-2 text-xs text-secondary mb-6 font-medium uppercase tracking-wider">
+<a class="hover:text-primary" href="#">Inicio</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-primary" href="#">Camionetas</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">Toyota Hilux GR-S 2024</span>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Main Content Left (Gallery & Specs) -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Image Gallery Section -->
+<div class="space-y-4">
+<div class="relative group aspect-[16/9] w-full overflow-hidden rounded-xl bg-surface-container shadow-lg">
+<img alt="Toyota Hilux GR-S Front View" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Modern Toyota Hilux GR-S parked on a rugged mountain path at sunset, highlighting its aggressive front grille and performance wheels." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4yLuCsUxNoRtNzLJWPoFifVB06_n9mzTWcr8a6eBMlHpFUhOFD1urwWtnSYtoXN4prC9maRbOB82yp07QJEfBq2syuvxpi9u3m1Taoa4hEVglEvHBfDSrp8OG4lsIRzWopEv_zTNduNOYldqKDW1n6NoAR3mQZ7K83Os4O3mjmi02mJNJPcYwkNsQpQ8RCnWJ8xnzQuOujCuQb3xX2LPKijA8jPO7I7bXj7jvjt6OYg66K4M2QIEdCVM5inUNKNBJHDb52M1iqKlH"/>
+<div class="absolute bottom-4 left-4 flex gap-2">
+<span class="bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">photo_camera</span> 1/12
+                            </span>
+</div>
+</div>
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+<div class="shrink-0 w-32 aspect-square rounded-lg overflow-hidden border-2 border-on-tertiary-container cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="Close-up side profile of a Toyota Hilux GR-S showing sporty decals and suspension details" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuVZ7E0Q-7Jq-h_r4yklFs__zMY7BFLV_MuvIPhvGLbgbvHT-MRJokJGVViBpiGyYBthdu9PpsGoVL05NGdlOZ9cuTclPEKNzjo8ILkIuIevaeh9TX35eWUMFv2ezfLZFURHsDae7bNJ0b_KqZtoIfq-JKQw-7EgxTDjKBfecAFgZt25EZxn0zY7tO0lQxHmyZ24nA6IP-OFLfAovx66fsva4g8Guj4dWclj_5N8kPgreY9by3zgrtf2esXgRP-qf3e5zk5K0zkZss"/>
+</div>
+<div class="shrink-0 w-32 aspect-square rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity">
+<img class="w-full h-full object-cover" data-alt="Luxurious interior dashboard of a 2024 Toyota Hilux with digital display and red stitching accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpVgOBt1MofBwNYf_laKrIa5P0S9buo0WvASy26znI2jFlt1dEbbJgObivtA0SLNNU0yB4IOJlaJiRHUAizpY1VAf7IW-ewdbggLTYGbOit9JUeWfHFTfvdzkdeR6B-v0JZpXRrBtLXwXlDCsgoRtDn6b9K2fi4jyeEpql-9fqy2C6AyA7vlHHZiJZWbqleOj-Na1rcTScsEHGnxerNGnRI_X2uvCtDdUc16wDjBSO0j-nltWupZwM3LBHiMoM5RPEr3lh-_WhfPkZ"/>
+</div>
+<div class="shrink-0 w-32 aspect-square rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity">
+<img class="w-full h-full object-cover" data-alt="High-performance off-road tires and alloy rims of a sport pickup truck on gravel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCs6hi34TCgXGgyKMVM7YAJ6jAl0GFejzgkZH_Td5ejwNNH7v3JPtCFjD1btbSrHStwhvDPybW7iYCkuzOsG0gXOum1_Ato8Knt08mm8HOpn7CGfEpMwYu-PnuTYSnwIUsT-TnA4oNlNkIzDtMhxaxkTM_hVMbtZGFkF3hXYQLK41UYOhGk27IUsnpCYyhnYZCaScVJeMkwmQm6fXAWS-5NItXj1AgOOxbqbuCxwHfVbJ6CtMSa_liTgOTMm2H9QpfAIICCcIGkSblN"/>
+</div>
+<div class="shrink-0 w-32 aspect-square rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity">
+<img class="w-full h-full object-cover" data-alt="Rear view of a white Toyota Hilux parked in a contemporary driveway under soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChKexF25NWBSXhU-vVHEMd_xpVNGTTjsc3-3cxPd1ifqMiJIFSfOnjqx4sujJEBx5bXCMsL47qK8btgxUKqaccR2Uk4BtvmeCM5b-H2FaDrq3wHD54JpEi85rUILGpcQYWPvQSLPvUY146tojKjKTpOqc673KqGqOVF8iXkgjAMrivM3gEJqf2Rw-IzAbru3X7CzjMiZ6xchRqdyWG703K5oi7dyXiDM-2yZIGm8l_XE8AKMhfOnT02MnnRYt1vv5FVFKz5j_-r8G9"/>
+</div>
+<div class="shrink-0 w-32 aspect-square rounded-lg overflow-hidden relative cursor-pointer group">
+<img class="w-full h-full object-cover" data-alt="Abstract view of car LED headlights glowing in a dark garage setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTI-hzGzq3_MQXE_8qv8Cdr2cM-stD-l_mmm8IvljBQHS5oxljaamCm0od9ox5N01M5uowAtX1o1NfIEZm0um1IF0TrMRJ3JDmxu6aImTVnDXWGUbfPcJ_if-zBl3CnhtjAGnJG4KFh73fVkR_nNaEBEHBAtFY_b_fCeN-wwJ0CbE0QhlvgnlvRAIGbwVT9pEM3OLvSZal1v12uG1RtZ0WIf-Arzoqz0mzCmURLU80SyHHbpFgnSuGIznBM8ZNYLIjEiR_wKcfbCCM"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white font-bold group-hover:bg-black/20 transition-colors">+8</div>
+</div>
+</div>
+</div>
+<!-- Vehicle Header -->
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-4 py-6 border-b border-outline-variant/20">
+<div class="space-y-3">
+<div class="flex flex-wrap items-center gap-3">
+<span class="bg-primary text-on-primary px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-widest">Nuevo</span>
+<span class="bg-on-tertiary-container/10 text-on-tertiary-container px-3 py-1 rounded-md text-[10px] font-bold flex items-center gap-1 uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+                                Verificado
+                            </span>
+</div>
+<h1 class="text-4xl md:text-5xl font-extrabold font-headline tracking-tighter text-primary">Toyota Hilux GR-S 2024</h1>
+<p class="text-secondary font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-base">location_on</span> Quito, Ecuador
+                        </p>
+</div>
+<div class="flex gap-3">
+<button class="p-3 rounded-full border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<button class="p-3 rounded-full border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+<!-- Specifications Bento Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="bg-surface-container-low p-5 rounded-xl flex items-center gap-4 group hover:bg-surface-container-highest transition-colors">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<div>
+<p class="text-[10px] text-secondary font-bold uppercase tracking-widest">Año</p>
+<p class="font-bold text-primary">2024</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-5 rounded-xl flex items-center gap-4 hover:bg-surface-container-highest transition-colors">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined">settings_input_component</span>
+</div>
+<div>
+<p class="text-[10px] text-secondary font-bold uppercase tracking-widest">Transmisión</p>
+<p class="font-bold text-primary">Automática</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-5 rounded-xl flex items-center gap-4 hover:bg-surface-container-highest transition-colors">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined">local_gas_station</span>
+</div>
+<div>
+<p class="text-[10px] text-secondary font-bold uppercase tracking-widest">Combustible</p>
+<p class="font-bold text-primary">Diésel</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-5 rounded-xl flex items-center gap-4 hover:bg-surface-container-highest transition-colors">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined">speed</span>
+</div>
+<div>
+<p class="text-[10px] text-secondary font-bold uppercase tracking-widest">Motor</p>
+<p class="font-bold text-primary">2.8 Turbo</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-5 rounded-xl flex items-center gap-4 hover:bg-surface-container-highest transition-colors">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined">tire_repair</span>
+</div>
+<div>
+<p class="text-[10px] text-secondary font-bold uppercase tracking-widest">Tracción</p>
+<p class="font-bold text-primary">4x4</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-5 rounded-xl flex items-center gap-4 hover:bg-surface-container-highest transition-colors">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined">road</span>
+</div>
+<div>
+<p class="text-[10px] text-secondary font-bold uppercase tracking-widest">Kilometraje</p>
+<p class="font-bold text-primary">0 km</p>
+</div>
+</div>
+</div>
+<!-- Tabs Section -->
+<div class="pt-8">
+<div class="flex gap-8 border-b border-outline-variant/30 overflow-x-auto no-scrollbar">
+<button class="pb-4 text-sm font-bold border-b-2 border-on-tertiary-container text-primary whitespace-nowrap">Especificaciones</button>
+<button class="pb-4 text-sm font-medium text-secondary hover:text-primary transition-colors whitespace-nowrap">Equipamiento</button>
+<button class="pb-4 text-sm font-medium text-secondary hover:text-primary transition-colors whitespace-nowrap">Descripción del Vendedor</button>
+<button class="pb-4 text-sm font-medium text-secondary hover:text-primary transition-colors whitespace-nowrap">Seguridad</button>
+</div>
+<div class="py-8 space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+<div class="flex justify-between py-2 border-b border-outline-variant/10">
+<span class="text-secondary text-sm">Carrocería</span>
+<span class="font-bold text-sm">Pick-up</span>
+</div>
+<div class="flex justify-between py-2 border-b border-outline-variant/10">
+<span class="text-secondary text-sm">Puertas</span>
+<span class="font-bold text-sm">4</span>
+</div>
+<div class="flex justify-between py-2 border-b border-outline-variant/10">
+<span class="text-secondary text-sm">Color</span>
+<span class="font-bold text-sm">Blanco Perla / Negro</span>
+</div>
+<div class="flex justify-between py-2 border-b border-outline-variant/10">
+<span class="text-secondary text-sm">Asientos</span>
+<span class="font-bold text-sm">5</span>
+</div>
+<div class="flex justify-between py-2 border-b border-outline-variant/10">
+<span class="text-secondary text-sm">Potencia</span>
+<span class="font-bold text-sm">224 CV</span>
+</div>
+<div class="flex justify-between py-2 border-b border-outline-variant/10">
+<span class="text-secondary text-sm">Garantía</span>
+<span class="font-bold text-sm">5 años / 150.000 km</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Right Sidebar -->
+<div class="lg:col-span-4">
+<div class="sticky top-28 space-y-6">
+<!-- Pricing & Quick Action Card -->
+<div class="bg-surface-container-lowest p-8 rounded-2xl shadow-xl shadow-primary/5 border border-outline-variant/10">
+<div class="mb-6">
+<p class="text-xs font-black text-on-tertiary-container uppercase tracking-widest mb-1">Precio de Venta</p>
+<h2 class="text-5xl font-black font-headline tracking-tighter text-primary">$42,500 <span class="text-xl font-medium text-secondary">USD</span></h2>
+</div>
+<div class="space-y-3">
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-bold font-headline tracking-wide hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">mail</span>
+                                Enviar Mensaje
+                            </button>
+<button class="w-full border border-primary text-primary py-4 rounded-xl font-bold font-headline tracking-wide hover:bg-surface-container transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">call</span>
+                                Ver Teléfono
+                            </button>
+</div>
+<p class="text-center text-[10px] text-secondary mt-6 font-medium leading-relaxed uppercase tracking-tighter">Respuesta promedio en menos de 2 horas</p>
+</div>
+<!-- Seller Card -->
+<div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/10">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 rounded-full overflow-hidden border-2 border-white">
+<img class="w-full h-full object-cover" data-alt="Portrait of a professional car salesman in a suit smiling at the camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChpyeklsLgrhYXqUSDmOMLx20j5cWXCFA2PTQnaBvB8y___m2UADiDuDVzqkly6WS1-mm5LZ-ldyIlGaQZn40jYHh4yAhhG9OBqQsemIlaoo3sNXY157rfUGQxiSTTCvnN_5Its8HWS7y4C1y6A0xcVGrXXXYvZ__cC0lx5FUA9BKkB0sA6-o2Bqc4_PWK6_9tUfP_1NO4nFEpBpIwbzQawLQg-uO3-IMdLHZY7B9imxMjMZA-VRAF35MkuS8zRGRWWXZy8372vGVO"/>
+</div>
+<div>
+<p class="text-xs text-secondary font-bold uppercase tracking-widest">Vendedor</p>
+<h3 class="font-bold text-primary text-lg">Ricardo Paredes</h3>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-yellow-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-sm font-bold text-primary">4.8</span>
+<span class="text-xs text-secondary">(52 ventas)</span>
+</div>
+</div>
+</div>
+<a class="flex items-center justify-between group py-3 border-t border-outline-variant/20" href="#">
+<span class="text-sm font-bold text-on-tertiary-container">Ver perfil del vendedor</span>
+<span class="material-symbols-outlined text-on-tertiary-container group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
+</a>
+</div>
+<!-- Security Panel -->
+<div class="bg-secondary-container/30 p-6 rounded-2xl border border-outline-variant/5">
+<div class="flex items-center gap-3 mb-4 text-on-tertiary-container">
+<span class="material-symbols-outlined">security</span>
+<h4 class="font-bold text-sm uppercase tracking-widest">Compra Segura</h4>
+</div>
+<p class="text-xs text-secondary leading-relaxed mb-4">Consejos para una compra segura:</p>
+<ul class="space-y-3">
+<li class="flex gap-3 text-xs text-on-surface font-medium leading-tight">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                                Nunca pagues por adelantado sin ver el vehículo.
+                            </li>
+<li class="flex gap-3 text-xs text-on-surface font-medium leading-tight">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                                Coordina encuentros en lugares públicos y seguros.
+                            </li>
+<li class="flex gap-3 text-xs text-on-surface font-medium leading-tight">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                                Verifica la documentación legal en la agencia oficial.
+                            </li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Related Products / Also Interested (Manual Extension) -->
+<section class="mt-20 border-t border-outline-variant/20 pt-16">
+<h2 class="text-3xl font-black font-headline tracking-tighter text-primary mb-8">También te puede interesar</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Vehicle Card Prototype -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Ford Ranger Raptor in deep blue crossing a shallow river during the day" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi8UZZbnDZMvT-lyRZ7i84bgtOgaS50-IoctOgG59D2d3dNvjrslzS81252pAkcUfXOq1DH0vPPHUmn3yFIC-6ifJxSwpo4LHv8HnrhS-XbmrRwzfO48oE4czu8ZvUzXoIaGuSqHQEmtsX4pZH2XkawQrnC9oQ7Zxos796o_bCjJZx2cCkZgS8-l6lJIAfmSW9mDkVKyPsOXnAqhU_d4jrD8NO8frLHNdvIPA4eWj41JVV-cFS97As3j6frAKrOWmpcBxdJnE3isKE"/>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] font-black text-on-tertiary-container uppercase tracking-widest">2023 • Usado</p>
+<h3 class="font-black text-lg text-primary font-headline">Ford Ranger Raptor</h3>
+<p class="text-2xl font-black text-primary">$38,900</p>
+</div>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Mitsubishi L200 Triton parked on a urban coastal road during twilight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRMHi-bwSrhe2URIJGVsoecoxbmCZaF2aB-TIKeNc4nkoK_M_W9bC5-HUhb2wR2Mll0mGde-Zh68ilfSsfmT4EKxPxtri_YKrT-UbAGwVO7JVNRj_Es4vLgMWSuSGx7NWD8TH20ZHxaP-WHuqbyn5l1fTFdnJWgfEDYFdjVgeIe6teWpuh3XFTPjEoxc5eU1PWJXxo2pi1WyBHvCqYvVtFqDmYkJa_5aO3KaCdO6m1KyH92A6qQ24pwxtfdGJP0RTSAD1z1Zpc0u_2"/>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] font-black text-on-tertiary-container uppercase tracking-widest">2024 • Nuevo</p>
+<h3 class="font-black text-lg text-primary font-headline">Mitsubishi L200 Triton</h3>
+<p class="text-2xl font-black text-primary">$34,500</p>
+</div>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Rugged Volkswagen Amarok V6 driving through a snowy landscape at dusk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2Efcp9McWXc_rdNumfQ3PRn7jgnu4W-_5e5iNKsUaPv9wyL8RwqimeGHLvhVPl9GdkFEzP9KWriUOBcF9vmkV06xufZD_f4ZhTWajkQwrMljAyZ4hD5cZy-hEuIgrmdi0WjlwiwhdjQ1nGXjkBpqBhf5_bg3bXg6EkOkiIvNHtgiYtOtgBZ7aI1Ck1QdKh6OciXWiBnEvnSa3uPadoLIZ7dRiW4peL1ucUxi_xZ3iIvtF9TwpDg1grH8Bv9PfPrOrm6IHQKgC_BjI"/>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] font-black text-on-tertiary-container uppercase tracking-widest">2022 • Usado</p>
+<h3 class="font-black text-lg text-primary font-headline">Volkswagen Amarok V6</h3>
+<p class="text-2xl font-black text-primary">$31,200</p>
+</div>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Classic off-road Toyota Land Cruiser on a desert sand dune with dust swirling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAg0NJ4LG4oEueo9mzNVlGwDoFtBequRISggncOrA6BuGeHEosthDYVlJuD0AiaKdgy7MheCYxoxstb9PHQ05scGNlIdRBXdfiHNqus8jjqw2UsipxIjhSH5V3VvB7WtTP6ym2UxwacHu5SriA9CZx3jda66RrgvxLm5G-GtDP3F_-DLIk-hlgANi4ph63fXTMpL9sYdblrRUbSNJK7v-MpfSjBFuXispcU0whE_tSgm4duJeCxDHo7zm1vxeJnirWRBQJVLFJDKyzX"/>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] font-black text-on-tertiary-container uppercase tracking-widest">2024 • Nuevo</p>
+<h3 class="font-black text-lg text-primary font-headline">Toyota Land Cruiser</h3>
+<p class="text-2xl font-black text-primary">$89,900</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="w-full mt-auto bg-[#2E3133] border-t border-[#8E9196]/20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 w-full max-w-screen-2xl mx-auto">
+<div class="space-y-4">
+<span class="text-lg font-['Manrope'] text-white font-bold">Andina Motor Studio</span>
+<p class="text-[#8E9196] text-xs leading-relaxed font-['Inter']">© 2024 Andina Motor Studio. Curaduría Automotriz de Precisión.</p>
+</div>
+<div class="space-y-4">
+<h4 class="text-white text-sm font-bold font-['Manrope']">Categorías</h4>
+<ul class="space-y-2">
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-opacity font-['Inter']" href="#">SUV</a></li>
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-opacity font-['Inter']" href="#">Sedan</a></li>
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-opacity font-['Inter']" href="#">Pickups</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="text-white text-sm font-bold font-['Manrope']">Vende con nosotros</h4>
+<ul class="space-y-2">
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-opacity font-['Inter']" href="#">Publicar auto</a></li>
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-opacity font-['Inter']" href="#">Seguridad</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="text-white text-sm font-bold font-['Manrope']">Compañía</h4>
+<ul class="space-y-2">
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-opacity font-['Inter']" href="#">Nosotros</a></li>
+<li><a class="text-[#8E9196] hover:text-[#F9F9FC] text-xs transition-opacity font-['Inter']" href="#">Contacto</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>

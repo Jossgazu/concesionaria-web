@@ -53,8 +53,8 @@ func (r *UserRepository) GetSellerStats(sellerID uuid.UUID) (*SellerStats, error
 
 	r.db.Model(&domain.Vehicle{}).Where("seller_id = ? AND deleted_at IS NULL", sellerID).Select("COALESCE(SUM(views), 0)").Scan(&stats.TotalViews)
 
-	r.db.Model(&domain.Rating{}).Where("target_id = ?", sellerID).Count(&stats.TotalReviews)
-	r.db.Model(&domain.Rating{}).Where("target_id = ?", sellerID).Select("COALESCE(AVG(score), 0)").Scan(&stats.AverageRating)
+	r.db.Model(&domain.Rating{}).Where("rated_user_id = ?", sellerID).Count(&stats.TotalReviews)
+	r.db.Model(&domain.Rating{}).Where("rated_user_id = ?", sellerID).Select("COALESCE(AVG(score), 0)").Scan(&stats.AverageRating)
 
 	return &stats, nil
 }

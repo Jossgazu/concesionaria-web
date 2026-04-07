@@ -26,11 +26,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-surface-container-low flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Iniciar sesión</h1>
-          <p className="text-gray-600 mt-2">
+          <h1 className="text-3xl font-bold text-on-surface">Iniciar sesión</h1>
+          <p className="text-on-surface-variant mt-2">
             ¿No tienes cuenta?{' '}
             <Link to="/register" className="text-primary hover:text-primary/80">
               Regístrate
@@ -38,7 +38,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-surface-container-lowest rounded-2xl shadow-[0_20px_40px_rgba(25,28,30,0.06)] p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
@@ -47,15 +47,15 @@ export default function LoginPage() {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-on-surface mb-2">
                 Correo electrónico
               </label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant" />
                 <input
                   type="email"
                   {...register('email', { required: 'Este campo es requerido' })}
-                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full pl-12 pr-4 py-3 border border-surface-container-high rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   placeholder="tu@email.com"
                 />
               </div>
@@ -65,21 +65,21 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-on-surface mb-2">
                 Contraseña
               </label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   {...register('password', { required: 'Este campo es requerido' })}
-                  className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full pl-12 pr-12 py-3 border border-surface-container-high rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -92,7 +92,7 @@ export default function LoginPage() {
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2">
                 <input type="checkbox" className="rounded text-primary" />
-                <span className="text-sm text-gray-600">Recordarme</span>
+                <span className="text-sm text-on-surface-variant">Recordarme</span>
               </label>
               <Link to="/forgot-password" className="text-sm text-primary hover:text-primary/80">
                 ¿Olvidaste tu contraseña?
@@ -108,7 +108,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-500">
+          <div className="mt-6 text-center text-sm text-on-surface-variant">
             Al iniciar sesión, aceptas nuestros{' '}
             <Link to="/terms" className="text-primary">Términos de servicio</Link>
             {' '}y{' '}
