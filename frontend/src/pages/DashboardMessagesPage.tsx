@@ -4,7 +4,6 @@ import { useConversations, useMessages, useSendMessage, useMarkMessageAsRead } f
 import { useWebSocket } from '../hooks/useWebSocket';
 import { useAuthStore } from '../store/authStore';
 import { useToast } from '../hooks/useToast';
-import type { Conversation } from '../types';
 
 export default function DashboardMessagesPage() {
   const { user } = useAuthStore();
@@ -13,8 +12,7 @@ export default function DashboardMessagesPage() {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState<any[]>([]);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const messagesStartRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const sendMessage = useSendMessage();
   const markAsRead = useMarkMessageAsRead();
   const toast = useToast();
@@ -24,14 +22,14 @@ export default function DashboardMessagesPage() {
   useEffect(() => {
     if (fetchedMessages && fetchedMessages.length > 0) {
       setMessages(fetchedMessages);
-      setIsInitialLoad(false);
-      messagesStartRef.current?.scrollIntoView({ behavior: 'auto' });
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+      }, 50);
     }
   }, [fetchedMessages]);
 
   useEffect(() => {
     if (selectedUser) {
-      setIsInitialLoad(true);
       markAsRead.mutate(selectedUser.id, {
         onSuccess: () => {
           refetchConversations();
@@ -49,7 +47,9 @@ export default function DashboardMessagesPage() {
           if (exists) return prev;
           return [...prev, msg];
         });
-        messagesStartRef.current?.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }, 50);
       }
       refetchConversations();
     }
@@ -68,7 +68,9 @@ export default function DashboardMessagesPage() {
         created_at: new Date().toISOString(),
       };
       setMessages(prev => [...prev, tempMessage]);
-      messagesStartRef.current?.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
       
       await sendMessage.mutateAsync({ 
         receiverId: selectedUser.id, 
@@ -216,7 +218,7 @@ export default function DashboardMessagesPage() {
                       );
                     })
                   )}
-                  <div ref={messagesStartRef} />
+                  <div ref={messagesEndRef} />
                 </div>
 
                 <form onSubmit={handleSend} className="p-4 border-t border-surface-container-low flex gap-3">
