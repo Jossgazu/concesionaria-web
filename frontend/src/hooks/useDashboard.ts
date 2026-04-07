@@ -3,6 +3,20 @@ import { vehicleService, favoriteService, messageService, authService, ratingSer
 import { useAuthStore } from '../store/authStore';
 import type { Vehicle } from '../types';
 
+export function useVehicles(params: Record<string, any> = {}) {
+  return useQuery({
+    queryKey: ['vehicles', 'browse', params],
+    queryFn: async () => {
+      const response = await vehicleService.getAll(params);
+      return {
+        data: response.data.data || [],
+        total: response.data.total || 0,
+      };
+    },
+    refetchInterval: 60000,
+  });
+}
+
 export function useDashboardStats() {
   return useQuery({
     queryKey: ['dashboard', 'stats'],

@@ -5,8 +5,10 @@ const api = axios.create({
   timeout: 10000,
 });
 
+const getToken = () => localStorage.getItem('auth_token');
+
 api.interceptors.request.use((config) => {
-  const token = sessionStorage.getItem('token');
+  const token = getToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -17,8 +19,8 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('user');
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth_user');
       window.location.href = '/login';
     }
     return Promise.reject(error);

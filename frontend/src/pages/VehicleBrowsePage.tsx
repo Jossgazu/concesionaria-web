@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Filter, X } from 'lucide-react';
-import { vehicleService, favoriteService } from '../services/api';
+import { useVehicles, useFavorites, useAddFavorite, useRemoveFavorite } from '../hooks/useDashboard';
+import { useFilterStore } from '../store/filterStore';
 import VehicleCard from '../components/vehicles/VehicleCard';
 import FilterSidebar from '../components/vehicles/FilterSidebar';
 import { useToast } from '../hooks/useToast';
@@ -15,19 +16,13 @@ const SORT_OPTIONS = [
   { value: 'mileage-asc', label: 'Kilometraje: menor' },
 ];
 
-const DEBOUNCED_KEYS = ['min_price', 'max_price', 'year_from', 'year_to'];
-
 export default function VehicleBrowsePage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [vehicles, setVehicles] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [showFilters, setShowFilters] = useState(false);
   const [page, setPage] = useState(1);
   const [pendingDebounce, setPendingDebounce] = useState<Record<string, string>>({});
-  const [favorites, setFavorites] = useState<string[]>([]);
   const toast = useToast();
   const { isAuthenticated } = useAuthStore();
+  const { isFilterOpen, setIsFilterOpen } = useFilterStore();
 
   const filters = {
     brand: searchParams.get('brand') || '',
@@ -41,6 +36,20 @@ export default function VehicleBrowsePage() {
     sort_by: searchParams.get('sort_by') || 'created_at',
     sort_order: searchParams.get('sort_order') || 'desc',
   };
+
+  const queryParams: Record<string, any> = { ...filters, ...pendingDebounce, page, limit: 20 };
+  Object.keys(queryParams).forEach(key => {
+    if (queryParams[key] === '') delete queryParams[key];
+  });
+
+  const { data: vehiclesData, isLoading } = useVehicles(queryParams);
+  const vehicles = vehiclesData?.data || [];
+  const total = vehiclesData?.total || 0;
+
+  const { data: favoritesData } = useFavorites();
+  const favoriteIds = (favoritesData || []).map((f: any) => f.vehicle_id || f.vehicle?.id || f.id).filter(Boolean);
+  const addFavorite = useAddFavorite();
+  const removeFavorite = useRemoveFavorite();
 
   const DEBOUNCE_KEYS = ['min_price', 'max_price', 'year_from', 'year_to'];
 
@@ -60,34 +69,7 @@ export default function VehicleBrowsePage() {
       }
     }, 3000);
     return () => clearTimeout(timer);
-  }, [pendingDebounce]);
-
-  useEffect(() => {
-    loadVehicles();
-  }, [searchParams, page]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      loadFavorites();
-    } else {
-      setFavorites([]);
-    }
-  }, [isAuthenticated]);
-
-  const loadFavorites = async () => {
-    try {
-      const res = await favoriteService.getAll();
-      const data = res.data?.data || res.data || [];
-      const ids = data.map((f: any) => f.vehicle_id || f.vehicle?.id || f.id);
-      setFavorites(ids.filter(Boolean));
-    } catch (err: any) {
-      if (err.response?.status === 401) {
-        setFavorites([]);
-      } else {
-        console.error('Failed to load favorites', err);
-      }
-    }
-  };
+  }, [pendingDebounce, searchParams]);
 
   const handleFavorite = async (vehicleId: string) => {
     if (!isAuthenticated) {
@@ -95,35 +77,15 @@ export default function VehicleBrowsePage() {
       return;
     }
     try {
-      if (favorites.includes(vehicleId)) {
-        await favoriteService.remove(vehicleId);
-        setFavorites(prev => prev.filter(id => id !== vehicleId));
+      if (favoriteIds.includes(vehicleId)) {
+        await removeFavorite.mutateAsync(vehicleId);
         toast.success('Eliminado de favoritos');
       } else {
-        await favoriteService.add(vehicleId);
-        setFavorites(prev => [...prev, vehicleId]);
+        await addFavorite.mutateAsync(vehicleId);
         toast.success('Agregado a favoritos');
       }
     } catch (err) {
       toast.error('Error al actualizar favoritos');
-    }
-  };
-
-  const loadVehicles = async () => {
-    setLoading(true);
-    try {
-      const params: any = { ...filters, ...pendingDebounce, page, limit: 20 };
-      Object.keys(params).forEach(key => {
-        if (params[key] === '') delete params[key];
-      });
-      
-      const response = await vehicleService.getAll(params);
-      setVehicles(response.data.data);
-      setTotal(response.data.total);
-    } catch (error) {
-      console.error('Failed to load vehicles', error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -178,7 +140,7 @@ export default function VehicleBrowsePage() {
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6 bg-surface-container-lowest p-4 rounded-xl shadow-[0_20px_40px_rgba(25,28,30,0.06)]">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setShowFilters(!showFilters)}
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
               className="lg:hidden flex items-center gap-2 px-4 py-2 bg-surface-container-high rounded-lg hover:bg-surface-container-highest transition-colors"
             >
               <Filter className="w-4 h-4" />
@@ -257,12 +219,12 @@ export default function VehicleBrowsePage() {
           <FilterSidebar
             filters={filters}
             updateFilter={updateFilter}
-            isOpen={showFilters}
-            onClose={() => setShowFilters(false)}
+            isOpen={isFilterOpen}
+            onClose={() => setIsFilterOpen(false)}
           />
 
           <div className="flex-1">
-            {loading ? (
+            {isLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {[...Array(9)].map((_, i) => (
                   <div key={i} className="bg-surface-container-low rounded-xl h-80 animate-pulse" />
@@ -286,7 +248,7 @@ export default function VehicleBrowsePage() {
                       key={vehicle.id} 
                       vehicle={vehicle} 
                       onFavorite={handleFavorite}
-                      isFavorite={favorites.includes(vehicle.id)}
+                      isFavorite={favoriteIds.includes(vehicle.id)}
                     />
                   ))}
                 </div>
