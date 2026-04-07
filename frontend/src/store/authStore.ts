@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { User } from '../types';
 import { setAuthToken } from '../services/api';
+import { queryClient } from '../hooks/useQueryProvider';
 
 interface AuthState {
   user: User | null;
@@ -31,6 +32,7 @@ export const useAuthStore = create<AuthState>()(
       logout: () => {
         set({ user: null, token: null, isAuthenticated: false });
         setAuthToken(null);
+        queryClient.clear();
       },
       updateUser: (userData) =>
         set((state) => ({ user: { ...state.user, ...userData } as User })),
