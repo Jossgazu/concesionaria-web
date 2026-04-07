@@ -10,7 +10,7 @@ export function Footer() {
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <Car className="w-8 h-8 text-[#007AFF]" />
-              <span className="text-xl font-bold font-['Manrope']">Andina Motor Studio</span>
+              <span className="text-xl font-bold font-['Manrope']">Concesionaria</span>
             </Link>
             <p className="text-[#8E9196] text-sm font-['Inter']">
               Tu marketplace de confianza para comprar y vender vehículos. Encuentra el auto perfecto o vende el tuyo fácilmente.
@@ -74,7 +74,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li className="flex items-center gap-2 text-[#8E9196] text-sm">
                 <Phone className="w-4 h-4" />
-                +54 11 1234-5678
+                +51 123 123 123
               </li>
               <li className="flex items-center gap-2 text-[#8E9196] text-sm">
                 <Mail className="w-4 h-4" />
@@ -99,13 +99,8 @@ export function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[#8E9196] text-sm font-['Inter']">
-            © 2026 Andina Motor Studio. Todos los derechos reservados.
+            © 2026 Tosheep. Todos los derechos reservados.
           </p>
-          <div className="flex items-center gap-4">
-            <img src="/payment-visa.png" alt="Visa" className="h-6 opacity-70" />
-            <img src="/payment-mastercard.png" alt="Mastercard" className="h-6 opacity-70" />
-            <img src="/payment-mercadopago.png" alt="MercadoPago" className="h-6 opacity-70" />
-          </div>
         </div>
       </div>
     </footer>
