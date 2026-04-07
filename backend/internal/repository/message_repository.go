@@ -45,7 +45,7 @@ func (r *MessageRepository) GetConversationList(userID uuid.UUID) ([]map[string]
 		SELECT
 			CASE WHEN sender_id = ? THEN receiver_id ELSE sender_id END as user_id,
 			MAX(created_at) as last_message_at,
-			COUNT(CASE WHEN is_read = false AND receiver_id = ? THEN 1 END) as unread_count
+			COUNT(CASE WHEN read = false AND receiver_id = ? THEN 1 END) as unread_count
 		FROM messages
 		WHERE sender_id = ? OR receiver_id = ?
 		GROUP BY user_id
@@ -88,7 +88,7 @@ func (r *MessageRepository) GetConversationList(userID uuid.UUID) ([]map[string]
 func (r *MessageRepository) MarkAsRead(messageID, userID uuid.UUID) error {
 	return r.db.Model(&domain.Message{}).
 		Where("id = ? AND receiver_id = ?", messageID, userID).
-		Update("is_read", true).Error
+		Update("read", true).Error
 }
 
 func (r *MessageRepository) GetUser(id uuid.UUID) (*domain.User, error) {
