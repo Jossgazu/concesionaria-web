@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Send, MessageCircle, Users } from 'lucide-react';
 import { useConversations, useMessages, useSendMessage, useMarkMessageAsRead } from '../hooks/useDashboard';
 import { useWebSocket } from '../hooks/useWebSocket';
@@ -12,21 +12,25 @@ export default function DashboardMessagesPage() {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState<any[]>([]);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const sendMessage = useSendMessage();
   const markAsRead = useMarkMessageAsRead();
   const toast = useToast();
 
   const { data: fetchedMessages = [], isLoading: loadingMessages } = useMessages(selectedUser?.id);
 
+  const scrollToBottom = useCallback((behavior: ScrollBehavior = 'auto') => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }, []);
+
   useEffect(() => {
     if (fetchedMessages && fetchedMessages.length > 0) {
       setMessages(fetchedMessages);
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
-      }, 50);
+      setTimeout(() => scrollToBottom('auto'), 50);
     }
-  }, [fetchedMessages]);
+  }, [fetchedMessages, scrollToBottom]);
 
   useEffect(() => {
     if (selectedUser) {
@@ -47,13 +51,11 @@ export default function DashboardMessagesPage() {
           if (exists) return prev;
           return [...prev, msg];
         });
-        setTimeout(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }, 50);
+        setTimeout(() => scrollToBottom('smooth'), 50);
       }
       refetchConversations();
     }
-  }, [lastMessage, selectedUser]);
+  }, [lastMessage, selectedUser, scrollToBottom]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,9 +70,7 @@ export default function DashboardMessagesPage() {
         created_at: new Date().toISOString(),
       };
       setMessages(prev => [...prev, tempMessage]);
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 50);
+      setTimeout(() => scrollToBottom('smooth'), 50);
       
       await sendMessage.mutateAsync({ 
         receiverId: selectedUser.id, 
@@ -187,7 +187,7 @@ export default function DashboardMessagesPage() {
                   </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4">
                   {loadingMessages ? (
                     <div className="flex items-center justify-center py-12">
                       <span className="text-on-surface-variant">Cargando mensajes...</span>
@@ -218,7 +218,6 @@ export default function DashboardMessagesPage() {
                       );
                     })
                   )}
-                  <div ref={messagesEndRef} />
                 </div>
 
                 <form onSubmit={handleSend} className="p-4 border-t border-surface-container-low flex gap-3">
