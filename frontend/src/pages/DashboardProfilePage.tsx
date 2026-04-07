@@ -3,23 +3,31 @@ import { useOutletContext } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Camera, Save } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
+import { useUserProfile, useUpdateProfile, useUserRatingSummary } from '../hooks/useDashboard';
 import { authService } from '../services/api';
 
 export default function DashboardProfilePage() {
-  const { user } = useAuthStore();
+  const { user: storeUser } = useAuthStore();
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   
-  const { register, handleSubmit } = useForm({
+  const { data: profile, isLoading } = useUserProfile();
+  const { data: ratingSummary } = useUserRatingSummary(profile?.id || null);
+  const updateProfile = useUpdateProfile();
+  
+  const currentUser = profile || storeUser;
+  
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
-      name: user?.name || '',
-      phone: user?.phone || '',
-      bio: (user as any)?.bio || '',
+      name: currentUser?.name || '',
+      phone: currentUser?.phone || '',
+      bio: (currentUser as any)?.bio || '',
     }
   });
 
   const onSubmit = async (data: any) => {
     try {
-      await authService.updateProfile(data);
+      await updateProfile.mutateAsync(data);
+      reset(data);
     } catch (error) {
       console.error('Failed to update profile', error);
     }
@@ -49,11 +57,11 @@ export default function DashboardProfilePage() {
         <div className="flex items-center gap-6 mb-8 pb-8 border-b">
           <div className="relative">
             <div className="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center overflow-hidden">
-              {user?.avatarUrl ? (
-                <img src={user.avatarUrl} alt="" className="w-full h-full object-cover" />
+              {currentUser?.avatarUrl ? (
+                <img src={currentUser.avatarUrl} alt="" className="w-full h-full object-cover" />
               ) : (
                 <span className="text-3xl font-bold text-on-surface-variant">
-                  {user?.name?.charAt(0).toUpperCase()}
+                  {currentUser?.name?.charAt(0).toUpperCase()}
                 </span>
               )}
             </div>
@@ -69,10 +77,10 @@ export default function DashboardProfilePage() {
             </label>
           </div>
           <div>
-            <h2 className="font-semibold text-on-surface">{user?.name}</h2>
-            <p className="text-on-surface-variant">{user?.email}</p>
+            <h2 className="font-semibold text-on-surface">{currentUser?.name}</h2>
+            <p className="text-on-surface-variant">{currentUser?.email}</p>
             <p className="text-sm text-on-surface-variant mt-1 opacity-60">
-              Miembro desde {new Date(user?.createdAt || Date.now()).toLocaleDateString('es-ES', { year: 'numeric', month: 'long' })}
+              Miembro desde {new Date(currentUser?.createdAt || Date.now()).toLocaleDateString('es-ES', { year: 'numeric', month: 'long' })}
             </p>
           </div>
         </div>
@@ -121,11 +129,11 @@ export default function DashboardProfilePage() {
 
       <div className="bg-surface-container-lowest rounded-xl shadow-[0_8px_16px_rgba(25,28,30,0.04)] p-6">
         <h2 className="font-semibold text-on-surface mb-4">Valoraciones recibidas</h2>
-        {(user as any)?.ratingSummary ? (
+        {ratingSummary ? (
           <div className="flex items-center gap-8">
             <div className="text-center">
               <p className="text-4xl font-bold text-primary">
-                {(user as any).ratingSummary.average?.toFixed(1) || '0.0'}
+                {ratingSummary.average?.toFixed(1) || '0.0'}
               </p>
               <p className="text-sm text-on-surface-variant">de 5</p>
             </div>
@@ -138,13 +146,13 @@ export default function DashboardProfilePage() {
                       <div 
                         className="h-full bg-yellow-400 rounded-full"
                         style={{ 
-                          width: (user as any).ratingSummary.total > 0 
-                            ? `${((user as any).ratingSummary[`${star}Star`] / (user as any).ratingSummary.total) * 100}%`
+                          width: ratingSummary.total > 0 
+                            ? `${((ratingSummary as any)[`${star}Star`] / ratingSummary.total) * 100}%`
                             : '0%'
                         }}
                       />
                     </div>
-                    <span className="text-sm text-on-surface-variant w-8">{(user as any).ratingSummary[`${star}Star`] || 0}</span>
+                    <span className="text-sm text-on-surface-variant w-8">{(ratingSummary as any)[`${star}Star`] || 0}</span>
                   </div>
                 ))}
               </div>

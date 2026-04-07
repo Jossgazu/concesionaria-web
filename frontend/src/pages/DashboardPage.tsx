@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Car, Heart, MessageSquare, 
   User, LogOut
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
-import { vehicleService } from '../services/api';
+import { useDashboardStats } from '../hooks/useDashboard';
 
 const NAV_ITEMS = [
   { path: '/dashboard', label: 'Resumen', icon: LayoutDashboard, exact: true },
@@ -19,20 +18,7 @@ export default function DashboardPage({ children }: { children?: React.ReactNode
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuthStore();
-  const [stats, setStats] = useState<any>(null);
-
-  useEffect(() => {
-    loadStats();
-  }, []);
-
-  const loadStats = async () => {
-    try {
-      const response = await vehicleService.getDashboardStats();
-      setStats(response.data.data || response.data);
-    } catch (error) {
-      console.error('Failed to load dashboard stats', error);
-    }
-  };
+  const { data: stats, refetch: refreshStats } = useDashboardStats();
 
   const handleLogout = () => {
     logout();
@@ -90,7 +76,7 @@ export default function DashboardPage({ children }: { children?: React.ReactNode
         </aside>
 
         <div className="flex-1 min-w-0">
-          {children || <Outlet context={{ stats, refreshStats: loadStats }} />}
+          {children || <Outlet context={{ stats, refreshStats }} />}
         </div>
       </div>
     </div>

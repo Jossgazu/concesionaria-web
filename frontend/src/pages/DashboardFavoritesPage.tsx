@@ -1,34 +1,21 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Trash2, Car } from 'lucide-react';
-import { favoriteService } from '../services/api';
+import { useFavorites, useRemoveFavorite } from '../hooks/useDashboard';
 import VehicleCard from '../components/vehicles/VehicleCard';
+import { useToast } from '../hooks/useToast';
+import type { Vehicle } from '../types';
 
 export default function DashboardFavoritesPage() {
-  const [favorites, setFavorites] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    loadFavorites();
-  }, []);
-
-  const loadFavorites = async () => {
-    try {
-      const response = await favoriteService.getAll();
-      setFavorites(response.data.data || []);
-    } catch (error) {
-      console.error('Failed to load favorites', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: favorites = [], isLoading } = useFavorites();
+  const removeFavorite = useRemoveFavorite();
+  const toast = useToast();
 
   const handleRemove = async (vehicleId: string) => {
     try {
-      await favoriteService.remove(vehicleId);
-      setFavorites(prev => prev.filter(f => f.vehicle?.id !== vehicleId));
+      await removeFavorite.mutateAsync(vehicleId);
+      toast.success('Eliminado de favoritos');
     } catch (error) {
-      console.error('Failed to remove favorite', error);
+      toast.error('Error al eliminar de favoritos');
     }
   };
 
@@ -39,7 +26,7 @@ export default function DashboardFavoritesPage() {
         <p className="text-on-surface-variant mt-1">Vehículos que has guardado</p>
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="bg-surface-container-lowest h-80 rounded-2xl animate-pulse shadow-[0_8px_16px_rgba(25,28,30,0.04)]" />
@@ -64,7 +51,7 @@ export default function DashboardFavoritesPage() {
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {favorites.map((favorite) => (
+          {favorites.map((favorite: any) => (
             <div key={favorite.id} className="relative">
               <VehicleCard vehicle={favorite.vehicle} showFavoriteButton={false} />
               <button

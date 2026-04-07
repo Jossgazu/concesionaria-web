@@ -1,33 +1,40 @@
 import { useState, useEffect, useRef } from 'react';
 import { Send, MessageCircle, Users } from 'lucide-react';
-import { messageService } from '../services/api';
-import { useAuthStore } from '../store/authStore';
+import { useConversations, useMessages, useSendMessage, useMarkMessageAsRead } from '../hooks/useDashboard';
 import { useWebSocket } from '../hooks/useWebSocket';
+import { useAuthStore } from '../store/authStore';
+import { useToast } from '../hooks/useToast';
+import type { Conversation } from '../types';
 
 export default function DashboardMessagesPage() {
   const { user } = useAuthStore();
   const { isConnected, lastMessage } = useWebSocket();
-  const [conversations, setConversations] = useState<any[]>([]);
-  const [messages, setMessages] = useState<any[]>([]);
+  const { data: conversations = [], isLoading: loadingConversations } = useConversations();
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [newMessage, setNewMessage] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [messages, setMessages] = useState<any[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const sendMessage = useSendMessage();
+  const markAsRead = useMarkMessageAsRead();
+  const toast = useToast();
+
+  const { data: fetchedMessages = [], isLoading: loadingMessages } = useMessages(selectedUser?.id);
 
   useEffect(() => {
-    loadConversations();
-  }, []);
+    if (fetchedMessages && fetchedMessages.length > 0) {
+      setMessages(fetchedMessages);
+    }
+  }, [fetchedMessages]);
 
   useEffect(() => {
     if (selectedUser) {
-      loadMessages(selectedUser.id);
+      markAsRead.mutate(selectedUser.id);
     }
   }, [selectedUser]);
 
   useEffect(() => {
     if (lastMessage?.type === 'new_message' && lastMessage?.message) {
       const msg = lastMessage.message;
-      
       if (selectedUser?.id === msg.sender_id || selectedUser?.id === msg.receiver_id) {
         setMessages(prev => {
           const exists = prev.some(m => m.id === msg.id);
@@ -35,54 +42,12 @@ export default function DashboardMessagesPage() {
           return [...prev, msg];
         });
       }
-      
-      if (msg.sender_id !== user?.id) {
-        setConversations(prev => prev.map(c => {
-          if (c.user?.id === msg.sender_id) {
-            return {
-              ...c,
-              last_message: msg,
-              unread_count: (c.unread_count || 0) + 1,
-            };
-          }
-          return c;
-        }));
-      }
     }
-  }, [lastMessage, selectedUser, user?.id]);
+  }, [lastMessage, selectedUser]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
-
-  const loadConversations = async () => {
-    try {
-      const response = await messageService.getConversations();
-      setConversations(response.data.data || []);
-    } catch (error) {
-      console.error('Failed to load conversations', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadMessages = async (otherUserId: string) => {
-    try {
-      const response = await messageService.getWithUser(otherUserId);
-      setMessages(response.data.data || []);
-      const conv = conversations.find(c => c.user?.id === otherUserId);
-      if (conv) setSelectedUser(conv.user);
-      
-      if (conv?.unread_count > 0) {
-        await messageService.markAsRead(otherUserId);
-        setConversations(prev => prev.map(c => 
-          c.user?.id === otherUserId ? { ...c, unread_count: 0 } : c
-        ));
-      }
-    } catch (error) {
-      console.error('Failed to load messages', error);
-    }
-  };
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,27 +63,15 @@ export default function DashboardMessagesPage() {
       };
       setMessages(prev => [...prev, tempMessage]);
       
-      const response = await messageService.send(selectedUser.id, newMessage);
-      setNewMessage('');
-      
-      const sentMessage = response.data.data || response.data;
-      setMessages(prev => prev.map(m => 
-        m.id === tempMessage.id ? sentMessage : m
-      ));
-      
-      setConversations(prev => {
-        const existing = prev.find(c => c.user?.id === selectedUser.id);
-        if (existing) {
-          return prev.map(c => 
-            c.user?.id === selectedUser.id 
-              ? { ...c, last_message: sentMessage }
-              : c
-          );
-        }
-        return prev;
+      await sendMessage.mutateAsync({ 
+        receiverId: selectedUser.id, 
+        content: newMessage 
       });
+      
+      setNewMessage('');
     } catch (error) {
       console.error('Failed to send message', error);
+      toast.error('Error al enviar mensaje');
       setMessages(prev => prev.filter(m => m.id !== Date.now().toString()));
     }
   };
@@ -148,7 +101,7 @@ export default function DashboardMessagesPage() {
               </div>
             </div>
             <div className="flex-1 overflow-y-auto">
-              {loading ? (
+              {loadingConversations ? (
                 <div className="p-4 space-y-3">
                   {[...Array(3)].map((_, i) => (
                     <div key={i} className="flex items-center gap-3 p-3 animate-pulse">
@@ -166,7 +119,7 @@ export default function DashboardMessagesPage() {
                   <p>No hay conversaciones</p>
                 </div>
               ) : (
-                conversations.map((conv) => (
+                conversations.map((conv: any) => (
                   <button
                     key={conv.user?.id}
                     onClick={() => setSelectedUser(conv.user)}
@@ -227,26 +180,36 @@ export default function DashboardMessagesPage() {
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                  {messages.map((msg) => {
-                    const isMe = msg.sender_id === user?.id;
-                    return (
-                      <div
-                        key={msg.id}
-                        className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}
-                      >
-                        <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${
-                          isMe ? 'bg-primary text-white rounded-br-md' : 'bg-surface-container-low text-on-surface rounded-bl-md'
-                        }`}>
-                          <p>{msg.content}</p>
-                          <p className={`text-xs mt-1 ${
-                            isMe ? 'text-white/70' : 'text-on-surface-variant opacity-60'
+                  {loadingMessages ? (
+                    <div className="flex items-center justify-center py-12">
+                      <span className="text-on-surface-variant">Cargando mensajes...</span>
+                    </div>
+                  ) : messages.length === 0 ? (
+                    <div className="flex items-center justify-center h-full text-on-surface-variant">
+                      <p>No hay mensajes aún. ¡Envía el primero!</p>
+                    </div>
+                  ) : (
+                    messages.map((msg) => {
+                      const isMe = msg.sender_id === user?.id;
+                      return (
+                        <div
+                          key={msg.id}
+                          className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}
+                        >
+                          <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${
+                            isMe ? 'bg-primary text-white rounded-br-md' : 'bg-surface-container-low text-on-surface rounded-bl-md'
                           }`}>
-                            {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </p>
+                            <p>{msg.content}</p>
+                            <p className={`text-xs mt-1 ${
+                              isMe ? 'text-white/70' : 'text-on-surface-variant opacity-60'
+                            }`}>
+                              {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                   <div ref={messagesEndRef} />
                 </div>
 
@@ -260,7 +223,7 @@ export default function DashboardMessagesPage() {
                   />
                   <button
                     type="submit"
-                    disabled={!newMessage.trim()}
+                    disabled={!newMessage.trim() || sendMessage.isPending}
                     className="bg-primary text-white px-6 py-3 rounded-xl disabled:opacity-50 hover:bg-primary/90 transition-colors"
                   >
                     <Send className="w-5 h-5" />

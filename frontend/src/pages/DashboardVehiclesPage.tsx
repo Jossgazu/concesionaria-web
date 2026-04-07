@@ -1,41 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Car, Edit2, Trash2, Eye, Loader2, AlertTriangle } from 'lucide-react';
+import { Plus, Car, Edit2, Trash2, Eye, Loader2 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
-import { Modal } from '../components/ui/Modal';
-import { vehicleService } from '../services/api';
+import { useMyVehicles, useDeleteVehicle } from '../hooks/useDashboard';
 import { useToast } from '../hooks/useToast';
 import type { Vehicle } from '../types';
 
 export function DashboardVehiclesPage() {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [vehicleToDelete, setVehicleToDelete] = useState<Vehicle | null>(null);
+  const { data: vehicles = [], isLoading } = useMyVehicles();
+  const deleteVehicle = useDeleteVehicle();
   const toast = useToast();
-
-  useEffect(() => {
-    loadVehicles();
-  }, []);
-
-  const loadVehicles = async () => {
-    setIsLoading(true);
-    try {
-      const response = await vehicleService.getMyVehicles();
-      setVehicles(response.data.data || []);
-    } catch (err) {
-      toast.error('Error al cargar tus vehículos');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const [vehicleToDelete, setVehicleToDelete] = useState<Vehicle | null>(null);
 
   const handleDelete = async (id: string) => {
     if (!confirm('¿Estás seguro de eliminar este vehículo?')) return;
     try {
-      await vehicleService.delete(id);
-      setVehicles((prev) => prev.filter((v) => v.id !== id));
+      await deleteVehicle.mutateAsync(id);
       toast.success('Vehículo eliminado');
     } catch (err) {
       toast.error('Error al eliminar el vehículo');
@@ -81,7 +62,7 @@ export function DashboardVehiclesPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-surface-container-low">
-              {vehicles.map((vehicle) => (
+              {vehicles.map((vehicle: any) => (
                 <tr key={vehicle.id} className="hover:bg-surface-container-low transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
