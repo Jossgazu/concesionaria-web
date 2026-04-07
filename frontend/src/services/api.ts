@@ -8,7 +8,9 @@ const api = axios.create({
 
 const authStore = create<{ token: string | null }>(() => ({ token: null }));
 
-export const setAuthToken = (token: string | null) => authStore.setState({ token });
+export const setAuthToken = (token: string | null) => {
+  authStore.setState({ token });
+};
 
 api.interceptors.request.use((config) => {
   const token = authStore.getState().token;
@@ -22,8 +24,11 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      setAuthToken(null);
-      window.location.href = '/login';
+      const hasToken = authStore.getState().token !== null;
+      if (hasToken && window.location.pathname !== '/login') {
+        setAuthToken(null);
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
