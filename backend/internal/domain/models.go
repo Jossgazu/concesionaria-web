@@ -184,7 +184,7 @@ type Message struct {
 	VehicleID  *uuid.UUID `gorm:"type:uuid" json:"vehicle_id,omitempty"`
 	Vehicle    *Vehicle   `gorm:"foreignKey:VehicleID" json:"vehicle,omitempty"`
 	Content    string     `gorm:"not null" json:"content"`
-	Read       bool       `gorm:"column:is_read;default:false" json:"read"`
+	Read       bool       `gorm:"column:read;default:false" json:"read"`
 	CreatedAt  time.Time  `json:"created_at"`
 }
 
