@@ -61,6 +61,19 @@ export function useCreateVehicle() {
   });
 }
 
+export function useUpdateVehicleStatus() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: string }) =>
+      vehicleService.update(id, { status }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['vehicles', 'my'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard', 'stats'] });
+    },
+  });
+}
+
 export function useFavorites() {
   return useQuery({
     queryKey: ['favorites'],

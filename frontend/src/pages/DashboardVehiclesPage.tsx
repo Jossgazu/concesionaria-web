@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Car, Edit2, Trash2, Eye, Loader2 } from 'lucide-react';
+import { Plus, Car, Edit2, Trash2, Eye, Loader2, ChevronDown } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
-import { useMyVehicles, useDeleteVehicle } from '../hooks/useDashboard';
+import { useMyVehicles, useDeleteVehicle, useUpdateVehicleStatus } from '../hooks/useDashboard';
 import { useToast } from '../hooks/useToast';
 import type { Vehicle } from '../types';
+
+const VEHICLE_STATUSES = [
+  { value: 'active', label: 'Activo', color: 'bg-emerald-100 text-emerald-700' },
+  { value: 'pending', label: 'Pendiente', color: 'bg-yellow-100 text-yellow-700' },
+  { value: 'sold', label: 'Vendido', color: 'bg-gray-100 text-gray-700' },
+];
 
 export function DashboardVehiclesPage() {
   const { data: vehicles = [], isLoading } = useMyVehicles();
   const deleteVehicle = useDeleteVehicle();
+  const updateStatus = useUpdateVehicleStatus();
   const toast = useToast();
   const [vehicleToDelete, setVehicleToDelete] = useState<Vehicle | null>(null);
 
@@ -21,6 +28,25 @@ export function DashboardVehiclesPage() {
     } catch (err) {
       toast.error('Error al eliminar el vehículo');
     }
+  };
+
+  const handleStatusChange = async (vehicleId: string, newStatus: string) => {
+    try {
+      await updateStatus.mutateAsync({ id: vehicleId, status: newStatus });
+      toast.success('Estado actualizado');
+    } catch (err) {
+      toast.error('Error al actualizar el estado');
+    }
+  };
+
+  const getStatusStyle = (status: string) => {
+    const statusObj = VEHICLE_STATUSES.find(s => s.value === status);
+    return statusObj ? statusObj.color : 'bg-gray-100 text-gray-700';
+  };
+
+  const getStatusLabel = (status: string) => {
+    const statusObj = VEHICLE_STATUSES.find(s => s.value === status);
+    return statusObj ? statusObj.label : status;
   };
 
   return (
@@ -81,9 +107,21 @@ export function DashboardVehiclesPage() {
                     {vehicle.currency ?? 'USD'} {vehicle.price?.toLocaleString() ?? '0'}
                   </td>
                   <td className="px-4 py-3">
-                    <Badge variant={vehicle.verified ? 'success' : 'warning'}>
-                      {vehicle.verified ? 'Verificado' : 'Pendiente'}
-                    </Badge>
+                    <div className="relative inline-block">
+                      <select
+                        value={vehicle.status || 'active'}
+                        onChange={(e) => handleStatusChange(vehicle.id, e.target.value)}
+                        disabled={updateStatus.isPending}
+                        className={`appearance-none px-3 py-1.5 pr-8 rounded-full text-sm font-medium cursor-pointer hover:opacity-80 transition-opacity ${getStatusStyle(vehicle.status)}`}
+                      >
+                        {VEHICLE_STATUSES.map((status) => (
+                          <option key={status.value} value={status.value}>
+                            {status.label}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" />
+                    </div>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
