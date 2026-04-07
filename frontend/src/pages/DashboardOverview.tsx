@@ -1,25 +1,10 @@
-import { useEffect, useState } from 'react';
 import { useOutletContext, Link } from 'react-router-dom';
 import { Car, Eye, Heart, MessageSquare, TrendingUp, Plus } from 'lucide-react';
-import { favoriteService } from '../services/api';
+import { useFavorites } from '../hooks/useDashboard';
 
 export default function DashboardOverview() {
   const { stats } = useOutletContext<any>();
-  const [favoritesCount, setFavoritesCount] = useState(0);
-
-  useEffect(() => {
-    loadFavoritesCount();
-  }, []);
-
-  const loadFavoritesCount = async () => {
-    try {
-      const res = await favoriteService.getAll();
-      const data = res.data?.data || res.data || [];
-      setFavoritesCount(data.length);
-    } catch (err) {
-      console.error('Failed to load favorites count', err);
-    }
-  };
+  const { data: favorites = [] } = useFavorites();
 
   const statCards = [
     { 
@@ -38,7 +23,7 @@ export default function DashboardOverview() {
     },
     { 
       label: 'Favoritos', 
-      value: favoritesCount, 
+      value: favorites.length, 
       icon: Heart, 
       color: 'bg-red-500',
       href: '/dashboard/favorites'
