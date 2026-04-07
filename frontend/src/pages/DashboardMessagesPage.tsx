@@ -149,9 +149,7 @@ export default function DashboardMessagesPage() {
                         </p>
                       </div>
                       {conv.unread_count > 0 && (
-                        <span className="w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center shrink-0">
-                          {conv.unread_count}
-                        </span>
+                        <span className="w-2 h-2 bg-primary rounded-full shrink-0" title={`${conv.unread_count} mensaje${conv.unread_count > 1 ? 's' : ''} sin leer`} />
                       )}
                     </div>
                   </button>
