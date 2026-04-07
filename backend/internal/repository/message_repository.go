@@ -31,7 +31,7 @@ func (r *MessageRepository) FindConversation(user1, user2 uuid.UUID, page, limit
 	query.Count(&total)
 
 	offset := (page - 1) * limit
-	err := query.Order("created_at ASC").Offset(offset).Limit(limit).
+	err := query.Order("created_at DESC").Offset(offset).Limit(limit).
 		Preload("Sender").Preload("Receiver").
 		Find(&messages).Error
 

@@ -9,11 +9,12 @@ import type { Conversation } from '../types';
 export default function DashboardMessagesPage() {
   const { user } = useAuthStore();
   const { isConnected, lastMessage } = useWebSocket();
-  const { data: conversations = [], isLoading: loadingConversations } = useConversations();
+  const { data: conversations = [], isLoading: loadingConversations, refetch: refetchConversations } = useConversations();
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState<any[]>([]);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const messagesStartRef = useRef<HTMLDivElement>(null);
   const sendMessage = useSendMessage();
   const markAsRead = useMarkMessageAsRead();
   const toast = useToast();
@@ -23,12 +24,19 @@ export default function DashboardMessagesPage() {
   useEffect(() => {
     if (fetchedMessages && fetchedMessages.length > 0) {
       setMessages(fetchedMessages);
+      setIsInitialLoad(false);
+      messagesStartRef.current?.scrollIntoView({ behavior: 'auto' });
     }
   }, [fetchedMessages]);
 
   useEffect(() => {
     if (selectedUser) {
-      markAsRead.mutate(selectedUser.id);
+      setIsInitialLoad(true);
+      markAsRead.mutate(selectedUser.id, {
+        onSuccess: () => {
+          refetchConversations();
+        }
+      });
     }
   }, [selectedUser]);
 
@@ -41,13 +49,11 @@ export default function DashboardMessagesPage() {
           if (exists) return prev;
           return [...prev, msg];
         });
+        messagesStartRef.current?.scrollIntoView({ behavior: 'smooth' });
       }
+      refetchConversations();
     }
   }, [lastMessage, selectedUser]);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,6 +68,7 @@ export default function DashboardMessagesPage() {
         created_at: new Date().toISOString(),
       };
       setMessages(prev => [...prev, tempMessage]);
+      messagesStartRef.current?.scrollIntoView({ behavior: 'smooth' });
       
       await sendMessage.mutateAsync({ 
         receiverId: selectedUser.id, 
@@ -69,6 +76,7 @@ export default function DashboardMessagesPage() {
       });
       
       setNewMessage('');
+      refetchConversations();
     } catch (error) {
       console.error('Failed to send message', error);
       toast.error('Error al enviar mensaje');
@@ -208,7 +216,7 @@ export default function DashboardMessagesPage() {
                       );
                     })
                   )}
-                  <div ref={messagesEndRef} />
+                  <div ref={messagesStartRef} />
                 </div>
 
                 <form onSubmit={handleSend} className="p-4 border-t border-surface-container-low flex gap-3">
