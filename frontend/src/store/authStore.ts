@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { User } from '../types';
+import { setAuthToken } from '../services/api';
 
 interface AuthState {
   user: User | null;
@@ -25,11 +26,11 @@ export const useAuthStore = create<AuthState>()(
       _hasHydrated: false,
       login: (user, token) => {
         set({ user, token, isAuthenticated: true });
-        import('../services/api').then(({ setAuthToken }) => setAuthToken(token));
+        setAuthToken(token);
       },
       logout: () => {
         set({ user: null, token: null, isAuthenticated: false });
-        import('../services/api').then(({ setAuthToken }) => setAuthToken(null));
+        setAuthToken(null);
       },
       updateUser: (userData) =>
         set((state) => ({ user: { ...state.user, ...userData } as User })),
@@ -40,6 +41,9 @@ export const useAuthStore = create<AuthState>()(
       name: 'auth-storage',
       partialize: (state) => ({ user: state.user, token: state.token, isAuthenticated: state.isAuthenticated }),
       onRehydrateStorage: () => (state) => {
+        if (state?.token) {
+          setAuthToken(state.token);
+        }
         state?.setHasHydrated(true);
       },
     }
